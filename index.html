@@ -46,111 +46,22 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Navigation -->
-    <nav>
-      <ul>
-        <li>
-          <a href="#ml-basics" data-translate="nav.ml-basics"></a>
-        </li>
-        <li>
-          <a href="#neural-networks" data-translate="nav.neural-networks"
-            >Neural Networks</a
-          >
-        </li>
-        <li><a href="#cnn-rnn" data-translate="nav.cnn-rnn">CNN & RNN</a></li>
-        <li>
-          <a href="#generative-ai" data-translate="nav.generative-ai"
-            >Generative AI</a
-          >
-        </li>
-        <li><a href="#ethics" data-translate="nav.ethics"></a></li>
-        <li>
-          <a href="#attention" data-translate="nav.attention"></a>
-        </li>
-        <li>
-          <a href="#transformer" data-translate="nav.transformer"
-            >Transformer</a
-          >
-        </li>
-        <li>
-          <a href="#encoder-decoder" data-translate="nav.encoder-decoder"
-            >Encoder/Decoder</a
-          >
-        </li>
-        <li>
-          <a
-            href="#pretraining-finetuning"
-            data-translate="nav.pretraining-finetuning"
-            >Pre-training/Fine-tuning</a
-          >
-        </li>
-        <li>
-          <a href="#foundation-models" data-translate="nav.foundation-models"
-            >Foundation Models</a
-          >
-        </li>
-        <li>
-          <a href="#hugging-face" data-translate="nav.hugging-face"
-            >Hugging Face</a
-          >
-        </li>
-        <li><a href="#rag-introduction" data-translate="nav.rag"></a></li>
-        <li>
-          <a href="#llm-problems" data-translate="nav.llm-problems"
-            >LLM Problems</a
-          >
-        </li>
-        <li>
-          <a href="#rag-architecture" data-translate="nav.rag-arch"
-            >RAG Architecture</a
-          >
-        </li>
-        <li>
-          <a href="#data-ingestion" data-translate="nav.data-ingestion"
-            >Data Ingestion</a
-          >
-        </li>
-        <li>
-          <a href="#vector-databases" data-translate="nav.vector-dbs"
-            >Vector DBs</a
-          >
-        </li>
-        <li>
-          <a href="#embeddings" data-translate="nav.embeddings"></a>
-        </li>
-        <li>
-          <a href="#retrieval" data-translate="nav.retrieval"></a>
-        </li>
-        <li>
-          <a href="#augmentation" data-translate="nav.augmentation"
-            >Augmentation</a
-          >
-        </li>
-        <li>
-          <a href="#generation-types" data-translate="nav.generation-types"
-            >Generation Types</a
-          >
-        </li>
-        <li>
-          <a href="#memory-types" data-translate="nav.memory-types"
-            >Memory Types</a
-          >
-        </li>
-        <li>
-          <a href="#rag-recipes" data-translate="nav.rag-recipes"
-            >RAG Recipes</a
-          >
-        </li>
-      </ul>
+    <!-- Top Bar (Mobile) -->
+    <nav class="top-bar">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+      </button>
       <div class="language-switcher">
         <button
           class="lang-toggle"
-          id="lang-toggle"
+          id="lang-toggle-mobile"
           aria-label="Toggle language"
         >
           EN
         </button>
-        <div class="lang-dropdown" id="lang-dropdown">
+        <div class="lang-dropdown" id="lang-dropdown-mobile">
           <button class="lang-dropdown-btn" aria-label="Language menu">
             ▼
           </button>
@@ -161,6 +72,90 @@
         </div>
       </div>
     </nav>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2 data-translate="nav.title">ML/DL Fundamentals</h2>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">×</button>
+      </div>
+      <div class="sidebar-language-switcher">
+        <div class="language-switcher">
+          <button
+            class="lang-toggle"
+            id="lang-toggle-sidebar"
+            aria-label="Toggle language"
+          >
+            EN
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown-sidebar">
+            <button class="lang-dropdown-btn" aria-label="Language menu">
+              ▼
+            </button>
+            <div class="lang-dropdown-menu">
+              <a href="#" data-lang="en" class="lang-option active">English</a>
+              <a href="#" data-lang="tr" class="lang-option">Türkçe</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <!-- Beginner Level -->
+        <div class="nav-group">
+          <button class="nav-group-header" data-group="beginner">
+            <span data-translate="learning-path.beginner.badge">Beginner</span>
+            <span class="group-toggle">▼</span>
+          </button>
+          <ul class="nav-group-items" data-group-items="beginner">
+            <li><a href="#ml-basics" data-translate="nav.ml-basics">ML Basics</a></li>
+            <li><a href="#neural-networks" data-translate="nav.neural-networks">Neural Networks</a></li>
+          </ul>
+        </div>
+
+        <!-- Intermediate Level -->
+        <div class="nav-group">
+          <button class="nav-group-header" data-group="intermediate">
+            <span data-translate="learning-path.intermediate.badge">Intermediate</span>
+            <span class="group-toggle">▼</span>
+          </button>
+          <ul class="nav-group-items" data-group-items="intermediate">
+            <li><a href="#cnn-rnn" data-translate="nav.cnn-rnn">CNN & RNN</a></li>
+            <li><a href="#generative-ai" data-translate="nav.generative-ai">Generative AI</a></li>
+            <li><a href="#ethics" data-translate="nav.ethics">Ethics</a></li>
+            <li><a href="#attention" data-translate="nav.attention">Attention</a></li>
+            <li><a href="#transformer" data-translate="nav.transformer">Transformer</a></li>
+            <li><a href="#encoder-decoder" data-translate="nav.encoder-decoder">Encoder/Decoder</a></li>
+          </ul>
+        </div>
+
+        <!-- Advanced Level -->
+        <div class="nav-group">
+          <button class="nav-group-header" data-group="advanced">
+            <span data-translate="learning-path.advanced.badge">Advanced</span>
+            <span class="group-toggle">▼</span>
+          </button>
+          <ul class="nav-group-items" data-group-items="advanced">
+            <li><a href="#pretraining-finetuning" data-translate="nav.pretraining-finetuning">Pre-training/Fine-tuning</a></li>
+            <li><a href="#foundation-models" data-translate="nav.foundation-models">Foundation Models</a></li>
+            <li><a href="#hugging-face" data-translate="nav.hugging-face">Hugging Face</a></li>
+            <li><a href="#rag-introduction" data-translate="nav.rag">RAG</a></li>
+            <li><a href="#llm-problems" data-translate="nav.llm-problems">LLM Problems</a></li>
+            <li><a href="#rag-architecture" data-translate="nav.rag-arch">RAG Architecture</a></li>
+            <li><a href="#data-ingestion" data-translate="nav.data-ingestion">Data Ingestion</a></li>
+            <li><a href="#vector-databases" data-translate="nav.vector-dbs">Vector DBs</a></li>
+            <li><a href="#embeddings" data-translate="nav.embeddings">Embeddings</a></li>
+            <li><a href="#retrieval" data-translate="nav.retrieval">Retrieval</a></li>
+            <li><a href="#augmentation" data-translate="nav.augmentation">Augmentation</a></li>
+            <li><a href="#generation-types" data-translate="nav.generation-types">Generation Types</a></li>
+            <li><a href="#memory-types" data-translate="nav.memory-types">Memory Types</a></li>
+            <li><a href="#rag-recipes" data-translate="nav.rag-recipes">RAG Recipes</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <!-- Hero Section -->
     <section class="hero">

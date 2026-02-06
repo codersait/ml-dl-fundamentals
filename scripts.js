@@ -979,7 +979,8 @@ let currentLanguage = 'en';
 const translations = {
   en: {
     // Navigation
-                'nav.ml-basics': 'ML Basics',
+    'nav.title': 'ML/DL Fundamentals',
+    'nav.ml-basics': 'ML Basics',
     'nav.neural-networks': 'Neural Networks',
     'nav.cnn-rnn': 'CNN & RNN',
     'nav.generative-ai': 'Generative AI',
@@ -2584,7 +2585,7 @@ const translations = {
     // RAG Introduction Prerequisites
     'rag-intro.prerequisites.title': 'Prerequisites',
     'rag-intro.prerequisites.intro': 'Before learning about RAG, you should understand:',
-    'rag-intro.prerequisites.llm': '<strong>LLMs:</strong> How large language models generate text and their limitations',
+    'rag-intro.prerequisites.llm': '<strong>Foundation Models (LLMs):</strong> How large language models generate text and their limitations (covered in Foundation Models section)',
     'rag-intro.prerequisites.embeddings': '<strong>Embeddings:</strong> How text is converted to numerical vectors',
     'rag-intro.prerequisites.retrieval': '<strong>Retrieval:</strong> Basic understanding of searching and finding relevant information',
 
@@ -2592,7 +2593,7 @@ const translations = {
     'llm-problems.prerequisites.title': 'Prerequisites',
     'llm-problems.prerequisites.intro': 'Before learning about LLM problems, you should understand:',
     'llm-problems.prerequisites.foundation': '<strong>Foundation Models:</strong> How LLMs are trained and what they can do',
-    'llm-problems.prerequisites.generation': '<strong>Text Generation:</strong> How LLMs generate text token by token',
+    'llm-problems.prerequisites.generation': '<strong>Text Generation:</strong> How LLMs generate text token by token (covered in Generative AI and Encoder-Decoder sections)',
     'llm-problems.prerequisites.limitations': '<strong>Model Limitations:</strong> Awareness that models have knowledge cutoffs and can make mistakes',
 
     // RAG Architecture Prerequisites
@@ -2635,13 +2636,13 @@ const translations = {
     'augmentation.prerequisites.intro': 'Before learning about augmentation, you should understand:',
     'augmentation.prerequisites.rag': '<strong>RAG:</strong> Understanding of the RAG system architecture',
     'augmentation.prerequisites.retrieval': '<strong>Retrieval:</strong> How relevant documents are retrieved',
-    'augmentation.prerequisites.generation': '<strong>Generation:</strong> How LLMs generate text with context',
+    'augmentation.prerequisites.generation': '<strong>Text Generation:</strong> How LLMs generate text with context (covered in Generative AI and Encoder-Decoder sections)',
 
     // Generation Types Prerequisites
     'generation-types.prerequisites.title': 'Prerequisites',
     'generation-types.prerequisites.intro': 'Before learning about generation types, you should understand:',
-    'generation-types.prerequisites.llm': '<strong>LLMs:</strong> How language models generate text',
-    'generation-types.prerequisites.decoder': '<strong>Decoder:</strong> Understanding of decoder-based architectures',
+    'generation-types.prerequisites.llm': '<strong>Foundation Models (LLMs):</strong> How language models generate text (covered in Foundation Models section)',
+    'generation-types.prerequisites.decoder': '<strong>Decoder:</strong> Understanding of decoder-based architectures (covered in Encoder-Decoder section)',
     'generation-types.prerequisites.rag': '<strong>RAG:</strong> How RAG systems combine retrieval and generation',
 
     // Memory Types Prerequisites
@@ -2775,6 +2776,7 @@ const translations = {
   },
   tr: {
     // Navigation
+    'nav.title': 'ML/DL Temelleri',
     'nav.ml-basics': 'ML Temelleri',
     'nav.neural-networks': 'Sinir Ağları (Neural Networks)',
     'nav.cnn-rnn': 'CNN & RNN',
@@ -5042,7 +5044,7 @@ const translations = {
     // RAG Introduction Prerequisites
     'rag-intro.prerequisites.title': 'Önkoşullar',
     'rag-intro.prerequisites.intro': 'RAG hakkında öğrenmeden önce şunları anlamalısınız:',
-    'rag-intro.prerequisites.llm': '<strong>LLM\'ler:</strong> Büyük dil modellerinin metin üretme şekli ve sınırlamaları',
+    'rag-intro.prerequisites.llm': '<strong>Temel Modeller (LLM\'ler):</strong> Büyük dil modellerinin metin üretme şekli ve sınırlamaları (Temel Modeller bölümünde ele alınmıştır)',
     'rag-intro.prerequisites.embeddings': '<strong>Gömmeler:</strong> Metnin sayısal vektörlere nasıl dönüştürüldüğü',
     'rag-intro.prerequisites.retrieval': '<strong>Geri Getirme:</strong> Arama ve ilgili bilgi bulmanın temel anlayışı',
 
@@ -5050,7 +5052,7 @@ const translations = {
     'llm-problems.prerequisites.title': 'Önkoşullar',
     'llm-problems.prerequisites.intro': 'LLM sorunları hakkında öğrenmeden önce şunları anlamalısınız:',
     'llm-problems.prerequisites.foundation': '<strong>Temel Modeller:</strong> LLM\'lerin nasıl eğitildiği ve ne yapabildikleri',
-    'llm-problems.prerequisites.generation': '<strong>Metin Üretimi:</strong> LLM\'lerin metni token token nasıl ürettiği',
+    'llm-problems.prerequisites.generation': '<strong>Metin Üretimi:</strong> LLM\'lerin metni token token nasıl ürettiği (Üretken AI ve Kodlayıcı-Kod Çözücü bölümlerinde ele alınmıştır)',
     'llm-problems.prerequisites.limitations': '<strong>Model Sınırlamaları:</strong> Modellerin bilgi kesintileri olduğu ve hata yapabileceği farkındalığı',
 
     // RAG Architecture Prerequisites
@@ -5093,13 +5095,13 @@ const translations = {
     'augmentation.prerequisites.intro': 'Artırma hakkında öğrenmeden önce şunları anlamalısınız:',
     'augmentation.prerequisites.rag': '<strong>RAG:</strong> RAG sistem mimarisinin anlayışı',
     'augmentation.prerequisites.retrieval': '<strong>Geri Getirme:</strong> İlgili belgelerin nasıl geri getirildiği',
-    'augmentation.prerequisites.generation': '<strong>Üretim:</strong> LLM\'lerin bağlamla metin üretme şekli',
+    'augmentation.prerequisites.generation': '<strong>Metin Üretimi:</strong> LLM\'lerin bağlamla metin üretme şekli (Üretken AI ve Kodlayıcı-Kod Çözücü bölümlerinde ele alınmıştır)',
 
     // Generation Types Prerequisites
     'generation-types.prerequisites.title': 'Önkoşullar',
     'generation-types.prerequisites.intro': 'Üretim türleri hakkında öğrenmeden önce şunları anlamalısınız:',
-    'generation-types.prerequisites.llm': '<strong>LLM\'ler:</strong> Dil modellerinin metin üretme şekli',
-    'generation-types.prerequisites.decoder': '<strong>Kod Çözücü:</strong> Kod çözücü tabanlı mimarilerin anlayışı',
+    'generation-types.prerequisites.llm': '<strong>Temel Modeller (LLM\'ler):</strong> Dil modellerinin metin üretme şekli (Temel Modeller bölümünde ele alınmıştır)',
+    'generation-types.prerequisites.decoder': '<strong>Kod Çözücü:</strong> Kod çözücü tabanlı mimarilerin anlayışı (Kodlayıcı-Kod Çözücü bölümünde ele alınmıştır)',
     'generation-types.prerequisites.rag': '<strong>RAG:</strong> RAG sistemlerinin geri getirme ve üretimi nasıl birleştirdiği',
 
     // Memory Types Prerequisites
@@ -5363,16 +5365,31 @@ function switchLanguage(lang) {
 }
 
 function updateLanguageUI() {
-  const toggle = document.getElementById('lang-toggle');
-  const dropdown = document.getElementById('lang-dropdown');
-  const options = dropdown.querySelectorAll('.lang-option');
+  // Update both language switchers (mobile and sidebar)
+  const toggles = [
+    document.getElementById('lang-toggle-mobile'),
+    document.getElementById('lang-toggle-sidebar')
+  ];
+  const dropdowns = [
+    document.getElementById('lang-dropdown-mobile'),
+    document.getElementById('lang-dropdown-sidebar')
+  ];
 
-  if (toggle) {
-    toggle.textContent = currentLanguage.toUpperCase();
-  }
+  // Update toggle button text
+  toggles.forEach((toggle) => {
+    if (toggle) {
+      toggle.textContent = currentLanguage.toUpperCase();
+    }
+  });
 
-  options.forEach((opt) => {
-    opt.classList.toggle('active', opt.dataset.lang === currentLanguage);
+  // Update dropdown options active state
+  dropdowns.forEach((dropdown) => {
+    if (dropdown) {
+      const options = dropdown.querySelectorAll('.lang-option');
+      options.forEach((opt) => {
+        opt.classList.toggle('active', opt.dataset.lang === currentLanguage);
+      });
+    }
   });
 }
 
@@ -5580,40 +5597,59 @@ function translateButtons() {
 
 // Initialize language switcher UI
 function initLanguageSwitcher() {
-  const toggle = document.getElementById('lang-toggle');
-  const dropdown = document.getElementById('lang-dropdown');
-  const dropdownBtn = dropdown?.querySelector('.lang-dropdown-btn');
-  const options = dropdown?.querySelectorAll('.lang-option');
+  // Initialize both language switchers (mobile and sidebar)
+  const toggles = [
+    document.getElementById('lang-toggle-mobile'),
+    document.getElementById('lang-toggle-sidebar')
+  ];
+  const dropdowns = [
+    document.getElementById('lang-dropdown-mobile'),
+    document.getElementById('lang-dropdown-sidebar')
+  ];
 
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      switchLanguage(currentLanguage === 'en' ? 'tr' : 'en');
-    });
-  }
+  // Setup toggle buttons
+  toggles.forEach((toggle) => {
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        switchLanguage(currentLanguage === 'en' ? 'tr' : 'en');
+      });
+    }
+  });
 
-  if (dropdownBtn) {
-    dropdownBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      dropdown.classList.toggle('active');
-    });
-  }
+  // Setup dropdowns
+  dropdowns.forEach((dropdown) => {
+    if (!dropdown) return;
+    
+    const dropdownBtn = dropdown.querySelector('.lang-dropdown-btn');
+    const options = dropdown.querySelectorAll('.lang-option');
 
-  options?.forEach((opt) => {
-    opt.addEventListener('click', (e) => {
-      e.preventDefault();
-      const lang = opt.dataset.lang;
-      if (lang) {
-        switchLanguage(lang);
-        dropdown.classList.remove('active');
-      }
+    if (dropdownBtn) {
+      dropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+    }
+
+    options.forEach((opt) => {
+      opt.addEventListener('click', (e) => {
+        e.preventDefault();
+        const lang = opt.dataset.lang;
+        if (lang) {
+          switchLanguage(lang);
+          // Close all dropdowns
+          dropdowns.forEach((dd) => dd?.classList.remove('active'));
+        }
+      });
     });
   });
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   document.addEventListener('click', (e) => {
-    if (!dropdown?.contains(e.target)) {
-      dropdown?.classList.remove('active');
-    }
+    dropdowns.forEach((dropdown) => {
+      if (dropdown && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
   });
 }
 
@@ -5714,39 +5750,103 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
+  // SIDEBAR FUNCTIONALITY
+  // ============================================
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebarClose = document.getElementById('sidebar-close');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const navGroupHeaders = document.querySelectorAll('.nav-group-header');
+
+  // Toggle sidebar on mobile
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      sidebarOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  // Close sidebar
+  function closeSidebar() {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (sidebarClose) {
+    sidebarClose.addEventListener('click', closeSidebar);
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+  }
+
+  // Expand/collapse nav groups
+  navGroupHeaders.forEach((header) => {
+    // Set initial state - expand all groups by default
+    header.setAttribute('aria-expanded', 'true');
+    
+    header.addEventListener('click', () => {
+      const isExpanded = header.getAttribute('aria-expanded') === 'true';
+      header.setAttribute('aria-expanded', !isExpanded);
+    });
+  });
+
+  // ============================================
   // SMOOTH SCROLL & NAVIGATION HIGHLIGHTING
   // ============================================
-  document.querySelectorAll('nav a').forEach((anchor) => {
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+  const sections = document.querySelectorAll('section[id]');
+
+  sidebarLinks.forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
+      const targetId = this.getAttribute('href');
+      const target = document.querySelector(targetId);
       if (target) {
-        target.scrollIntoView({
+        // Close sidebar on mobile after clicking link
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
+        
+        // Calculate offset for fixed sidebar
+        const offset = window.innerWidth > 768 ? 20 : 80;
+        const targetPosition = target.offsetTop - offset;
+        
+        window.scrollTo({
+          top: targetPosition,
           behavior: 'smooth',
-          block: 'start',
         });
       }
     });
   });
 
   // Highlight active nav item on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('nav a');
-
   function highlightNav() {
     let current = '';
+    const scrollOffset = window.innerWidth > 768 ? 200 : 150;
+    
     sections.forEach((section) => {
       const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (window.scrollY >= sectionTop - 150) {
+      if (window.scrollY + scrollOffset >= sectionTop) {
         current = section.getAttribute('id');
       }
     });
 
-    navLinks.forEach((link) => {
-      link.style.color = '';
+    sidebarLinks.forEach((link) => {
+      link.classList.remove('active');
       if (link.getAttribute('href') === `#${current}`) {
-        link.style.color = 'var(--primary-orange)';
+        link.classList.add('active');
+        
+        // Expand the group containing the active link
+        const navGroup = link.closest('.nav-group');
+        if (navGroup) {
+          const groupHeader = navGroup.querySelector('.nav-group-header');
+          if (groupHeader) {
+            groupHeader.setAttribute('aria-expanded', 'true');
+          }
+        }
       }
     });
   }
