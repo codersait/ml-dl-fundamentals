@@ -1495,6 +1495,283 @@ const translations = {
     'transformer.examples.variants.t5':
       'T5: Encoder-decoder, good for both understanding and generation',
 
+    'transformer.schema.title': 'End-to-End LLM Pipeline (Full Schema)',
+    'transformer.schema.intro':
+      'Below is the full pipeline from user text to model output: tokenization, embeddings, positional encoding, 12 transformer blocks, final layer norm, LM head, softmax, next-token selection, and detokenization. The summary table and shape flow show which parts are inside the transformer and how tensor shapes change.',
+    'transformer.schema.diagram': `┌─────────────────────────────────────────────────────────────┐
+│                         USER INPUT                          │
+│                   "Hello world nedir?"                      │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ (string)
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                      TOKENIZATION                           │
+│                    (Transformer Dışı)                       │
+│                                                              │
+│  • BPE/WordPiece/SentencePiece                              │
+│  • tiktoken.encode()                                        │
+│                                                              │
+│  "Hello world nedir?" → [9906, 1917, 308, 17720, 30]       │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Token IDs: [9906, 1917, ...]
+                               │ Shape: [5] (5 token)
+                               │
+╔══════════════════════════════▼══════════════════════════════╗
+║                        MODEL START                          ║
+╚═════════════════════════════════════════════════════════════╝
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                    TOKEN EMBEDDING LAYER                    │
+│                     (Input Layer)                           │
+│                  (Transformer Değil)                        │
+│                                                              │
+│  embedding_matrix[token_id] → vector                        │
+│                                                              │
+│  Token 9906  → [0.12, -0.56, 0.91, ..., 0.43]  (768 dim)  │
+│  Token 1917  → [0.84, 0.21, -0.73, ..., 0.15]  (768 dim)  │
+│  Token 308   → [0.33, -0.12, 0.44, ..., 0.67]  (768 dim)  │
+│  ...                                                         │
+│                                                              │
+│  Shape: [5, 768]                                            │
+│  (5 tokens, her biri 768 boyutlu vector)                   │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Token embeddings
+                               │ Shape: [5, 768]
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│               POSITIONAL ENCODING LAYER                     │
+│                     (Input Layer)                           │
+│                  (Transformer Değil)                        │
+│                                                              │
+│  position_embedding[0] → [0.01, 0.02, ...]                 │
+│  position_embedding[1] → [0.03, 0.04, ...]                 │
+│  position_embedding[2] → [0.05, 0.06, ...]                 │
+│  ...                                                         │
+│                                                              │
+│  final = token_embedding + position_embedding               │
+│                                                              │
+│  Shape: [5, 768]                                            │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Input embeddings (token + pos)
+                               │ Shape: [5, 768]
+                               │
+╔══════════════════════════════▼══════════════════════════════╗
+║                    TRANSFORMER BAŞLANGICI                   ║
+╚═════════════════════════════════════════════════════════════╝
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                   TRANSFORMER BLOCK 1                       │
+│                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │  Layer Norm 1                                      │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Multi-Head Attention (12 heads)                   │    │
+│  │                                                      │    │
+│  │  • Q = x @ W_q                                      │    │
+│  │  • K = x @ W_k                                      │    │
+│  │  • V = x @ W_v                                      │    │
+│  │  • Attention(Q,K,V) = softmax(QK^T/√d_k) × V       │    │
+│  │                                                      │    │
+│  │  [5, 768] → [5, 768]                               │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Residual Connection (+)                           │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Layer Norm 2                                      │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Feed Forward Network                              │    │
+│  │                                                      │    │
+│  │  • Linear: [768] → [3072]                          │    │
+│  │  • GELU activation                                  │    │
+│  │  • Linear: [3072] → [768]                          │    │
+│  │                                                      │    │
+│  │  [5, 768] → [5, 3072] → [5, 768]                  │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Residual Connection (+)                           │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+└──────────────────────────┼──────────────────────────────────┘
+                           │
+                           │ Shape: [5, 768]
+                           │
+                           ▼
+                    (Block 2, 3, ..., 12 aynı yapı)
+                           ▼
+┌──────────────────────────▼──────────────────────────────────┐
+│                   TRANSFORMER BLOCK 12                      │
+│                    (aynı yapı)                              │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ Output embeddings
+                           │ Shape: [5, 768]
+                           │
+╔══════════════════════════▼══════════════════════════════════╗
+║                    TRANSFORMER BİTİŞİ                       ║
+╚═════════════════════════════════════════════════════════════╝
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                   FINAL LAYER NORM                          │
+│                     (Output Layer)                          │
+│                  (Transformer Değil)                        │
+│                                                              │
+│  Shape: [5, 768]                                            │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                      LM HEAD                                │
+│              (Language Model Head)                          │
+│                  (Output Layer)                             │
+│                (Transformer Değil)                          │
+│                                                              │
+│  Linear projection: 768 → 50257                             │
+│  (vocab_size = 50257)                                       │
+│                                                              │
+│  Shape: [5, 768] → [5, 50257]                              │
+│                                                              │
+│  Her pozisyon için 50257 token olasılığı                   │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ Logits
+                           │ Shape: [5, 50257]
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                        SOFTMAX                              │
+│                                                              │
+│  logits → probabilities                                     │
+│                                                              │
+│  Position 0: [0.001, 0.002, ..., 0.0001, ...]              │
+│  Position 1: [0.003, 0.001, ..., 0.0002, ...]              │
+│  ...                                                         │
+│  Position 4: [0.002, 0.156, ..., 0.0234, ...]  ← son token │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                   NEXT TOKEN SELECTION                      │
+│                                                              │
+│  • Greedy: argmax(probabilities)                           │
+│  • Sampling: sample from distribution                       │
+│  • Top-k: sample from top k tokens                         │
+│  • Top-p (nucleus): sample from cumulative p               │
+│                                                              │
+│  Position 4 (son token) için en yüksek olasılıklı:         │
+│  Token 308 → probability 0.156                              │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ Next token ID: 308
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                      DETOKENIZATION                         │
+│                                                              │
+│  Token 308 → " bir"                                         │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                      OUTPUT TO USER                         │
+│                                                              │
+│              "Hello world nedir? bir"                       │
+└─────────────────────────────────────────────────────────────┘
+                           │
+                           │
+                    (Autoregressive loop)
+                    Yeni token eklenir, tekrar başa dön
+                           │
+                           ▼
+              "Hello world nedir? bir programlama..."`,
+    'transformer.schema.table.title': 'Summary Table',
+    'transformer.schema.table.col.level': 'Level',
+    'transformer.schema.table.col.layer': 'Layer',
+    'transformer.schema.table.col.transformer': 'Transformer?',
+    'transformer.schema.table.col.input': 'Input',
+    'transformer.schema.table.col.output': 'Output',
+    'transformer.schema.table.row0.level': '0',
+    'transformer.schema.table.row0.layer': 'Tokenization',
+    'transformer.schema.table.row0.transformer': 'No',
+    'transformer.schema.table.row0.input': 'String',
+    'transformer.schema.table.row0.output': 'Token IDs [5]',
+    'transformer.schema.table.row1.level': '1',
+    'transformer.schema.table.row1.layer': 'Embedding',
+    'transformer.schema.table.row1.transformer': 'No (input)',
+    'transformer.schema.table.row1.input': 'Token IDs [5]',
+    'transformer.schema.table.row1.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row2.level': '2',
+    'transformer.schema.table.row2.layer': 'Positional Encoding',
+    'transformer.schema.table.row2.transformer': 'No (input)',
+    'transformer.schema.table.row2.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row2.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row3.level': '3-14',
+    'transformer.schema.table.row3.layer': 'Transformer Blocks (×12)',
+    'transformer.schema.table.row3.transformer': 'Yes',
+    'transformer.schema.table.row3.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row3.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row4.level': '15',
+    'transformer.schema.table.row4.layer': 'Layer Norm',
+    'transformer.schema.table.row4.transformer': 'No (output)',
+    'transformer.schema.table.row4.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row4.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row5.level': '16',
+    'transformer.schema.table.row5.layer': 'LM Head',
+    'transformer.schema.table.row5.transformer': 'No (output)',
+    'transformer.schema.table.row5.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row5.output': 'Logits [5, 50257]',
+    'transformer.schema.table.row6.level': '17',
+    'transformer.schema.table.row6.layer': 'Sampling',
+    'transformer.schema.table.row6.transformer': 'No',
+    'transformer.schema.table.row6.input': 'Logits',
+    'transformer.schema.table.row6.output': 'Token ID',
+    'transformer.schema.table.row7.level': '18',
+    'transformer.schema.table.row7.layer': 'Detokenization',
+    'transformer.schema.table.row7.transformer': 'No',
+    'transformer.schema.table.row7.input': 'Token ID',
+    'transformer.schema.table.row7.output': 'String',
+    'transformer.schema.shapeflow.title': 'Shape Flow (dimension tracking)',
+    'transformer.schema.shapeflow.diagram': `Text (string)
+    ↓
+Token IDs:        [5]
+    ↓
+Embeddings:       [5, 768]
+    ↓
++ Positional:     [5, 768]
+    ↓
+╔═══════════════════════╗
+║ Transformer Block 1   ║
+║   Input:  [5, 768]    ║
+║   Output: [5, 768]    ║
+╚═══════════════════════╝
+    ↓
+        ... (×12)
+    ↓
+╔═══════════════════════╗
+║ Transformer Block 12  ║
+║   Input:  [5, 768]    ║
+║   Output: [5, 768]    ║
+╚═══════════════════════╝
+    ↓
+Layer Norm:       [5, 768]
+    ↓
+LM Head:          [5, 50257]
+    ↓
+Softmax:          [5, 50257]
+    ↓
+Sample:           1 (token ID)
+    ↓
+Decode:           " bir" (string)`,
+
     // Encoder/Decoder
     'encoder-decoder.title': 'Encoder vs Decoder',
     'encoder-decoder.intro':
@@ -3314,6 +3591,283 @@ const translations = {
       'GPT: Yalnızca kod çözücü (decoder-only), otoregresif (autoregressive), üretim görevleri için harika',
     'transformer.examples.variants.t5':
       'T5: Kodlayıcı-kod çözücü (encoder-decoder), hem anlama hem de üretim için iyi',
+
+    'transformer.schema.title': 'Baştan Sona Tam Şema',
+    'transformer.schema.intro':
+      'Aşağıda kullanıcı metninden model çıktısına kadar tam pipeline yer alıyor: tokenization, embedding, konumsal kodlama, 12 transformer bloğu, son katman normu, LM head, softmax, sonraki token seçimi ve detokenization. Özet tablo ve shape flow, hangi parçaların transformer içinde olduğunu ve tensor boyutlarının nasıl değiştiğini gösterir.',
+    'transformer.schema.diagram': `┌─────────────────────────────────────────────────────────────┐
+│                         USER INPUT                          │
+│                   "Hello world nedir?"                      │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ (string)
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                      TOKENIZATION                           │
+│                    (Transformer Dışı)                       │
+│                                                              │
+│  • BPE/WordPiece/SentencePiece                              │
+│  • tiktoken.encode()                                        │
+│                                                              │
+│  "Hello world nedir?" → [9906, 1917, 308, 17720, 30]       │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Token IDs: [9906, 1917, ...]
+                               │ Shape: [5] (5 token)
+                               │
+╔══════════════════════════════▼══════════════════════════════╗
+║                        MODEL START                          ║
+╚═════════════════════════════════════════════════════════════╝
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                    TOKEN EMBEDDING LAYER                    │
+│                     (Input Layer)                           │
+│                  (Transformer Değil)                        │
+│                                                              │
+│  embedding_matrix[token_id] → vector                        │
+│                                                              │
+│  Token 9906  → [0.12, -0.56, 0.91, ..., 0.43]  (768 dim)  │
+│  Token 1917  → [0.84, 0.21, -0.73, ..., 0.15]  (768 dim)  │
+│  Token 308   → [0.33, -0.12, 0.44, ..., 0.67]  (768 dim)  │
+│  ...                                                         │
+│                                                              │
+│  Shape: [5, 768]                                            │
+│  (5 tokens, her biri 768 boyutlu vector)                   │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Token embeddings
+                               │ Shape: [5, 768]
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│               POSITIONAL ENCODING LAYER                     │
+│                     (Input Layer)                           │
+│                  (Transformer Değil)                        │
+│                                                              │
+│  position_embedding[0] → [0.01, 0.02, ...]                 │
+│  position_embedding[1] → [0.03, 0.04, ...]                 │
+│  position_embedding[2] → [0.05, 0.06, ...]                 │
+│  ...                                                         │
+│                                                              │
+│  final = token_embedding + position_embedding               │
+│                                                              │
+│  Shape: [5, 768]                                            │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Input embeddings (token + pos)
+                               │ Shape: [5, 768]
+                               │
+╔══════════════════════════════▼══════════════════════════════╗
+║                    TRANSFORMER BAŞLANGICI                   ║
+╚═════════════════════════════════════════════════════════════╝
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                   TRANSFORMER BLOCK 1                       │
+│                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │  Layer Norm 1                                      │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Multi-Head Attention (12 heads)                   │    │
+│  │                                                      │    │
+│  │  • Q = x @ W_q                                      │    │
+│  │  • K = x @ W_k                                      │    │
+│  │  • V = x @ W_v                                      │    │
+│  │  • Attention(Q,K,V) = softmax(QK^T/√d_k) × V       │    │
+│  │                                                      │    │
+│  │  [5, 768] → [5, 768]                               │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Residual Connection (+)                           │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Layer Norm 2                                      │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Feed Forward Network                              │    │
+│  │                                                      │    │
+│  │  • Linear: [768] → [3072]                          │    │
+│  │  • GELU activation                                  │    │
+│  │  • Linear: [3072] → [768]                          │    │
+│  │                                                      │    │
+│  │  [5, 768] → [5, 3072] → [5, 768]                  │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+│  ┌───────────────────────▼────────────────────────────┐    │
+│  │  Residual Connection (+)                           │    │
+│  └───────────────────────┬────────────────────────────┘    │
+│                          │                                  │
+└──────────────────────────┼──────────────────────────────────┘
+                           │
+                           │ Shape: [5, 768]
+                           │
+                           ▼
+                    (Block 2, 3, ..., 12 aynı yapı)
+                           ▼
+┌──────────────────────────▼──────────────────────────────────┐
+│                   TRANSFORMER BLOCK 12                      │
+│                    (aynı yapı)                              │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ Output embeddings
+                           │ Shape: [5, 768]
+                           │
+╔══════════════════════════▼══════════════════════════════════╗
+║                    TRANSFORMER BİTİŞİ                       ║
+╚═════════════════════════════════════════════════════════════╝
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                   FINAL LAYER NORM                          │
+│                     (Output Layer)                          │
+│                  (Transformer Değil)                        │
+│                                                              │
+│  Shape: [5, 768]                                            │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                      LM HEAD                                │
+│              (Language Model Head)                          │
+│                  (Output Layer)                             │
+│                (Transformer Değil)                          │
+│                                                              │
+│  Linear projection: 768 → 50257                             │
+│  (vocab_size = 50257)                                       │
+│                                                              │
+│  Shape: [5, 768] → [5, 50257]                              │
+│                                                              │
+│  Her pozisyon için 50257 token olasılığı                   │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ Logits
+                           │ Shape: [5, 50257]
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                        SOFTMAX                              │
+│                                                              │
+│  logits → probabilities                                     │
+│                                                              │
+│  Position 0: [0.001, 0.002, ..., 0.0001, ...]              │
+│  Position 1: [0.003, 0.001, ..., 0.0002, ...]              │
+│  ...                                                         │
+│  Position 4: [0.002, 0.156, ..., 0.0234, ...]  ← son token │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                   NEXT TOKEN SELECTION                      │
+│                                                              │
+│  • Greedy: argmax(probabilities)                           │
+│  • Sampling: sample from distribution                       │
+│  • Top-k: sample from top k tokens                         │
+│  • Top-p (nucleus): sample from cumulative p               │
+│                                                              │
+│  Position 4 (son token) için en yüksek olasılıklı:         │
+│  Token 308 → probability 0.156                              │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ Next token ID: 308
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                      DETOKENIZATION                         │
+│                                                              │
+│  Token 308 → " bir"                                         │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                      OUTPUT TO USER                         │
+│                                                              │
+│              "Hello world nedir? bir"                       │
+└─────────────────────────────────────────────────────────────┘
+                           │
+                           │
+                    (Autoregressive loop)
+                    Yeni token eklenir, tekrar başa dön
+                           │
+                           ▼
+              "Hello world nedir? bir programlama..."`,
+    'transformer.schema.table.title': 'Özet Tablo',
+    'transformer.schema.table.col.level': 'Seviye',
+    'transformer.schema.table.col.layer': 'Katman',
+    'transformer.schema.table.col.transformer': 'Transformer?',
+    'transformer.schema.table.col.input': 'Input',
+    'transformer.schema.table.col.output': 'Output',
+    'transformer.schema.table.row0.level': '0',
+    'transformer.schema.table.row0.layer': 'Tokenization',
+    'transformer.schema.table.row0.transformer': 'Hayır',
+    'transformer.schema.table.row0.input': 'String',
+    'transformer.schema.table.row0.output': 'Token IDs [5]',
+    'transformer.schema.table.row1.level': '1',
+    'transformer.schema.table.row1.layer': 'Embedding',
+    'transformer.schema.table.row1.transformer': 'Hayır (input)',
+    'transformer.schema.table.row1.input': 'Token IDs [5]',
+    'transformer.schema.table.row1.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row2.level': '2',
+    'transformer.schema.table.row2.layer': 'Positional Encoding',
+    'transformer.schema.table.row2.transformer': 'Hayır (input)',
+    'transformer.schema.table.row2.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row2.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row3.level': '3-14',
+    'transformer.schema.table.row3.layer': 'Transformer Blocks (×12)',
+    'transformer.schema.table.row3.transformer': 'Evet',
+    'transformer.schema.table.row3.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row3.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row4.level': '15',
+    'transformer.schema.table.row4.layer': 'Layer Norm',
+    'transformer.schema.table.row4.transformer': 'Hayır (output)',
+    'transformer.schema.table.row4.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row4.output': 'Vectors [5, 768]',
+    'transformer.schema.table.row5.level': '16',
+    'transformer.schema.table.row5.layer': 'LM Head',
+    'transformer.schema.table.row5.transformer': 'Hayır (output)',
+    'transformer.schema.table.row5.input': 'Vectors [5, 768]',
+    'transformer.schema.table.row5.output': 'Logits [5, 50257]',
+    'transformer.schema.table.row6.level': '17',
+    'transformer.schema.table.row6.layer': 'Sampling',
+    'transformer.schema.table.row6.transformer': 'Hayır',
+    'transformer.schema.table.row6.input': 'Logits',
+    'transformer.schema.table.row6.output': 'Token ID',
+    'transformer.schema.table.row7.level': '18',
+    'transformer.schema.table.row7.layer': 'Detokenization',
+    'transformer.schema.table.row7.transformer': 'Hayır',
+    'transformer.schema.table.row7.input': 'Token ID',
+    'transformer.schema.table.row7.output': 'String',
+    'transformer.schema.shapeflow.title': 'Shape flow (boyut takibi)',
+    'transformer.schema.shapeflow.diagram': `Text (string)
+    ↓
+Token IDs:        [5]
+    ↓
+Embeddings:       [5, 768]
+    ↓
++ Positional:     [5, 768]
+    ↓
+╔═══════════════════════╗
+║ Transformer Block 1   ║
+║   Input:  [5, 768]    ║
+║   Output: [5, 768]    ║
+╚═══════════════════════╝
+    ↓
+        ... (×12)
+    ↓
+╔═══════════════════════╗
+║ Transformer Block 12  ║
+║   Input:  [5, 768]    ║
+║   Output: [5, 768]    ║
+╚═══════════════════════╝
+    ↓
+Layer Norm:       [5, 768]
+    ↓
+LM Head:          [5, 50257]
+    ↓
+Softmax:          [5, 50257]
+    ↓
+Sample:           1 (token ID)
+    ↓
+Decode:           " bir" (string)`,
 
     // Encoder/Decoder
     'encoder-decoder.title': 'Kodlayıcı vs Kod Çözücü (Encoder vs Decoder)',

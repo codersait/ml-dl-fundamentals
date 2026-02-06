@@ -1097,6 +1097,12 @@ label {
     line-height: 1.6;
 }
 
+.pipeline-schema {
+    max-height: 28rem;
+    overflow-y: auto;
+    white-space: pre;
+}
+
 .code-block code {
     color: #a8d8ea;
     background: transparent;
