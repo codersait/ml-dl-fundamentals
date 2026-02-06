@@ -117,13 +117,36 @@ class ActivationGraph {
 }
 
 // ============================================
+// ERROR HANDLING UTILITIES
+// ============================================
+function showError(message, container = null) {
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-message';
+  errorDiv.textContent = message;
+  
+  if (container) {
+    container.insertBefore(errorDiv, container.firstChild);
+  } else {
+    // Try to find a demo container or create one at the top of the page
+    const main = document.querySelector('main');
+    if (main) {
+      main.insertBefore(errorDiv, main.firstChild);
+    } else {
+      document.body.insertBefore(errorDiv, document.body.firstChild);
+    }
+  }
+  
+  // Also log to console for debugging
+  console.error(message);
+}
+
 // NEURAL NETWORK VISUALIZATION
 // ============================================
 class NeuralNetworkViz {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     if (!this.canvas) {
-      console.error(`Canvas element with id "${canvasId}" not found`);
+      showError(`Canvas element with id "${canvasId}" not found. Visualization may not work correctly.`);
       return;
     }
     this.ctx = this.canvas.getContext('2d');
@@ -155,7 +178,7 @@ class NeuralNetworkViz {
     const runBtn = document.getElementById('nn-run');
 
     if (!layersSlider || !neuronsSlider || !activationSelect || !runBtn) {
-      console.error('Neural network controls not found');
+      showError('Neural network controls not found. Some features may not work.');
       return;
     }
 
@@ -266,7 +289,7 @@ class NeuralNetworkViz {
 
     const runBtn = document.getElementById('nn-run');
     if (!runBtn) {
-      console.error('Run button not found');
+      showError('Run button not found. Forward pass visualization may not work.');
       return;
     }
 
@@ -317,10 +340,7 @@ class NeuralNetworkViz {
       input.dispose();
       model.dispose();
     } catch (error) {
-      console.error('Error running forward pass:', error);
-      alert(
-        'Error running forward pass. Please check the console for details.',
-      );
+      showError(`Error running forward pass: ${error.message}. Please try adjusting the model parameters.`);
     } finally {
       runBtn.classList.remove('loading');
       runBtn.disabled = false;
@@ -429,7 +449,7 @@ class AttentionViz {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     if (!this.container) {
-      console.error(`Container element with id "${containerId}" not found`);
+      showError(`Container element with id "${containerId}" not found. Attention visualization may not work.`);
       return;
     }
     this.tokens = ['The', 'cat', 'sat', 'on', 'the', 'mat'];
@@ -443,7 +463,7 @@ class AttentionViz {
     const resetBtn = document.getElementById('attention-reset');
 
     if (!randomBtn || !resetBtn) {
-      console.error('Attention controls not found');
+      showError('Attention controls not found. Some features may not work.', this.container);
       return;
     }
 
@@ -636,7 +656,7 @@ class TransformerViz {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     if (!this.container) {
-      console.error(`Container element with id "${containerId}" not found`);
+      showError(`Container element with id "${containerId}" not found. Transformer visualization may not work.`);
       return;
     }
     this.draw();
@@ -1013,12 +1033,161 @@ const translations = {
                 'ml-basics.key.overfitting': '<strong>Overfitting:</strong> memorizing training data instead of learning general patterns',
                 'ml-basics.key.regularization': '<strong>Regularization:</strong> techniques like L2, dropout, and early stopping to improve generalization',
                 'ml-basics.key.leakage': '<strong>Data leakage:</strong> using information during training that wouldn’t exist at prediction time',
+                // Prerequisites
+                'ml-basics.prerequisites.title': 'Prerequisites',
+                'ml-basics.prerequisites.intro': 'Before diving into machine learning, you should be comfortable with:',
+                'ml-basics.prerequisites.math': '<strong>Basic Math:</strong> Algebra (variables, equations), basic calculus (derivatives), and statistics (mean, variance)',
+                'ml-basics.prerequisites.programming': '<strong>Programming:</strong> Basic Python or similar language (variables, functions, loops, conditionals)',
+                'ml-basics.prerequisites.data': '<strong>Data Concepts:</strong> Understanding of tables, rows, columns, and basic data manipulation',
+                'ml-basics.prerequisites.note': '<strong>Note:</strong> Don\'t worry if you\'re not an expert in all of these! This guide will explain concepts as we go, but having a foundation will help you learn faster.',
 
+                // Fundamentals: Datasets
+                'ml-basics.fundamentals.datasets.title': 'Datasets, Features, and Labels',
+                'ml-basics.fundamentals.datasets.intro': 'Every machine learning problem starts with data. Understanding the structure of your data is crucial.',
+                'ml-basics.fundamentals.datasets.example.title': 'Example: House Price Prediction',
+                'ml-basics.fundamentals.datasets.example.description': 'Imagine you want to predict house prices. Your dataset might look like this:',
+                'ml-basics.fundamentals.datasets.features': '<strong>Features:</strong> Size, Location, Bedrooms (what we use to make predictions)',
+                'ml-basics.fundamentals.datasets.label': '<strong>Label:</strong> Price (what we want to predict)',
+                'ml-basics.fundamentals.datasets.row': '<strong>Each row:</strong> One example (one house)',
+                'ml-basics.fundamentals.datasets.types': '<strong>Feature Types:</strong> Features can be numeric (size, price) or categorical (location: Urban/Suburban). Labels can be continuous (regression: predicting price) or discrete (classification: predicting "expensive" vs "cheap").',
 
-    // Common UI
+                // Fundamentals: Splits
+                'ml-basics.fundamentals.splits.title': 'Train/Validation/Test Splits',
+                'ml-basics.fundamentals.splits.why': '<strong>Why Split Data?</strong> We split our dataset to prevent overfitting and get an unbiased estimate of how well our model will perform on new, unseen data.',
+                'ml-basics.fundamentals.splits.sets.title': 'The Three Sets',
+                'ml-basics.fundamentals.splits.sets.train': '<strong>Training Set (70-80%):</strong> Used to teach the model. The model learns patterns from this data.',
+                'ml-basics.fundamentals.splits.sets.validation': '<strong>Validation Set (10-15%):</strong> Used to tune hyperparameters and detect overfitting. Not used for training.',
+                'ml-basics.fundamentals.splits.sets.test': '<strong>Test Set (10-15%):</strong> Used only once at the end to estimate real-world performance. Never used during training or tuning.',
+                'ml-basics.fundamentals.splits.ratios.label': 'Common Split Ratios:',
+                'ml-basics.fundamentals.splits.ratios.explanation': 'The exact ratio depends on dataset size. Larger datasets can use smaller validation/test sets.',
+                'ml-basics.fundamentals.splits.important': '<strong>Important:</strong> The test set should be kept completely separate and only evaluated once. Using it multiple times can lead to overfitting to the test set!',
+
+                // Fundamentals: Loss
+                'ml-basics.fundamentals.loss.title': 'Loss Functions',
+                'ml-basics.fundamentals.loss.intro': 'A loss function measures how wrong our predictions are. The model\'s goal is to minimize this loss during training.',
+                'ml-basics.fundamentals.loss.regression.title': 'Regression: Mean Squared Error (MSE)',
+                'ml-basics.fundamentals.loss.regression.description': 'Used when predicting continuous values (like house prices, temperatures).',
+                'ml-basics.fundamentals.loss.regression.formula.label': 'MSE Formula:',
+                'ml-basics.fundamentals.loss.regression.formula.explanation': 'Where y_i is the true value, ŷ_i is the predicted value, and n is the number of examples. Squaring penalizes large errors more.',
+                'ml-basics.fundamentals.loss.regression.example': '<strong>Example:</strong> If true price is $300,000 and we predict $280,000, the error is (300,000 - 280,000)² = 400,000,000.',
+                'ml-basics.fundamentals.loss.classification.title': 'Classification: Cross-Entropy Loss',
+                'ml-basics.fundamentals.loss.classification.description': 'Used when predicting categories (like "cat" vs "dog", "spam" vs "not spam").',
+                'ml-basics.fundamentals.loss.classification.formula.label': 'Cross-Entropy Loss:',
+                'ml-basics.fundamentals.loss.classification.formula.explanation': 'Where y_i is the true class (0 or 1), and ŷ_i is the predicted probability. This penalizes confident wrong predictions heavily.',
+
+                // Fundamentals: Gradient
+                'ml-basics.fundamentals.gradient.title': 'Gradient Descent',
+                'ml-basics.fundamentals.gradient.intro': 'Gradient descent is the algorithm that minimizes the loss function by adjusting model parameters.',
+                'ml-basics.fundamentals.gradient.analogy.title': 'Intuitive Analogy: Walking Downhill',
+                'ml-basics.fundamentals.gradient.analogy.description': 'Imagine you\'re blindfolded on a hill and want to reach the bottom (minimum loss). You feel the slope with your feet (gradient) and take steps in the steepest downward direction. The size of your steps is the learning rate.',
+                'ml-basics.fundamentals.gradient.formula.label': 'Gradient Descent Update:',
+                'ml-basics.fundamentals.gradient.formula.explanation': 'Update parameters θ by moving in the direction opposite to the gradient (∇L) scaled by learning rate α.',
+                'ml-basics.fundamentals.gradient.learning.title': 'Learning Rate',
+                'ml-basics.fundamentals.gradient.learning.too-high': '<strong>Too high:</strong> Overshoots the minimum, may diverge',
+                'ml-basics.fundamentals.gradient.learning.too-low': '<strong>Too low:</strong> Takes forever to converge, gets stuck in local minima',
+                'ml-basics.fundamentals.gradient.learning.just-right': '<strong>Just right:</strong> Converges efficiently to a good solution',
+                'ml-basics.fundamentals.gradient.variants.title': 'Variants',
+                'ml-basics.fundamentals.gradient.variants.batch': '<strong>Batch Gradient Descent:</strong> Uses entire dataset for each update (slow but stable)',
+                'ml-basics.fundamentals.gradient.variants.stochastic': '<strong>Stochastic Gradient Descent (SGD):</strong> Uses one example at a time (fast but noisy)',
+                'ml-basics.fundamentals.gradient.variants.mini': '<strong>Mini-batch SGD:</strong> Uses small batches (best of both worlds, most common)',
+
+                // Fundamentals: Overfitting
+                'ml-basics.fundamentals.overfitting.title': 'Overfitting and Regularization',
+                'ml-basics.fundamentals.overfitting.intro': 'Overfitting occurs when a model memorizes the training data instead of learning general patterns. Regularization techniques help prevent this.',
+                'ml-basics.fundamentals.overfitting.signs.title': 'Signs of Overfitting',
+                'ml-basics.fundamentals.overfitting.signs.training': '<strong>Training accuracy:</strong> Very high (95%+)',
+                'ml-basics.fundamentals.overfitting.signs.validation': '<strong>Validation accuracy:</strong> Much lower (60-70%)',
+                'ml-basics.fundamentals.overfitting.signs.gap': '<strong>Large gap:</strong> Model performs well on training but poorly on new data',
+                'ml-basics.fundamentals.overfitting.signs.note': '<strong>Note:</strong> These accuracy percentages are illustrative examples. Actual numbers vary based on task complexity, dataset size, and model architecture. The key indicator is a large gap between training and validation performance.',
+                'ml-basics.fundamentals.overfitting.regularization.title': 'Regularization Techniques',
+                'ml-basics.fundamentals.overfitting.regularization.l2': '<strong>L2 Regularization:</strong> Penalizes large weights, encourages smaller parameter values',
+                'ml-basics.fundamentals.overfitting.regularization.dropout': '<strong>Dropout:</strong> Randomly disables neurons during training to prevent co-dependency',
+                'ml-basics.fundamentals.overfitting.regularization.early': '<strong>Early Stopping:</strong> Stop training when validation loss stops improving',
+                'ml-basics.fundamentals.overfitting.regularization.data': '<strong>Data Augmentation:</strong> Artificially increase training data with transformations',
+                'ml-basics.fundamentals.overfitting.l2.formula.label': 'L2 Regularization:',
+                'ml-basics.fundamentals.overfitting.l2.formula.explanation': 'Adds penalty term λΣw² to the loss function, where λ controls regularization strength.',
+
+                // Fundamentals: Metrics
+                'ml-basics.fundamentals.metrics.title': 'Evaluation Metrics',
+                'ml-basics.fundamentals.metrics.intro': 'Metrics measure how well your model performs. Different tasks require different metrics.',
+                'ml-basics.fundamentals.metrics.classification.title': 'Classification Metrics',
+                'ml-basics.fundamentals.metrics.classification.intro': 'For predicting categories (spam/not spam, cat/dog):',
+                'ml-basics.fundamentals.metrics.classification.accuracy': '<strong>Accuracy:</strong> Percentage of correct predictions. Good for balanced classes.',
+                'ml-basics.fundamentals.metrics.classification.precision': '<strong>Precision:</strong> Of predicted positives, how many were actually positive? (Prevents false positives)',
+                'ml-basics.fundamentals.metrics.classification.recall': '<strong>Recall:</strong> Of actual positives, how many did we find? (Prevents false negatives)',
+                'ml-basics.fundamentals.metrics.classification.f1': '<strong>F1 Score:</strong> Harmonic mean of precision and recall. Good when you need balance.',
+                'ml-basics.fundamentals.metrics.classification.f1.formula.label': 'F1 Score:',
+                'ml-basics.fundamentals.metrics.regression.title': 'Regression Metrics',
+                'ml-basics.fundamentals.metrics.regression.intro': 'For predicting continuous values (prices, temperatures):',
+                'ml-basics.fundamentals.metrics.regression.mae': '<strong>MAE (Mean Absolute Error):</strong> Average absolute difference. Easy to interpret (e.g., "off by $5,000 on average")',
+                'ml-basics.fundamentals.metrics.regression.mse': '<strong>MSE (Mean Squared Error):</strong> Average squared difference. Penalizes large errors more.',
+                'ml-basics.fundamentals.metrics.regression.rmse': '<strong>RMSE (Root Mean Squared Error):</strong> Square root of MSE. Same units as target variable.',
+                'ml-basics.fundamentals.metrics.regression.r2': '<strong>R² (R-squared):</strong> Proportion of variance explained. 1.0 = perfect, 0.0 = no better than average.',
+                'ml-basics.fundamentals.metrics.choosing.title': 'Choosing the Right Metric',
+                'ml-basics.fundamentals.metrics.choosing.imbalanced': '<strong>Imbalanced classes:</strong> Use F1 or Precision/Recall instead of Accuracy',
+                'ml-basics.fundamentals.metrics.choosing.outliers': '<strong>Outliers matter:</strong> Use MSE/RMSE (penalizes large errors)',
+                'ml-basics.fundamentals.metrics.choosing.interpretable': '<strong>Need interpretability:</strong> Use MAE (easy to explain to stakeholders)',
+
+                // Checkpoints
+                'ml-basics.checkpoint.key.title': '✓ Self-Check: Key Concepts',
+                'ml-basics.checkpoint.key.q1': '<strong>Question:</strong> What is the difference between loss and metrics?',
+                'ml-basics.checkpoint.key.a1': '<strong>Answer:</strong> Loss is used during training to guide optimization (e.g., MSE, cross-entropy). Metrics are used to evaluate performance on validation/test sets (e.g., accuracy, F1). They can be the same (MSE as both loss and metric) or different (cross-entropy loss with accuracy metric).',
+                'ml-basics.checkpoint.key.q2': '<strong>Question:</strong> Why is overfitting a problem, and how does regularization help?',
+                'ml-basics.checkpoint.key.a2': '<strong>Answer:</strong> Overfitting means the model memorizes training data but fails on new data. Regularization (L2, dropout, early stopping) constrains the model to learn simpler, more generalizable patterns instead of memorizing noise.',
+                'ml-basics.checkpoint.key.q3': '<strong>Question:</strong> What is data leakage, and why is it dangerous?',
+                'ml-basics.checkpoint.key.a3': '<strong>Answer:</strong> Data leakage occurs when information from the test set (or future data) leaks into training. This gives falsely optimistic performance estimates and the model will fail in production. Example: using future prices to predict past prices.',
+                'ml-basics.checkpoint.key.q4': '<strong>Question:</strong> When should you use accuracy vs F1 score for classification?',
+                'ml-basics.checkpoint.key.a4': '<strong>Answer:</strong> Use accuracy when classes are balanced (similar number of examples per class). Use F1 when classes are imbalanced, as accuracy can be misleading (e.g., 99% accuracy with 99% negative examples means predicting all negatives gives high accuracy).',
+                'ml-basics.checkpoint.steps.title': '✓ Self-Check: Training Process',
+                'ml-basics.checkpoint.steps.q1': '<strong>Question:</strong> Why do we need separate validation and test sets?',
+                'ml-basics.checkpoint.steps.a1': '<strong>Answer:</strong> Validation set is used during development to tune hyperparameters and detect overfitting. Test set is used only once at the end for final evaluation. If we tune on the test set, we risk overfitting to it, giving false confidence.',
+                'ml-basics.checkpoint.steps.q2': '<strong>Question:</strong> What happens if you evaluate on the test set multiple times?',
+                'ml-basics.checkpoint.steps.a2': '<strong>Answer:</strong> Each evaluation gives you information that you might use to adjust your model, effectively making the test set part of training. This leads to overfitting to the test set and overly optimistic performance estimates.',
+                'ml-basics.checkpoint.fundamentals.title': '✓ Self-Check: Fundamentals',
+                'ml-basics.checkpoint.fundamentals.q1': '<strong>Question:</strong> In a house price prediction task, what are features and what is the label?',
+                'ml-basics.checkpoint.fundamentals.a1': '<strong>Answer:</strong> Features are the input variables (size, location, bedrooms) that we use to make predictions. The label is what we want to predict (price). Features are known at prediction time, labels are what we\'re trying to learn.',
+                'ml-basics.checkpoint.fundamentals.q2': '<strong>Question:</strong> When would you use MSE vs Cross-Entropy loss?',
+                'ml-basics.checkpoint.fundamentals.a2': '<strong>Answer:</strong> MSE is for regression (predicting continuous values like prices, temperatures). Cross-entropy is for classification (predicting categories like spam/not spam, cat/dog).',
+                'ml-basics.checkpoint.fundamentals.q3': '<strong>Question:</strong> What happens if the learning rate in gradient descent is too high?',
+                'ml-basics.checkpoint.fundamentals.a3': '<strong>Answer:</strong> The model takes steps that are too large, overshooting the minimum loss. It may bounce around or even diverge (loss increases instead of decreases). The optimization becomes unstable.',
+                'ml-basics.checkpoint.fundamentals.q4': '<strong>Question:</strong> Your model has 95% training accuracy but 65% validation accuracy. What\'s happening and what should you do?',
+                'ml-basics.checkpoint.fundamentals.a4': '<strong>Answer:</strong> This is overfitting - the model memorized training data but doesn\'t generalize. Solutions: add regularization (L2, dropout), reduce model complexity, get more training data, use early stopping, or try data augmentation.',
+
+                // Neural Networks Prerequisites
+                'nn.prerequisites.title': 'Prerequisites',
+                'nn.prerequisites.intro': 'Before diving into neural networks, you should understand:',
+                'nn.prerequisites.ml-basics': '<strong>ML Basics:</strong> Features, labels, loss functions, gradient descent, train/validation/test splits',
+                'nn.prerequisites.math': '<strong>Basic Math:</strong> Linear algebra (vectors, matrices), basic calculus (derivatives)',
+                'nn.prerequisites.functions': '<strong>Functions:</strong> Understanding of mathematical functions and their graphs',
+
+                // Attention Prerequisites
+                'attention.prerequisites.title': 'Prerequisites',
+                'attention.prerequisites.intro': 'Before learning about attention, you should understand:',
+                'attention.prerequisites.nn': '<strong>Neural Networks:</strong> Layers, neurons, weights, activation functions, forward/backward propagation',
+                'attention.prerequisites.sequences': '<strong>Sequences:</strong> How neural networks process sequential data (text, time series)',
+                'attention.prerequisites.vectors': '<strong>Vectors:</strong> Understanding of vector operations (dot product, similarity)',
+
+                // Transformer Prerequisites
+                'transformer.prerequisites.title': 'Prerequisites',
+                'transformer.prerequisites.intro': 'Before learning about transformers, you should understand:',
+                'transformer.prerequisites.attention': '<strong>Attention Mechanism:</strong> How attention computes weighted sums and focuses on relevant information',
+                'transformer.prerequisites.nn': '<strong>Neural Networks:</strong> Layers, activation functions, feed-forward networks',
+                'transformer.prerequisites.nlp': '<strong>NLP Basics:</strong> Tokenization, word embeddings, sequence-to-sequence tasks',
+
+                // Encoder-Decoder Prerequisites
+                'encoder-decoder.prerequisites.title': 'Prerequisites',
+                'encoder-decoder.prerequisites.intro': 'Before learning about encoder-decoder architectures, you should understand:',
+                'encoder-decoder.prerequisites.transformer': '<strong>Transformer Architecture:</strong> Encoder and decoder stacks, self-attention, feed-forward networks',
+                'encoder-decoder.prerequisites.attention': '<strong>Attention:</strong> Self-attention and cross-attention mechanisms',
+                'encoder-decoder.prerequisites.tasks': '<strong>NLP Tasks:</strong> Understanding of sequence-to-sequence tasks (translation, summarization)',
+
+                // Note boxes
+                'pretraining.components.performance.note': '<strong>Note:</strong> Performance numbers are approximate estimates and vary significantly based on task complexity, dataset quality, model architecture, and training setup. These ranges are illustrative examples, not guarantees.',
+// Common UI
     'ui.beginner-explanation': 'Beginner Explanation',
     'ui.technical-deep-dive': 'Technical Deep-Dive',
     'ui.examples-use-cases': 'Examples & Use Cases',
+    'ui.previous': '← Previous',
     'ui.next': 'Next →',
     'ui.reset': 'Reset',
     'ui.generate': 'Generate Random Attention',
@@ -2127,10 +2296,77 @@ const translations = {
       '<strong>Retrieved context:</strong> "Refunds are accepted within 30 days for unopened items."',
     'rag.intro.beginner.process':
       '<strong>RAG Process:</strong> Query → Retrieve Context → Augment → Generate Answer',
+    'rag.intro.examples.qa.title': 'Question Answering',
+    'rag.intro.examples.qa.description':
+      'Answer questions using up-to-date information from indexed documents, even if the base model was trained before the information existed.',
+    'rag.intro.examples.chatbot.title': 'Company Knowledge Chatbots',
+    'rag.intro.examples.chatbot.description':
+      'Create chatbots that can answer questions about company policies, products, or internal documentation without retraining the model.',
+    'rag.intro.examples.research.title': 'Research Assistance',
+    'rag.intro.examples.research.description':
+      'Help researchers find relevant papers, summarize findings, and answer questions about specific domains by indexing research databases.',
 
     'llm-problems.title': 'LLM Problems & Limitations',
     'llm-problems.intro':
       'Understanding the limitations of Large Language Models helps explain why RAG is necessary. LLMs face several critical challenges that RAG addresses.',
+    'llm-problems.beginner.title': 'Why RAG Exists',
+    'llm-problems.beginner.description':
+      'Large Language Models are incredibly powerful, but they have fundamental limitations that make them unsuitable for many real-world applications without augmentation:',
+    'llm-problems.beginner.training':
+      'They only know what was in their training data',
+    'llm-problems.beginner.cutoff':
+      'They cannot access information after their training cutoff date',
+    'llm-problems.beginner.private':
+      'They have no access to private or domain-specific data',
+    'llm-problems.beginner.hallucinate':
+      'They sometimes "hallucinate" or make up information',
+    'llm-problems.beginner.expensive': 'Training them is extremely expensive',
+    'llm-problems.beginner.solution':
+      'RAG solves these problems by giving LLMs access to external knowledge sources at inference time without requiring expensive retraining.',
+    'llm-problems.technical.title': 'Detailed Problem Analysis',
+    'llm-problems.technical.cutoff.title': '1. Knowledge Cutoff Dates',
+    'llm-problems.technical.cutoff.problem':
+      'Problem: LLMs have a training cutoff date. They have no knowledge about events, discoveries, or information that occurred after this date.',
+    'llm-problems.technical.cutoff.example':
+      'Example: GPT-3.5 was trained on data up to September 2021. It doesn\'t know about events in 2022, 2023, or 2024.',
+    'llm-problems.technical.cutoff.solution':
+      'RAG Solution: By indexing current documents, RAG can provide up-to-date information even if the base model is outdated.',
+    'llm-problems.technical.domain.title': '2. Lack of Domain-Specific Knowledge',
+    'llm-problems.technical.domain.problem':
+      'Problem: General LLMs may lack deep knowledge in specialized domains like medicine, law, or specific industries.',
+    'llm-problems.technical.domain.example':
+      'Example: Asking about a specific company\'s internal processes or proprietary technology.',
+    'llm-problems.technical.domain.solution':
+      'RAG Solution: Index domain-specific documents, research papers, or knowledge bases to provide expert-level information.',
+    'llm-problems.technical.private.title': '3. Lack of Private Data',
+    'llm-problems.technical.private.problem':
+      'Problem: LLMs cannot access private, confidential, or proprietary information that wasn\'t in their training data.',
+    'llm-problems.technical.private.example':
+      'Example: Customer data, internal reports, confidential documents.',
+    'llm-problems.technical.private.solution':
+      'RAG Solution: Index private documents in a secure vector database, allowing the LLM to access them without exposing them during training.',
+    'llm-problems.technical.sources.title': '4. Loss of Source Attribution',
+    'llm-problems.technical.sources.problem':
+      'Problem: LLMs blend information from various sources during training, making it impossible to verify or cite sources.',
+    'llm-problems.technical.sources.example':
+      'Example: Cannot tell if information came from Wikipedia, a blog, or a research paper.',
+    'llm-problems.technical.sources.solution':
+      'RAG Solution: Retrieved documents are citable, allowing users to verify sources and trust the information.',
+    'llm-problems.technical.hallucination.title':
+      '5. Probabilistic Output / Hallucination',
+    'llm-problems.technical.hallucination.problem':
+      'Problem: LLMs generate text probabilistically and can "hallucinate" - making up information that seems plausible but is incorrect.',
+    'llm-problems.technical.hallucination.example':
+      'Example: Creating fake citations, making up statistics, or inventing facts.',
+    'llm-problems.technical.hallucination.solution':
+      'RAG Solution: By grounding generation in retrieved documents, RAG reduces hallucination and produces more factual outputs.',
+    'llm-problems.technical.expense.title': '6. Computational Cost',
+    'llm-problems.technical.expense.problem':
+      'Problem: Training large language models requires massive computational resources, GPUs, and time. Updating them with new information means retraining.',
+    'llm-problems.technical.expense.example':
+      'Example: Training GPT-3 cost millions of dollars and required thousands of GPUs for weeks.',
+    'llm-problems.technical.expense.solution':
+      'RAG Solution: No retraining required. Simply add new documents to the vector database. Updating is much cheaper and faster.',
 
     'rag-arch.title': 'RAG Architecture',
     'rag-arch.intro':
@@ -2147,10 +2383,50 @@ const translations = {
     'embeddings.title': 'Embeddings',
     'embeddings.intro':
       'Embeddings convert text (or other data) into dense vector representations that capture semantic meaning. Different embedding algorithms serve different purposes in RAG systems.',
+    'embeddings.technical.evaluation.title': 'Embedding Evaluation',
+    'embeddings.technical.evaluation.description':
+      'Models are evaluated using benchmarks like MTEB (Massive Text Embedding Benchmark) that test various tasks:',
+    'embeddings.technical.evaluation.similarity': 'Semantic similarity',
+    'embeddings.technical.evaluation.clustering': 'Clustering',
+    'embeddings.technical.evaluation.classification': 'Classification',
+    'embeddings.technical.evaluation.retrieval': 'Retrieval',
 
     'retrieval.title': 'Retrieval Mechanisms',
     'retrieval.intro':
       'Retrieval is the process of finding relevant documents from the vector database given a query. Different retrieval strategies balance accuracy, speed, and computational cost.',
+    'retrieval.beginner.finding':
+      'Finding Similar Documents: When you ask a question, the system needs to find the most relevant documents. It does this by:',
+    'retrieval.beginner.convert': 'Converting your question into a vector (embedding)',
+    'retrieval.beginner.compare':
+      'Comparing this vector with all document vectors in the database',
+    'retrieval.beginner.find':
+      'Finding the most similar ones (using similarity metrics)',
+    'retrieval.beginner.return': 'Returning the top K most relevant documents',
+    'retrieval.beginner.librarian':
+      'Think of it like a librarian who understands the meaning of your question and finds books that discuss similar topics, even if they use different words.',
+    'retrieval.step.title': 'Retrieval Process',
+    'retrieval.step.1.title': 'Query Embedding',
+    'retrieval.step.1.description':
+      'The user query is converted into a dense vector using the same embedding model used for documents. This creates a numerical representation that captures the semantic meaning of the query.',
+    'retrieval.step.1.formula.label': 'Query Embedding:',
+    'retrieval.step.2.title': 'Similarity Computation',
+    'retrieval.step.2.description':
+      'The query embedding is compared with all document embeddings using a similarity metric (typically cosine similarity). This measures how semantically similar each document is to the query.',
+    'retrieval.step.2.formula.label': 'Cosine Similarity:',
+    'retrieval.step.2.formula.explanation':
+      'Measures the cosine of the angle between two vectors, ranging from -1 (opposite) to 1 (identical)',
+    'retrieval.step.3.title': 'Ranking and Selection',
+    'retrieval.step.3.description':
+      'Documents are ranked by similarity score, and the top K documents (e.g., top 5 or top 10) are selected. K is a hyperparameter that balances recall (finding all relevant docs) with precision (avoiding irrelevant docs).',
+    'retrieval.step.3.example.title': 'Top-K Retrieval',
+    'retrieval.step.3.example.description':
+      'Example: For query "machine learning basics", the system might retrieve the top 5 documents with highest cosine similarity scores.',
+    'retrieval.step.4.title': 'Document Retrieval',
+    'retrieval.step.4.description':
+      'The selected documents are retrieved from the vector database and passed to the augmentation phase, where they will be combined with the query to create a context-rich prompt for the LLM.',
+    'retrieval.step.4.example.title': 'Result',
+    'retrieval.step.4.example.description':
+      'The retrieval system returns a ranked list of documents that are semantically similar to the query, ready for augmentation and generation.',
 
     'augmentation.title': 'Augmentation',
     'augmentation.intro':
@@ -2301,8 +2577,157 @@ const translations = {
     'ml-basics.key.overfitting': '<strong>Aşırı öğrenme:</strong> genellemek yerine eğitim verisini ezberlemek',
     'ml-basics.key.regularization': '<strong>Düzenlileştirme:</strong> genelleştirmeyi iyileştiren L2, dropout, erken durdurma gibi teknikler',
     'ml-basics.key.leakage': '<strong>Veri sızıntısı:</strong> tahmin anında bulunmayacak bilgiyi eğitimde kullanmak',
+                // Prerequisites
+                'ml-basics.prerequisites.title': 'Önkoşullar',
+                'ml-basics.prerequisites.intro': 'Makine öğrenmesine dalmadan önce şunlara aşina olmalısınız:',
+                'ml-basics.prerequisites.math': '<strong>Temel Matematik:</strong> Cebir (değişkenler, denklemler), temel kalkülüs (türevler) ve istatistik (ortalama, varyans)',
+                'ml-basics.prerequisites.programming': '<strong>Programlama:</strong> Temel Python veya benzeri bir dil (değişkenler, fonksiyonlar, döngüler, koşullar)',
+                'ml-basics.prerequisites.data': '<strong>Veri Kavramları:</strong> Tablolar, satırlar, sütunlar ve temel veri manipülasyonu anlayışı',
+                'ml-basics.prerequisites.note': '<strong>Not:</strong> Bunların hepsinde uzman değilseniz endişelenmeyin! Bu rehber kavramları ilerledikçe açıklayacak, ancak bir temele sahip olmak daha hızlı öğrenmenize yardımcı olacaktır.',
 
-    // Common UI
+                // Fundamentals: Datasets
+                'ml-basics.fundamentals.datasets.title': 'Veri Setleri, Özellikler ve Etiketler',
+                'ml-basics.fundamentals.datasets.intro': 'Her makine öğrenmesi problemi veriyle başlar. Verinizin yapısını anlamak çok önemlidir.',
+                'ml-basics.fundamentals.datasets.example.title': 'Örnek: Ev Fiyatı Tahmini',
+                'ml-basics.fundamentals.datasets.example.description': 'Ev fiyatlarını tahmin etmek istediğinizi hayal edin. Veri setiniz şöyle görünebilir:',
+                'ml-basics.fundamentals.datasets.features': '<strong>Özellikler:</strong> Metrekare, Konum, Yatak Odası Sayısı (tahmin yapmak için kullandığımız bilgiler)',
+                'ml-basics.fundamentals.datasets.label': '<strong>Etiket:</strong> Fiyat (tahmin etmek istediğimiz değer)',
+                'ml-basics.fundamentals.datasets.row': '<strong>Her satır:</strong> Bir örnek (bir ev)',
+                'ml-basics.fundamentals.datasets.types': '<strong>Özellik Türleri:</strong> Özellikler sayısal (metrekare, fiyat) veya kategorik (konum: Şehir/Şehir Dışı) olabilir. Etiketler sürekli (regresyon: fiyat tahmini) veya ayrık (sınıflandırma: "pahalı" vs "ucuz" tahmini) olabilir.',
+
+                // Fundamentals: Splits
+                'ml-basics.fundamentals.splits.title': 'Eğitim/Doğrulama/Test Bölmeleri',
+                'ml-basics.fundamentals.splits.why': '<strong>Neden Veriyi Bölüyoruz?</strong> Aşırı öğrenmeyi önlemek ve modelimizin yeni, görülmemiş verilerde ne kadar iyi performans göstereceğine dair tarafsız bir tahmin elde etmek için veri setimizi böleriz.',
+                'ml-basics.fundamentals.splits.sets.title': 'Üç Set',
+                'ml-basics.fundamentals.splits.sets.train': '<strong>Eğitim Seti (70-80%):</strong> Modeli öğretmek için kullanılır. Model bu veriden örüntüler öğrenir.',
+                'ml-basics.fundamentals.splits.sets.validation': '<strong>Doğrulama Seti (10-15%):</strong> Hiperparametreleri ayarlamak ve aşırı öğrenmeyi tespit etmek için kullanılır. Eğitim için kullanılmaz.',
+                'ml-basics.fundamentals.splits.sets.test': '<strong>Test Seti (10-15%):</strong> Yalnızca sonunda gerçek dünya performansını tahmin etmek için bir kez kullanılır. Eğitim veya ayarlama sırasında asla kullanılmaz.',
+                'ml-basics.fundamentals.splits.ratios.label': 'Yaygın Bölme Oranları:',
+                'ml-basics.fundamentals.splits.ratios.explanation': 'Kesin oran veri seti boyutuna bağlıdır. Daha büyük veri setleri daha küçük doğrulama/test setleri kullanabilir.',
+                'ml-basics.fundamentals.splits.important': '<strong>Önemli:</strong> Test seti tamamen ayrı tutulmalı ve yalnızca bir kez değerlendirilmelidir. Birden fazla kez kullanmak test setine aşırı öğrenmeye yol açabilir!',
+
+                // Fundamentals: Loss
+                'ml-basics.fundamentals.loss.title': 'Kayıp Fonksiyonları',
+                'ml-basics.fundamentals.loss.intro': 'Bir kayıp fonksiyonu tahminlerimizin ne kadar yanlış olduğunu ölçer. Modelin amacı eğitim sırasında bu kaybı en aza indirmektir.',
+                'ml-basics.fundamentals.loss.regression.title': 'Regresyon: Ortalama Kare Hatası (MSE)',
+                'ml-basics.fundamentals.loss.regression.description': 'Sürekli değerleri tahmin ederken kullanılır (ev fiyatları, sıcaklıklar gibi).',
+                'ml-basics.fundamentals.loss.regression.formula.label': 'MSE Formülü:',
+                'ml-basics.fundamentals.loss.regression.formula.explanation': 'Burada y_i gerçek değer, ŷ_i tahmin edilen değer ve n örnek sayısıdır. Kare alma büyük hataları daha fazla cezalandırır.',
+                'ml-basics.fundamentals.loss.regression.example': '<strong>Örnek:</strong> Gerçek fiyat 300.000$ ve biz 280.000$ tahmin edersek, hata (300.000 - 280.000)² = 400.000.000\'dır.',
+                'ml-basics.fundamentals.loss.classification.title': 'Sınıflandırma: Çapraz Entropi Kaybı',
+                'ml-basics.fundamentals.loss.classification.description': 'Kategorileri tahmin ederken kullanılır ("kedi" vs "köpek", "spam" vs "spam değil" gibi).',
+                'ml-basics.fundamentals.loss.classification.formula.label': 'Çapraz Entropi Kaybı:',
+                'ml-basics.fundamentals.loss.classification.formula.explanation': 'Burada y_i gerçek sınıf (0 veya 1) ve ŷ_i tahmin edilen olasılıktır. Bu, kendinden emin yanlış tahminleri ağır şekilde cezalandırır.',
+
+                // Fundamentals: Gradient
+                'ml-basics.fundamentals.gradient.title': 'Gradyan İnişi',
+                'ml-basics.fundamentals.gradient.intro': 'Gradyan inişi, model parametrelerini ayarlayarak kayıp fonksiyonunu en aza indiren algoritmadır.',
+                'ml-basics.fundamentals.gradient.analogy.title': 'Sezgisel Benzetme: Yokuş Aşağı Yürümek',
+                'ml-basics.fundamentals.gradient.analogy.description': 'Bir tepede gözleriniz kapalı olduğunu ve en alta (minimum kayıp) ulaşmak istediğinizi hayal edin. Eğimi ayaklarınızla hissedersiniz (gradyan) ve en dik aşağı yönde adımlar atarsınız. Adımlarınızın boyutu öğrenme oranıdır.',
+                'ml-basics.fundamentals.gradient.formula.label': 'Gradyan İnişi Güncellemesi:',
+                'ml-basics.fundamentals.gradient.formula.explanation': 'Öğrenme oranı α ile ölçeklendirilmiş gradyanın (∇L) tersi yönde hareket ederek θ parametrelerini güncelle.',
+                'ml-basics.fundamentals.gradient.learning.title': 'Öğrenme Oranı',
+                'ml-basics.fundamentals.gradient.learning.too-high': '<strong>Çok yüksek:</strong> Minimumu aşar, ıraksayabilir',
+                'ml-basics.fundamentals.gradient.learning.too-low': '<strong>Çok düşük:</strong> Yakınsamak sonsuza kadar sürer, yerel minimumlarda takılır',
+                'ml-basics.fundamentals.gradient.learning.just-right': '<strong>Tam doğru:</strong> İyi bir çözüme verimli şekilde yakınsar',
+                'ml-basics.fundamentals.gradient.variants.title': 'Varyantlar',
+                'ml-basics.fundamentals.gradient.variants.batch': '<strong>Toplu Gradyan İnişi:</strong> Her güncelleme için tüm veri setini kullanır (yavaş ama kararlı)',
+                'ml-basics.fundamentals.gradient.variants.stochastic': '<strong>Stokastik Gradyan İnişi (SGD):</strong> Her seferinde bir örnek kullanır (hızlı ama gürültülü)',
+                'ml-basics.fundamentals.gradient.variants.mini': '<strong>Mini-toplu SGD:</strong> Küçük toplu gruplar kullanır (her iki dünyanın da en iyisi, en yaygın)',
+
+                // Fundamentals: Overfitting
+                'ml-basics.fundamentals.overfitting.title': 'Aşırı Öğrenme ve Düzenlileştirme',
+                'ml-basics.fundamentals.overfitting.intro': 'Aşırı öğrenme, bir modelin genel örüntüler öğrenmek yerine eğitim verisini ezberlediğinde ortaya çıkar. Düzenlileştirme teknikleri bunu önlemeye yardımcı olur.',
+                'ml-basics.fundamentals.overfitting.signs.title': 'Aşırı Öğrenme Belirtileri',
+                'ml-basics.fundamentals.overfitting.signs.training': '<strong>Eğitim doğruluğu:</strong> Çok yüksek (%95+)',
+                'ml-basics.fundamentals.overfitting.signs.validation': '<strong>Doğrulama doğruluğu:</strong> Çok daha düşük (%60-70)',
+                'ml-basics.fundamentals.overfitting.signs.gap': '<strong>Büyük fark:</strong> Model eğitimde iyi performans gösterir ancak yeni verilerde kötü performans gösterir',
+                'ml-basics.fundamentals.overfitting.signs.note': '<strong>Not:</strong> Bu doğruluk yüzdeleri örnekleyici örneklerdir. Gerçek sayılar görev karmaşıklığına, veri seti boyutuna ve model mimarisine göre değişir. Ana gösterge, eğitim ve doğrulama performansı arasındaki büyük farktır.',
+                'ml-basics.fundamentals.overfitting.regularization.title': 'Düzenlileştirme Teknikleri',
+                'ml-basics.fundamentals.overfitting.regularization.l2': '<strong>L2 Düzenlileştirme:</strong> Büyük ağırlıkları cezalandırır, daha küçük parametre değerlerini teşvik eder',
+                'ml-basics.fundamentals.overfitting.regularization.dropout': '<strong>Dropout:</strong> Eğitim sırasında bağımlılığı önlemek için nöronları rastgele devre dışı bırakır',
+                'ml-basics.fundamentals.overfitting.regularization.early': '<strong>Erken Durdurma:</strong> Doğrulama kaybı iyileşmeyi durdurduğunda eğitimi durdur',
+                'ml-basics.fundamentals.overfitting.regularization.data': '<strong>Veri Artırma:</strong> Dönüşümlerle eğitim verisini yapay olarak artırır',
+                'ml-basics.fundamentals.overfitting.l2.formula.label': 'L2 Düzenlileştirme:',
+                'ml-basics.fundamentals.overfitting.l2.formula.explanation': 'Kayıp fonksiyonuna λΣw² ceza terimi ekler, burada λ düzenlileştirme gücünü kontrol eder.',
+
+                // Fundamentals: Metrics
+                'ml-basics.fundamentals.metrics.title': 'Değerlendirme Metrikleri',
+                'ml-basics.fundamentals.metrics.intro': 'Metrikler modelinizin ne kadar iyi performans gösterdiğini ölçer. Farklı görevler farklı metrikler gerektirir.',
+                'ml-basics.fundamentals.metrics.classification.title': 'Sınıflandırma Metrikleri',
+                'ml-basics.fundamentals.metrics.classification.intro': 'Kategorileri tahmin ederken (spam/spam değil, kedi/köpek):',
+                'ml-basics.fundamentals.metrics.classification.accuracy': '<strong>Doğruluk:</strong> Doğru tahminlerin yüzdesi. Dengeli sınıflar için iyidir.',
+                'ml-basics.fundamentals.metrics.classification.precision': '<strong>Kesinlik:</strong> Tahmin edilen pozitiflerden kaçı gerçekten pozitifti? (Yanlış pozitifleri önler)',
+                'ml-basics.fundamentals.metrics.classification.recall': '<strong>Duyarlılık:</strong> Gerçek pozitiflerden kaçını bulduk? (Yanlış negatifleri önler)',
+                'ml-basics.fundamentals.metrics.classification.f1': '<strong>F1 Skoru:</strong> Kesinlik ve duyarlılığın harmonik ortalaması. Denge gerektiğinde iyidir.',
+                'ml-basics.fundamentals.metrics.classification.f1.formula.label': 'F1 Skoru:',
+                'ml-basics.fundamentals.metrics.regression.title': 'Regresyon Metrikleri',
+                'ml-basics.fundamentals.metrics.regression.intro': 'Sürekli değerleri tahmin ederken (fiyatlar, sıcaklıklar):',
+                'ml-basics.fundamentals.metrics.regression.mae': '<strong>MAE (Ortalama Mutlak Hata):</strong> Ortalama mutlak fark. Yorumlaması kolaydır (örneğin, "ortalama olarak 5.000$ farkla")',
+                'ml-basics.fundamentals.metrics.regression.mse': '<strong>MSE (Ortalama Kare Hatası):</strong> Ortalama kare fark. Büyük hataları daha fazla cezalandırır.',
+                'ml-basics.fundamentals.metrics.regression.rmse': '<strong>RMSE (Kök Ortalama Kare Hatası):</strong> MSE\'nin karekökü. Hedef değişkenle aynı birimlere sahiptir.',
+                'ml-basics.fundamentals.metrics.regression.r2': '<strong>R² (R-kare):</strong> Açıklanan varyans oranı. 1.0 = mükemmel, 0.0 = ortalamadan daha iyi değil.',
+                'ml-basics.fundamentals.metrics.choosing.title': 'Doğru Metriği Seçme',
+                'ml-basics.fundamentals.metrics.choosing.imbalanced': '<strong>Dengesiz sınıflar:</strong> Doğruluk yerine F1 veya Kesinlik/Duyarlılık kullanın',
+                'ml-basics.fundamentals.metrics.choosing.outliers': '<strong>Aykırı değerler önemli:</strong> MSE/RMSE kullanın (büyük hataları cezalandırır)',
+                'ml-basics.fundamentals.metrics.choosing.interpretable': '<strong>Yorumlanabilirlik gerekiyor:</strong> MAE kullanın (paydaşlara açıklaması kolay)',
+
+                // Checkpoints
+                'ml-basics.checkpoint.key.title': '✓ Kendi Kendini Kontrol: Ana Kavramlar',
+                'ml-basics.checkpoint.key.q1': '<strong>Soru:</strong> Kayıp ve metrikler arasındaki fark nedir?',
+                'ml-basics.checkpoint.key.a1': '<strong>Cevap:</strong> Kayıp, optimizasyonu yönlendirmek için eğitim sırasında kullanılır (örneğin, MSE, çapraz entropi). Metrikler doğrulama/test setlerinde performansı değerlendirmek için kullanılır (örneğin, doğruluk, F1). Aynı olabilirler (MSE hem kayıp hem de metrik olarak) veya farklı olabilirler (doğruluk metriği ile çapraz entropi kaybı).',
+                'ml-basics.checkpoint.key.q2': '<strong>Soru:</strong> Aşırı öğrenme neden bir sorundur ve düzenlileştirme nasıl yardımcı olur?',
+                'ml-basics.checkpoint.key.a2': '<strong>Cevap:</strong> Aşırı öğrenme, modelin eğitim verisini ezberlediği ancak yeni verilerde başarısız olduğu anlamına gelir. Düzenlileştirme (L2, dropout, erken durdurma) modeli gürültüyü ezberlemek yerine daha basit, daha genellenebilir örüntüler öğrenmeye zorlar.',
+                'ml-basics.checkpoint.key.q3': '<strong>Soru:</strong> Veri sızıntısı nedir ve neden tehlikelidir?',
+                'ml-basics.checkpoint.key.a3': '<strong>Cevap:</strong> Veri sızıntısı, test setinden (veya gelecekteki verilerden) bilgilerin eğitime sızması durumunda ortaya çıkar. Bu yanlış iyimser performans tahminleri verir ve model üretimde başarısız olacaktır. Örnek: geçmiş fiyatları tahmin etmek için gelecekteki fiyatları kullanmak.',
+                'ml-basics.checkpoint.key.q4': '<strong>Soru:</strong> Sınıflandırma için ne zaman doğruluk ne zaman F1 skoru kullanmalısınız?',
+                'ml-basics.checkpoint.key.a4': '<strong>Cevap:</strong> Sınıflar dengeli olduğunda (sınıf başına benzer sayıda örnek) doğruluğu kullanın. Sınıflar dengesiz olduğunda F1 kullanın, çünkü doğruluk yanıltıcı olabilir (örneğin, %99 negatif örnekle %99 doğruluk, tüm negatifleri tahmin etmenin yüksek doğruluk verdiği anlamına gelir).',
+                'ml-basics.checkpoint.steps.title': '✓ Kendi Kendini Kontrol: Eğitim Süreci',
+                'ml-basics.checkpoint.steps.q1': '<strong>Soru:</strong> Neden ayrı doğrulama ve test setlerine ihtiyacımız var?',
+                'ml-basics.checkpoint.steps.a1': '<strong>Cevap:</strong> Doğrulama seti geliştirme sırasında hiperparametreleri ayarlamak ve aşırı öğrenmeyi tespit etmek için kullanılır. Test seti yalnızca sonunda nihai değerlendirme için bir kez kullanılır. Test setinde ayarlama yaparsak, ona aşırı öğrenme riski taşırız ve yanlış güven veririz.',
+                'ml-basics.checkpoint.steps.q2': '<strong>Soru:</strong> Test setinde birden fazla kez değerlendirme yaparsanız ne olur?',
+                'ml-basics.checkpoint.steps.a2': '<strong>Cevap:</strong> Her değerlendirme modelinizi ayarlamak için kullanabileceğiniz bilgi verir, bu da etkili olarak test setini eğitimin bir parçası haline getirir. Bu, test setine aşırı öğrenmeye ve aşırı iyimser performans tahminlerine yol açar.',
+                'ml-basics.checkpoint.fundamentals.title': '✓ Kendi Kendini Kontrol: Temeller',
+                'ml-basics.checkpoint.fundamentals.q1': '<strong>Soru:</strong> Bir ev fiyatı tahmin görevinde özellikler nedir ve etiket nedir?',
+                'ml-basics.checkpoint.fundamentals.a1': '<strong>Cevap:</strong> Özellikler tahmin yapmak için kullandığımız girdi değişkenleridir (metrekare, konum, yatak odası sayısı). Etiket tahmin etmek istediğimiz şeydir (fiyat). Özellikler tahmin zamanında bilinir, etiketler öğrenmeye çalıştığımız şeydir.',
+                'ml-basics.checkpoint.fundamentals.q2': '<strong>Soru:</strong> MSE\'yi ne zaman Çapraz Entropi kaybına karşı kullanırsınız?',
+                'ml-basics.checkpoint.fundamentals.a2': '<strong>Cevap:</strong> MSE regresyon için kullanılır (fiyatlar, sıcaklıklar gibi sürekli değerleri tahmin etmek). Çapraz entropi sınıflandırma için kullanılır (spam/spam değil, kedi/köpek gibi kategorileri tahmin etmek).',
+                'ml-basics.checkpoint.fundamentals.q3': '<strong>Soru:</strong> Gradyan inişindeki öğrenme oranı çok yüksekse ne olur?',
+                'ml-basics.checkpoint.fundamentals.a3': '<strong>Cevap:</strong> Model çok büyük adımlar atar, minimum kaybı aşar. Etrafında zıplayabilir veya hatta ıraksayabilir (kayıp azalmak yerine artar). Optimizasyon kararsız hale gelir.',
+                'ml-basics.checkpoint.fundamentals.q4': '<strong>Soru:</strong> Modelinizin %95 eğitim doğruluğu var ancak %65 doğrulama doğruluğu var. Ne oluyor ve ne yapmalısınız?',
+                'ml-basics.checkpoint.fundamentals.a4': '<strong>Cevap:</strong> Bu aşırı öğrenmedir - model eğitim verisini ezberledi ancak genelleme yapmıyor. Çözümler: düzenlileştirme ekleyin (L2, dropout), model karmaşıklığını azaltın, daha fazla eğitim verisi alın, erken durdurma kullanın veya veri artırmayı deneyin.',
+
+                // Neural Networks Prerequisites
+                'nn.prerequisites.title': 'Prerequisites',
+                'nn.prerequisites.intro': 'Before diving into neural networks, you should understand:',
+                'nn.prerequisites.ml-basics': '<strong>ML Basics:</strong> Features, labels, loss functions, gradient descent, train/validation/test splits',
+                'nn.prerequisites.math': '<strong>Basic Math:</strong> Linear algebra (vectors, matrices), basic calculus (derivatives)',
+                'nn.prerequisites.functions': '<strong>Functions:</strong> Understanding of mathematical functions and their graphs',
+
+                // Attention Prerequisites
+                'attention.prerequisites.title': 'Prerequisites',
+                'attention.prerequisites.intro': 'Before learning about attention, you should understand:',
+                'attention.prerequisites.nn': '<strong>Neural Networks:</strong> Layers, neurons, weights, activation functions, forward/backward propagation',
+                'attention.prerequisites.sequences': '<strong>Sequences:</strong> How neural networks process sequential data (text, time series)',
+                'attention.prerequisites.vectors': '<strong>Vectors:</strong> Understanding of vector operations (dot product, similarity)',
+
+                // Transformer Prerequisites
+                'transformer.prerequisites.title': 'Prerequisites',
+                'transformer.prerequisites.intro': 'Before learning about transformers, you should understand:',
+                'transformer.prerequisites.attention': '<strong>Attention Mechanism:</strong> How attention computes weighted sums and focuses on relevant information',
+                'transformer.prerequisites.nn': '<strong>Neural Networks:</strong> Layers, activation functions, feed-forward networks',
+                'transformer.prerequisites.nlp': '<strong>NLP Basics:</strong> Tokenization, word embeddings, sequence-to-sequence tasks',
+
+                // Encoder-Decoder Prerequisites
+                'encoder-decoder.prerequisites.title': 'Prerequisites',
+                'encoder-decoder.prerequisites.intro': 'Before learning about encoder-decoder architectures, you should understand:',
+                'encoder-decoder.prerequisites.transformer': '<strong>Transformer Architecture:</strong> Encoder and decoder stacks, self-attention, feed-forward networks',
+                'encoder-decoder.prerequisites.attention': '<strong>Attention:</strong> Self-attention and cross-attention mechanisms',
+                'encoder-decoder.prerequisites.tasks': '<strong>NLP Tasks:</strong> Understanding of sequence-to-sequence tasks (translation, summarization)',
+
+                // Note boxes
+                'pretraining.components.performance.note': '<strong>Note:</strong> Performance numbers are approximate estimates and vary significantly based on task complexity, dataset quality, model architecture, and training setup. These ranges are illustrative examples, not guarantees.',
+// Common UI
     'ui.beginner-explanation': 'Başlangıç Açıklaması',
     'ui.technical-deep-dive': 'Teknik Derinlemesine İnceleme',
     'ui.examples-use-cases': 'Örnekler ve Kullanım Alanları',
@@ -4301,8 +4726,20 @@ const translations = {
 };
 
 function captureEnglishBase() {
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4620',message:'captureEnglishBase called',data:{elementsFound:document.querySelectorAll('[data-translate]').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+  // #endregion
   document.querySelectorAll('[data-translate]').forEach((element) => {
     if (element.dataset.enCaptured === 'true') return;
+    const key = element.getAttribute('data-translate');
+    const tagName = element.tagName;
+    const innerHTML = element.innerHTML;
+    const isEmpty = !innerHTML || innerHTML.trim() === '';
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4621',message:'Capturing element',data:{key,tagName,isEmpty,innerHTMLLength:innerHTML.length,hasContent:innerHTML.length>0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+    
     if (
       element.tagName === 'INPUT' &&
       (element.type === 'button' || element.type === 'submit')
@@ -4316,17 +4753,61 @@ function captureEnglishBase() {
 }
 
 function restoreEnglish(element) {
+  const key = element.getAttribute('data-translate');
+  const tagName = element.tagName;
+  const hasEnHtml = typeof element.dataset.enHtml === 'string';
+  const hasEnValue = typeof element.dataset.enValue === 'string';
+  const enHtmlLength = hasEnHtml ? element.dataset.enHtml.length : 0;
+  const enHtmlIsEmpty = hasEnHtml && element.dataset.enHtml.trim() === '';
+  
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4635',message:'restoreEnglish called',data:{key,tagName,hasEnHtml,hasEnValue,enHtmlLength,enHtmlIsEmpty,currentInnerHTML:element.innerHTML.length},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
+  // #endregion
+  
   if (
     element.tagName === 'INPUT' &&
     (element.type === 'button' || element.type === 'submit')
   ) {
-    if (typeof element.dataset.enValue === 'string') {
+    if (typeof element.dataset.enValue === 'string' && element.dataset.enValue.trim() !== '') {
       element.value = element.dataset.enValue;
+      // #region agent log
+      fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4641',message:'Restored input value',data:{key,value:element.value},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
+      // #endregion
+    } else if (translations.en && translations.en[key]) {
+      // Fallback to English translation if no captured value
+      element.value = translations.en[key];
+      // #region agent log
+      fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4643',message:'Restored input from translations',data:{key,value:element.value},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
+      // #endregion
     }
     return;
   }
-  if (typeof element.dataset.enHtml === 'string') {
+  
+  // If we have captured HTML and it's not empty, use it
+  if (hasEnHtml && !enHtmlIsEmpty) {
     element.innerHTML = element.dataset.enHtml;
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4646',message:'Restored innerHTML',data:{key,innerHTMLLength:element.innerHTML.length},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+  } else if (translations.en && translations.en[key]) {
+    // Fallback to English translation if no captured HTML or it's empty
+    const translation = translations.en[key];
+    if (
+      translation.includes('<strong>') ||
+      translation.includes('<em>') ||
+      translation.includes('<br')
+    ) {
+      element.innerHTML = translation;
+    } else {
+      element.textContent = translation;
+    }
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4655',message:'Restored from translations',data:{key,translationLength:translation.length},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+  } else {
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4658',message:'No enHtml or translation to restore',data:{key,tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
   }
 }
 
@@ -4348,6 +4829,9 @@ function initLanguage() {
 }
 
 function switchLanguage(lang) {
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4667',message:'switchLanguage called',data:{lang,previousLang:currentLanguage,hasTranslations:!!translations[lang]},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+  // #endregion
   if (lang !== 'en' && lang !== 'tr') return;
 
   currentLanguage = lang;
@@ -4385,13 +4869,49 @@ function updateLanguageUI() {
 }
 
 function translatePage() {
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4704',message:'translatePage called',data:{currentLanguage,elementsCount:document.querySelectorAll('[data-translate]').length,hasTranslations:!!translations[currentLanguage]},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
   // Translate elements with data-translate attribute
+  let translatedCount = 0;
+  let missingCount = 0;
+  let emptyCount = 0;
+  
   document.querySelectorAll('[data-translate]').forEach((element) => {
     const key = element.getAttribute('data-translate');
+    const tagName = element.tagName;
+    const isEmpty = !element.innerHTML || element.innerHTML.trim() === '';
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4706',message:'Processing element',data:{key,tagName,isEmpty,currentLanguage,innerHTMLLength:element.innerHTML.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+    
     if (currentLanguage === 'en') {
       restoreEnglish(element);
       return;
     }
+    
+    // Always use translations object, don't rely on captured HTML
+    const hasTranslation = translations[currentLanguage] && translations[currentLanguage][key];
+    const translation = hasTranslation ? translations[currentLanguage][key] : null;
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4712',message:'Translation lookup',data:{key,hasTranslation,translationLength:translation?translation.length:0,isEmpty},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+    // #endregion
+    
+    if (hasTranslation) {
+      translatedCount++;
+    } else {
+      missingCount++;
+      // #region agent log
+      fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4712',message:'Missing translation',data:{key,tagName,isEmpty,currentLanguage},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+      // #endregion
+    }
+    
+    if (isEmpty) {
+      emptyCount++;
+    }
+    
     if (translations[currentLanguage] && translations[currentLanguage][key]) {
       const translation = translations[currentLanguage][key];
       if (
@@ -4460,11 +4980,18 @@ function translatePage() {
             }
           } else {
             element.textContent = translation;
+            // #region agent log
+            fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4779',message:'Set textContent',data:{key,tagName,translationLength:translation.length,afterContent:element.textContent.substring(0,50)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+            // #endregion
           }
         }
       }
     }
   });
+  
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/776ce0c1-a5df-4178-9dd2-46362dce60e6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'scripts.js:4784',message:'translatePage summary',data:{translatedCount,missingCount,emptyCount,currentLanguage},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
 
   // Translate section headings that might not have data-translate
   translateSectionHeadings();
@@ -4644,20 +5171,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Check if TensorFlow.js is loaded
   if (typeof tf === 'undefined') {
-    console.error('TensorFlow.js is not loaded!');
-    alert(
-      'Error: TensorFlow.js library failed to load. Please check your internet connection and refresh the page.',
-    );
+    showError('TensorFlow.js library failed to load. Please check your internet connection and refresh the page.');
     return;
   }
   console.log('TensorFlow.js loaded successfully');
 
   // Check if D3.js is loaded
   if (typeof d3 === 'undefined') {
-    console.error('D3.js is not loaded!');
-    alert(
-      'Error: D3.js library failed to load. Please check your internet connection and refresh the page.',
-    );
+    showError('D3.js library failed to load. Please check your internet connection and refresh the page.');
     return;
   }
   console.log('D3.js loaded successfully');
@@ -4667,21 +5188,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const nnViz = new NeuralNetworkViz('nn-canvas');
     console.log('Neural network viz initialized');
   } catch (e) {
-    console.error('Error initializing neural network viz:', e);
+    showError(`Error initializing neural network visualization: ${e.message}`);
   }
 
   try {
     const attViz = new AttentionViz('attention-viz');
     console.log('Attention viz initialized');
   } catch (e) {
-    console.error('Error initializing attention viz:', e);
+    showError(`Error initializing attention visualization: ${e.message}`);
   }
 
   try {
     const transViz = new TransformerViz('transformer-viz');
     console.log('Transformer viz initialized');
   } catch (e) {
-    console.error('Error initializing transformer viz:', e);
+    showError(`Error initializing transformer visualization: ${e.message}`);
   }
 
   // ============================================

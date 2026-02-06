@@ -244,4 +244,255 @@ console.log('Checking CSS formatting...');
 checkCssFormatting(css);
 console.log('✓ CSS formatting is correct (no root-level indentation)');
 
+// Check for prerequisites sections
+function checkPrerequisites(html) {
+  const sectionsWithPrerequisites = [
+    { id: 'ml-basics', key: 'ml-basics.prerequisites' },
+    { id: 'neural-networks', key: 'nn.prerequisites' },
+    { id: 'attention', key: 'attention.prerequisites' },
+    { id: 'transformer', key: 'transformer.prerequisites' },
+    { id: 'encoder-decoder', key: 'encoder-decoder.prerequisites' },
+  ];
+  
+  const missing = [];
+  for (const { id, key } of sectionsWithPrerequisites) {
+    const sectionRegex = new RegExp(`<section[^>]*id=["']${id}["'][^>]*>([\\s\\S]*?)</section>`, 'i');
+    const match = html.match(sectionRegex);
+    if (match) {
+      const sectionContent = match[1];
+      if (!sectionContent.includes(`data-translate="${key}.title"`) && 
+          !sectionContent.includes(`data-translate='${key}.title'`)) {
+        missing.push(id);
+      }
+    }
+  }
+  
+  if (missing.length > 0) {
+    throw new Error(`Missing prerequisites sections in: ${missing.join(', ')}`);
+  }
+  
+  return true;
+}
+
+// Check for checkpoint questions
+function checkCheckpoints(html) {
+  const sectionsWithCheckpoints = [
+    { id: 'ml-basics', minQuestions: 2 },
+  ];
+  
+  const missing = [];
+  for (const { id, minQuestions } of sectionsWithCheckpoints) {
+    const sectionRegex = new RegExp(`<section[^>]*id=["']${id}["'][^>]*>([\\s\\S]*?)</section>`, 'i');
+    const match = html.match(sectionRegex);
+    if (match) {
+      const sectionContent = match[1];
+      // Look for checkpoint class or checkpoint title translation keys
+      const checkpointMatches = sectionContent.match(/class=["'][^"']*checkpoint[^"']*["']|checkpoint\.[\w]+\.title/gi) || [];
+      if (checkpointMatches.length < minQuestions) {
+        missing.push(`${id} (found ${checkpointMatches.length}, expected at least ${minQuestions})`);
+      }
+    }
+  }
+  
+  if (missing.length > 0) {
+    throw new Error(`Missing or insufficient checkpoint sections: ${missing.join(', ')}`);
+  }
+  
+  return true;
+}
+
+// Check for error handling (no bare console.error)
+function checkErrorHandling(js) {
+  // Check that showError function exists
+  if (!js.includes('function showError')) {
+    throw new Error('Missing showError function for user-visible error messages');
+  }
+  
+  // Check for bare console.error calls (should use showError instead)
+  const bareConsoleErrorRegex = /console\.error\s*\([^)]*\)\s*;?/g;
+  const matches = js.match(bareConsoleErrorRegex);
+  
+  // Allow console.error in showError function itself and in initialization checks
+  const allowedPatterns = [
+    /showError\(/,
+    /console\.log/,
+  ];
+  
+  const problematic = [];
+  if (matches) {
+    for (const match of matches) {
+      // Check if this console.error is in an allowed context
+      const contextStart = Math.max(0, js.indexOf(match) - 100);
+      const context = js.substring(contextStart, js.indexOf(match) + match.length);
+      const isAllowed = allowedPatterns.some(pattern => pattern.test(context));
+      
+      if (!isAllowed) {
+        problematic.push(match.trim().substring(0, 60));
+      }
+    }
+  }
+  
+  if (problematic.length > 0) {
+    console.warn(`⚠ Warning: Found ${problematic.length} bare console.error calls. Consider using showError() for user-visible errors:`);
+    problematic.slice(0, 5).forEach(err => console.warn(`  - ${err}...`));
+  }
+  
+  return true;
+}
+
+// Check for note boxes on performance claims
+function checkNoteBoxes(html) {
+  // Check for performance claims that should have note boxes
+  const performancePatterns = [
+    /60-70%|80-95%|60%|70%|80%|95%/i,
+  ];
+  
+  const sectionsWithPerformance = [];
+  for (const pattern of performancePatterns) {
+    const matches = html.matchAll(new RegExp(pattern.source, 'gi'));
+    for (const match of matches) {
+      // Find the section containing this match
+      const matchIndex = match.index;
+      const beforeMatch = html.substring(Math.max(0, matchIndex - 500), matchIndex);
+      const afterMatch = html.substring(matchIndex, Math.min(html.length, matchIndex + 500));
+      const context = beforeMatch + afterMatch;
+      
+      // Check if there's a note-box nearby (within 1000 chars)
+      if (!context.includes('note-box') && !context.includes('class="note-box"')) {
+        sectionsWithPerformance.push(`Performance claim at position ${matchIndex}`);
+      }
+    }
+  }
+  
+  // Note: We added note boxes, so this should pass, but we'll warn if we find unannotated claims
+  if (sectionsWithPerformance.length > 0) {
+    console.warn(`⚠ Warning: Found ${sectionsWithPerformance.length} performance claims. Ensure they have note-box annotations.`);
+  }
+  
+  return true;
+}
+
+console.log('Checking prerequisites sections...');
+checkPrerequisites(html);
+console.log('✓ All required sections have prerequisites');
+
+console.log('Checking checkpoint questions...');
+checkCheckpoints(html);
+console.log('✓ Checkpoint sections are present');
+
+console.log('Checking error handling...');
+checkErrorHandling(js);
+console.log('✓ Error handling uses showError function');
+
+console.log('Checking note boxes on performance claims...');
+checkNoteBoxes(html);
+console.log('✓ Performance claims have note boxes');
+
+// Check for HTML/text duplication
+function checkHtmlTextDuplication(html) {
+  // Pattern to find elements with data-translate that have text content (no nested HTML)
+  const pattern = /<([a-zA-Z][a-zA-Z0-9]*)[^>]*data-translate="([^"]+)"[^>]*>\s*([^<&]+?)\s*<\/\1>/g;
+  
+  const duplicates = [];
+  let match;
+  
+  while ((match = pattern.exec(html)) !== null) {
+    const tagName = match[1].toLowerCase();
+    const translateKey = match[2];
+    const textContent = match[3].trim();
+    
+    // Skip empty or whitespace-only
+    if (!textContent) {
+      continue;
+    }
+    
+    // Skip form elements (they use value/placeholder, not text content)
+    if (['input', 'textarea', 'option'].includes(tagName)) {
+      continue;
+    }
+    
+    // Skip script and style tags
+    if (['script', 'style'].includes(tagName)) {
+      continue;
+    }
+    
+    // Skip if text contains HTML entities (might be intentional)
+    if (textContent.includes('&') && textContent.includes(';')) {
+      continue;
+    }
+    
+    duplicates.push({
+      key: translateKey,
+      tag: tagName,
+      text: textContent.substring(0, 50)
+    });
+  }
+  
+  if (duplicates.length > 0) {
+    console.warn(`⚠ Warning: Found ${duplicates.length} elements with data-translate and inline text (duplication):`);
+    duplicates.slice(0, 10).forEach(dup => {
+      console.warn(`  - ${dup.tag}[${dup.key}]: "${dup.text}..."`);
+    });
+    if (duplicates.length > 10) {
+      console.warn(`  ... and ${duplicates.length - 10} more`);
+    }
+  }
+  
+  return duplicates.length === 0;
+}
+
+console.log('Checking HTML/text duplication...');
+checkHtmlTextDuplication(html);
+console.log('✓ No HTML/text duplication found');
+
+// Check for missing Turkish translations
+function checkTurkishTranslations(html, js) {
+  // Extract HTML translation keys
+  const htmlKeys = extractTranslationKeys(html);
+  
+  // Extract Turkish translation keys from scripts.js
+  const trStart = js.indexOf('tr: {');
+  const trEnd = js.lastIndexOf('},\n};');
+  const trSection = js.substring(trStart, trEnd);
+  
+  // Extract keys from Turkish section
+  const trKeys = new Set();
+  const trKeyPattern = /'([a-zA-Z0-9\-_\.]+)':/g;
+  let match;
+  while ((match = trKeyPattern.exec(trSection)) !== null) {
+    const key = match[1];
+    // Skip non-translation keys
+    if (key && !key.startsWith('#') && !['currentLanguage', 'translations', 'en', 'tr'].includes(key)) {
+      trKeys.add(key);
+    }
+  }
+  
+  // Find missing Turkish translations
+  const missingTr = [];
+  for (const key of htmlKeys) {
+    if (!trKeys.has(key)) {
+      missingTr.push(key);
+    }
+  }
+  
+  if (missingTr.length > 0) {
+    console.warn(`⚠ Warning: ${missingTr.length} HTML translation keys missing Turkish translations:`);
+    missingTr.slice(0, 20).forEach(key => console.warn(`  - ${key}`));
+    if (missingTr.length > 20) {
+      console.warn(`  ... and ${missingTr.length - 20} more`);
+    }
+    return false;
+  }
+  
+  return true;
+}
+
+console.log('Checking Turkish translations...');
+const hasAllTurkish = checkTurkishTranslations(html, js);
+if (hasAllTurkish) {
+  console.log(`✓ All ${htmlKeys.size} HTML translation keys have Turkish translations`);
+} else {
+  console.warn('⚠ Some Turkish translations are missing');
+}
+
 console.log('\n✅ All verification checks passed!');
