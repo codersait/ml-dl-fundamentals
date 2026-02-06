@@ -2518,6 +2518,260 @@ const translations = {
     'rag-recipes.title': 'RAG Recipes',
     'rag-recipes.intro':
       'Different RAG implementations use different strategies for how retrieved documents are used during generation. The two main recipes are RAG Sequence and RAG Token.',
+
+    // Learning Path
+    'learning-path.title': 'Learning Path',
+    'learning-path.intro': 'Follow this structured path from beginner to advanced concepts. Each level builds on the previous one.',
+    'learning-path.beginner.badge': 'BEGINNER',
+    'learning-path.beginner.title': 'Beginner Level',
+    'learning-path.beginner.description': 'Start here! Learn the fundamentals of machine learning and neural networks.',
+    'learning-path.beginner.item1': 'ML Basics',
+    'learning-path.beginner.item2': 'Neural Networks',
+    'learning-path.intermediate.badge': 'INTERMEDIATE',
+    'learning-path.intermediate.title': 'Intermediate Level',
+    'learning-path.intermediate.description': 'Build on fundamentals with specialized architectures and advanced concepts.',
+    'learning-path.intermediate.item1': 'CNN & RNN',
+    'learning-path.intermediate.item2': 'Generative AI',
+    'learning-path.intermediate.item3': 'Attention',
+    'learning-path.intermediate.item4': 'Transformer',
+    'learning-path.intermediate.item5': 'Encoder/Decoder',
+    'learning-path.advanced.badge': 'ADVANCED',
+    'learning-path.advanced.title': 'Advanced Level',
+    'learning-path.advanced.description': 'Master production-ready systems and cutting-edge techniques.',
+    'learning-path.advanced.item1': 'Pre-training/Fine-tuning',
+    'learning-path.advanced.item2': 'Foundation Models',
+    'learning-path.advanced.item3': 'RAG Introduction',
+    'learning-path.advanced.item4': 'RAG Architecture',
+    'learning-path.advanced.item5': 'Hugging Face',
+    'learning-path.advanced.more': 'Plus: Data Ingestion, Vector DBs, Embeddings, Retrieval, Augmentation, Generation Types, Memory Types, RAG Recipes, and more.',
+    'learning-path.note': '<strong>Note:</strong> You can jump between sections, but following the learning path will give you the best understanding. Each section includes prerequisites to help you know what you should understand first.',
+
+    // CNN & RNN Prerequisites
+    'cnn-rnn.prerequisites.title': 'Prerequisites',
+    'cnn-rnn.prerequisites.intro': 'Before learning about CNNs and RNNs, you should understand:',
+    'cnn-rnn.prerequisites.nn': '<strong>Neural Networks:</strong> Basic understanding of layers, neurons, weights, and activation functions',
+    'cnn-rnn.prerequisites.layers': '<strong>Layers:</strong> How information flows through multiple layers in a neural network',
+    'cnn-rnn.prerequisites.images': '<strong>Image/Sequence Data:</strong> Basic understanding of how images (2D arrays) and sequences (time series, text) are represented',
+
+    // Generative AI Prerequisites
+    'generative-ai.prerequisites.title': 'Prerequisites',
+    'generative-ai.prerequisites.intro': 'Before learning about generative AI, you should understand:',
+    'generative-ai.prerequisites.nn': '<strong>Neural Networks:</strong> How neural networks learn and generate outputs',
+    'generative-ai.prerequisites.cnn-rnn': '<strong>CNN & RNN:</strong> Understanding of convolutional and recurrent architectures',
+    'generative-ai.prerequisites.probability': '<strong>Probability:</strong> Basic understanding of probability distributions and sampling',
+
+    // Ethics Prerequisites
+    'ethics.prerequisites.title': 'Prerequisites',
+    'ethics.prerequisites.intro': 'Before learning about AI ethics, you should understand:',
+    'ethics.prerequisites.ml-basics': '<strong>ML Basics:</strong> How machine learning models work and make predictions',
+    'ethics.prerequisites.bias': '<strong>Bias Concepts:</strong> Understanding that models learn from data which may contain biases',
+    'ethics.prerequisites.systems': '<strong>Real-world Systems:</strong> Awareness that AI systems are deployed in production environments affecting people',
+
+    // Pre-training Prerequisites
+    'pretraining.prerequisites.title': 'Prerequisites',
+    'pretraining.prerequisites.intro': 'Before learning about pre-training and fine-tuning, you should understand:',
+    'pretraining.prerequisites.transformer': '<strong>Transformer Architecture:</strong> How transformers process sequences using self-attention',
+    'pretraining.prerequisites.encoder-decoder': '<strong>Encoder-Decoder:</strong> Understanding of encoder and decoder components',
+    'pretraining.prerequisites.training': '<strong>Training Basics:</strong> How neural networks are trained with loss functions and optimization',
+
+    // Foundation Models Prerequisites
+    'foundation-models.prerequisites.title': 'Prerequisites',
+    'foundation-models.prerequisites.intro': 'Before learning about foundation models, you should understand:',
+    'foundation-models.prerequisites.transformer': '<strong>Transformer Architecture:</strong> Self-attention, encoder-decoder stacks, feed-forward networks',
+    'foundation-models.prerequisites.pretraining': '<strong>Pre-training:</strong> How models are pre-trained on large datasets',
+    'foundation-models.prerequisites.scale': '<strong>Scale:</strong> Understanding that larger models and datasets lead to better performance',
+
+    // RAG Introduction Prerequisites
+    'rag-intro.prerequisites.title': 'Prerequisites',
+    'rag-intro.prerequisites.intro': 'Before learning about RAG, you should understand:',
+    'rag-intro.prerequisites.llm': '<strong>LLMs:</strong> How large language models generate text and their limitations',
+    'rag-intro.prerequisites.embeddings': '<strong>Embeddings:</strong> How text is converted to numerical vectors',
+    'rag-intro.prerequisites.retrieval': '<strong>Retrieval:</strong> Basic understanding of searching and finding relevant information',
+
+    // LLM Problems Prerequisites
+    'llm-problems.prerequisites.title': 'Prerequisites',
+    'llm-problems.prerequisites.intro': 'Before learning about LLM problems, you should understand:',
+    'llm-problems.prerequisites.foundation': '<strong>Foundation Models:</strong> How LLMs are trained and what they can do',
+    'llm-problems.prerequisites.generation': '<strong>Text Generation:</strong> How LLMs generate text token by token',
+    'llm-problems.prerequisites.limitations': '<strong>Model Limitations:</strong> Awareness that models have knowledge cutoffs and can make mistakes',
+
+    // RAG Architecture Prerequisites
+    'rag-arch.prerequisites.title': 'Prerequisites',
+    'rag-arch.prerequisites.intro': 'Before learning about RAG architecture, you should understand:',
+    'rag-arch.prerequisites.rag-intro': '<strong>RAG Introduction:</strong> Basic understanding of what RAG is and why it\'s useful',
+    'rag-arch.prerequisites.embeddings': '<strong>Embeddings:</strong> How documents and queries are converted to vectors',
+    'rag-arch.prerequisites.vector-db': '<strong>Vector Databases:</strong> How vectors are stored and searched efficiently',
+
+    // Data Ingestion Prerequisites
+    'data-ingestion.prerequisites.title': 'Prerequisites',
+    'data-ingestion.prerequisites.intro': 'Before learning about data ingestion, you should understand:',
+    'data-ingestion.prerequisites.rag': '<strong>RAG:</strong> Understanding of the RAG system and why data needs to be prepared',
+    'data-ingestion.prerequisites.text': '<strong>Text Processing:</strong> Basic understanding of how text documents are structured',
+    'data-ingestion.prerequisites.processing': '<strong>Data Processing:</strong> Awareness that raw data needs cleaning and transformation',
+
+    // Vector Databases Prerequisites
+    'vector-db.prerequisites.title': 'Prerequisites',
+    'vector-db.prerequisites.intro': 'Before learning about vector databases, you should understand:',
+    'vector-db.prerequisites.embeddings': '<strong>Embeddings:</strong> How text is converted to numerical vectors',
+    'vector-db.prerequisites.similarity': '<strong>Similarity:</strong> Understanding of how similarity between vectors is measured',
+    'vector-db.prerequisites.storage': '<strong>Storage:</strong> Basic understanding of databases and data storage',
+
+    // Embeddings Prerequisites
+    'embeddings.prerequisites.title': 'Prerequisites',
+    'embeddings.prerequisites.intro': 'Before learning about embeddings, you should understand:',
+    'embeddings.prerequisites.nn': '<strong>Neural Networks:</strong> How neural networks process and transform data',
+    'embeddings.prerequisites.vectors': '<strong>Vectors:</strong> Understanding of vector mathematics and operations',
+    'embeddings.prerequisites.transformer': '<strong>Transformer:</strong> Basic understanding of transformer architecture',
+
+    // Retrieval Prerequisites
+    'retrieval.prerequisites.title': 'Prerequisites',
+    'retrieval.prerequisites.intro': 'Before learning about retrieval, you should understand:',
+    'retrieval.prerequisites.embeddings': '<strong>Embeddings:</strong> How documents and queries are converted to vectors',
+    'retrieval.prerequisites.vector-db': '<strong>Vector Databases:</strong> How vectors are stored and indexed',
+    'retrieval.prerequisites.similarity': '<strong>Similarity:</strong> Understanding of cosine similarity and distance metrics',
+
+    // Augmentation Prerequisites
+    'augmentation.prerequisites.title': 'Prerequisites',
+    'augmentation.prerequisites.intro': 'Before learning about augmentation, you should understand:',
+    'augmentation.prerequisites.rag': '<strong>RAG:</strong> Understanding of the RAG system architecture',
+    'augmentation.prerequisites.retrieval': '<strong>Retrieval:</strong> How relevant documents are retrieved',
+    'augmentation.prerequisites.generation': '<strong>Generation:</strong> How LLMs generate text with context',
+
+    // Generation Types Prerequisites
+    'generation-types.prerequisites.title': 'Prerequisites',
+    'generation-types.prerequisites.intro': 'Before learning about generation types, you should understand:',
+    'generation-types.prerequisites.llm': '<strong>LLMs:</strong> How language models generate text',
+    'generation-types.prerequisites.decoder': '<strong>Decoder:</strong> Understanding of decoder-based architectures',
+    'generation-types.prerequisites.rag': '<strong>RAG:</strong> How RAG systems combine retrieval and generation',
+
+    // Memory Types Prerequisites
+    'memory-types.prerequisites.title': 'Prerequisites',
+    'memory-types.prerequisites.intro': 'Before learning about memory types, you should understand:',
+    'memory-types.prerequisites.rag': '<strong>RAG:</strong> Understanding of RAG architecture and components',
+    'memory-types.prerequisites.conversation': '<strong>Conversation:</strong> How conversational AI systems maintain context',
+    'memory-types.prerequisites.context': '<strong>Context:</strong> Understanding of how context windows work in LLMs',
+
+    // RAG Recipes Prerequisites
+    'rag-recipes.prerequisites.title': 'Prerequisites',
+    'rag-recipes.prerequisites.intro': 'Before learning about RAG recipes, you should understand:',
+    'rag-recipes.prerequisites.rag-arch': '<strong>RAG Architecture:</strong> Understanding of RAG system components',
+    'rag-recipes.prerequisites.components': '<strong>Components:</strong> How retrieval, augmentation, and generation work together',
+    'rag-recipes.prerequisites.implementation': '<strong>Implementation:</strong> Basic understanding of how RAG systems are built',
+
+    // Hugging Face Prerequisites
+    'hugging-face.prerequisites.title': 'Prerequisites',
+    'hugging-face.prerequisites.intro': 'Before learning about Hugging Face, you should understand:',
+    'hugging-face.prerequisites.transformer': '<strong>Transformer:</strong> Understanding of transformer architecture',
+    'hugging-face.prerequisites.python': '<strong>Python:</strong> Basic Python programming skills',
+    'hugging-face.prerequisites.models': '<strong>Models:</strong> Understanding of pre-trained models and fine-tuning',
+
+    // Checkpoints - Neural Networks
+    'nn.checkpoint.basics.title': '✓ Self-Check: Neural Networks Basics',
+    'nn.checkpoint.basics.q1': '<strong>Question:</strong> What is the difference between the input layer, hidden layers, and output layer?',
+    'nn.checkpoint.basics.q2': '<strong>Question:</strong> How do weights and activation functions work together to process information?',
+    'nn.checkpoint.basics.q3': '<strong>Question:</strong> Why do we need multiple layers in a neural network?',
+
+    // Checkpoints - CNN & RNN
+    'cnn-rnn.checkpoint.title': '✓ Self-Check: CNN & RNN',
+    'cnn-rnn.checkpoint.q1': '<strong>Question:</strong> What is the key difference between CNNs and RNNs in terms of the data they process?',
+    'cnn-rnn.checkpoint.q2': '<strong>Question:</strong> Why are CNNs particularly good for image processing?',
+    'cnn-rnn.checkpoint.q3': '<strong>Question:</strong> How do RNNs maintain memory of previous inputs?',
+
+    // Checkpoints - Generative AI
+    'generative-ai.checkpoint.title': '✓ Self-Check: Generative AI',
+    'generative-ai.checkpoint.q1': '<strong>Question:</strong> What is the difference between discriminative and generative models?',
+    'generative-ai.checkpoint.q2': '<strong>Question:</strong> What are some common applications of generative AI?',
+
+    // Checkpoints - Ethics
+    'ethics.checkpoint.title': '✓ Self-Check: AI Ethics',
+    'ethics.checkpoint.q1': '<strong>Question:</strong> Why is bias a concern in AI systems, and how can it be introduced?',
+    'ethics.checkpoint.q2': '<strong>Question:</strong> What are some strategies to ensure AI systems are fair and transparent?',
+
+    // Checkpoints - Attention
+    'attention.checkpoint.title': '✓ Self-Check: Attention Mechanism',
+    'attention.checkpoint.q1': '<strong>Question:</strong> What are Query, Key, and Value vectors, and how do they work together?',
+    'attention.checkpoint.q2': '<strong>Question:</strong> Why is attention useful for processing sequences?',
+    'attention.checkpoint.q3': '<strong>Question:</strong> How does attention help models focus on relevant information?',
+
+    // Checkpoints - Transformer
+    'transformer.checkpoint.title': '✓ Self-Check: Transformer',
+    'transformer.checkpoint.q1': '<strong>Question:</strong> What makes transformers different from RNNs?',
+    'transformer.checkpoint.q2': '<strong>Question:</strong> How does self-attention enable parallel processing?',
+
+    // Checkpoints - Encoder-Decoder
+    'encoder-decoder.checkpoint.title': '✓ Self-Check: Encoder-Decoder',
+    'encoder-decoder.checkpoint.q1': '<strong>Question:</strong> What is the role of the encoder vs the decoder?',
+    'encoder-decoder.checkpoint.q2': '<strong>Question:</strong> What types of tasks benefit from encoder-decoder architectures?',
+
+    // Checkpoints - Pre-training/Fine-tuning
+    'pretraining.checkpoint.title': '✓ Self-Check: Pre-training & Fine-tuning',
+    'pretraining.checkpoint.q1': '<strong>Question:</strong> What is the difference between pre-training and fine-tuning?',
+    'pretraining.checkpoint.q2': '<strong>Question:</strong> Why is pre-training beneficial for NLP tasks?',
+
+    // Checkpoints - Foundation Models
+    'foundation-models.checkpoint.title': '✓ Self-Check: Foundation Models',
+    'foundation-models.checkpoint.q1': '<strong>Question:</strong> What makes a model a "foundation model"?',
+    'foundation-models.checkpoint.q2': '<strong>Question:</strong> How do foundation models differ from task-specific models?',
+
+    // Checkpoints - RAG Introduction
+    'rag-intro.checkpoint.title': '✓ Self-Check: RAG Introduction',
+    'rag-intro.checkpoint.q1': '<strong>Question:</strong> What problem does RAG solve for LLMs?',
+    'rag-intro.checkpoint.q2': '<strong>Question:</strong> How does RAG combine retrieval and generation?',
+
+    // Checkpoints - LLM Problems
+    'llm-problems.checkpoint.title': '✓ Self-Check: LLM Problems',
+    'llm-problems.checkpoint.q1': '<strong>Question:</strong> What are the main limitations of LLMs that RAG addresses?',
+    'llm-problems.checkpoint.q2': '<strong>Question:</strong> Why can LLMs hallucinate or produce incorrect information?',
+
+    // Checkpoints - RAG Architecture
+    'rag-arch.checkpoint.title': '✓ Self-Check: RAG Architecture',
+    'rag-arch.checkpoint.q1': '<strong>Question:</strong> What are the two main phases of RAG architecture?',
+    'rag-arch.checkpoint.q2': '<strong>Question:</strong> How do data ingestion and retrieval work together in RAG?',
+
+    // Checkpoints - Data Ingestion
+    'data-ingestion.checkpoint.title': '✓ Self-Check: Data Ingestion',
+    'data-ingestion.checkpoint.q1': '<strong>Question:</strong> Why is chunking important in data ingestion?',
+    'data-ingestion.checkpoint.q2': '<strong>Question:</strong> What happens to documents during the ingestion phase?',
+
+    // Checkpoints - Vector Databases
+    'vector-db.checkpoint.title': '✓ Self-Check: Vector Databases',
+    'vector-db.checkpoint.q1': '<strong>Question:</strong> Why do we need specialized databases for vectors?',
+    'vector-db.checkpoint.q2': '<strong>Question:</strong> How do vector databases enable fast similarity search?',
+
+    // Checkpoints - Embeddings
+    'embeddings.checkpoint.title': '✓ Self-Check: Embeddings',
+    'embeddings.checkpoint.q1': '<strong>Question:</strong> What is an embedding and why is it useful?',
+    'embeddings.checkpoint.q2': '<strong>Question:</strong> How do embeddings capture semantic meaning?',
+
+    // Checkpoints - Retrieval
+    'retrieval.checkpoint.title': '✓ Self-Check: Retrieval',
+    'retrieval.checkpoint.q1': '<strong>Question:</strong> What is the difference between semantic and keyword-based retrieval?',
+    'retrieval.checkpoint.q2': '<strong>Question:</strong> How does retrieval ranking work?',
+
+    // Checkpoints - Augmentation
+    'augmentation.checkpoint.title': '✓ Self-Check: Augmentation',
+    'augmentation.checkpoint.q1': '<strong>Question:</strong> How does augmentation improve LLM responses?',
+    'augmentation.checkpoint.q2': '<strong>Question:</strong> What information is included in an augmented prompt?',
+
+    // Checkpoints - Generation Types
+    'generation-types.checkpoint.title': '✓ Self-Check: Generation Types',
+    'generation-types.checkpoint.q1': '<strong>Question:</strong> What is the difference between extractive and abstractive generation?',
+    'generation-types.checkpoint.q2': '<strong>Question:</strong> When would you use each generation type?',
+
+    // Checkpoints - Memory Types
+    'memory-types.checkpoint.title': '✓ Self-Check: Memory Types',
+    'memory-types.checkpoint.q1': '<strong>Question:</strong> What is the difference between parametric and non-parametric memory?',
+    'memory-types.checkpoint.q2': '<strong>Question:</strong> How does RAG combine both memory types?',
+
+    // Checkpoints - RAG Recipes
+    'rag-recipes.checkpoint.title': '✓ Self-Check: RAG Recipes',
+    'rag-recipes.checkpoint.q1': '<strong>Question:</strong> What is the difference between RAG Sequence and RAG Token?',
+    'rag-recipes.checkpoint.q2': '<strong>Question:</strong> When would you choose one recipe over the other?',
+
+    // Checkpoints - Hugging Face
+    'hugging-face.checkpoint.title': '✓ Self-Check: Hugging Face',
+    'hugging-face.checkpoint.q1': '<strong>Question:</strong> What are the main components of the Hugging Face ecosystem?',
+    'hugging-face.checkpoint.q2': '<strong>Question:</strong> How does Hugging Face make it easier to work with transformers?',
   },
   tr: {
     // Navigation
@@ -2698,35 +2952,35 @@ const translations = {
                 'ml-basics.checkpoint.fundamentals.a4': '<strong>Cevap:</strong> Bu aşırı öğrenmedir - model eğitim verisini ezberledi ancak genelleme yapmıyor. Çözümler: düzenlileştirme ekleyin (L2, dropout), model karmaşıklığını azaltın, daha fazla eğitim verisi alın, erken durdurma kullanın veya veri artırmayı deneyin.',
 
                 // Neural Networks Prerequisites
-                'nn.prerequisites.title': 'Prerequisites',
-                'nn.prerequisites.intro': 'Before diving into neural networks, you should understand:',
-                'nn.prerequisites.ml-basics': '<strong>ML Basics:</strong> Features, labels, loss functions, gradient descent, train/validation/test splits',
-                'nn.prerequisites.math': '<strong>Basic Math:</strong> Linear algebra (vectors, matrices), basic calculus (derivatives)',
-                'nn.prerequisites.functions': '<strong>Functions:</strong> Understanding of mathematical functions and their graphs',
+                'nn.prerequisites.title': 'Önkoşullar',
+                'nn.prerequisites.intro': 'Sinir ağlarına dalmadan önce şunları anlamalısınız:',
+                'nn.prerequisites.ml-basics': '<strong>ML Temelleri:</strong> Özellikler, etiketler, kayıp fonksiyonları, gradyan inişi, eğitim/doğrulama/test bölmeleri',
+                'nn.prerequisites.math': '<strong>Temel Matematik:</strong> Doğrusal cebir (vektörler, matrisler), temel kalkülüs (türevler)',
+                'nn.prerequisites.functions': '<strong>Fonksiyonlar:</strong> Matematiksel fonksiyonlar ve grafiklerinin anlayışı',
 
                 // Attention Prerequisites
-                'attention.prerequisites.title': 'Prerequisites',
-                'attention.prerequisites.intro': 'Before learning about attention, you should understand:',
-                'attention.prerequisites.nn': '<strong>Neural Networks:</strong> Layers, neurons, weights, activation functions, forward/backward propagation',
-                'attention.prerequisites.sequences': '<strong>Sequences:</strong> How neural networks process sequential data (text, time series)',
-                'attention.prerequisites.vectors': '<strong>Vectors:</strong> Understanding of vector operations (dot product, similarity)',
+                'attention.prerequisites.title': 'Önkoşullar',
+                'attention.prerequisites.intro': 'Dikkat mekanizması hakkında öğrenmeden önce şunları anlamalısınız:',
+                'attention.prerequisites.nn': '<strong>Sinir Ağları:</strong> Katmanlar, nöronlar, ağırlıklar, aktivasyon fonksiyonları, ileri/geri yayılım',
+                'attention.prerequisites.sequences': '<strong>Sıralar:</strong> Sinir ağlarının sıralı veriyi (metin, zaman serileri) nasıl işlediği',
+                'attention.prerequisites.vectors': '<strong>Vektörler:</strong> Vektör işlemlerinin anlayışı (nokta çarpımı, benzerlik)',
 
                 // Transformer Prerequisites
-                'transformer.prerequisites.title': 'Prerequisites',
-                'transformer.prerequisites.intro': 'Before learning about transformers, you should understand:',
-                'transformer.prerequisites.attention': '<strong>Attention Mechanism:</strong> How attention computes weighted sums and focuses on relevant information',
-                'transformer.prerequisites.nn': '<strong>Neural Networks:</strong> Layers, activation functions, feed-forward networks',
-                'transformer.prerequisites.nlp': '<strong>NLP Basics:</strong> Tokenization, word embeddings, sequence-to-sequence tasks',
+                'transformer.prerequisites.title': 'Önkoşullar',
+                'transformer.prerequisites.intro': 'Transformer\'lar hakkında öğrenmeden önce şunları anlamalısınız:',
+                'transformer.prerequisites.attention': '<strong>Dikkat Mekanizması:</strong> Dikkatin ağırlıklı toplamları nasıl hesapladığı ve ilgili bilgilere nasıl odaklandığı',
+                'transformer.prerequisites.nn': '<strong>Sinir Ağları:</strong> Katmanlar, aktivasyon fonksiyonları, ileri beslemeli ağlar',
+                'transformer.prerequisites.nlp': '<strong>NLP Temelleri:</strong> Tokenizasyon, kelime gömmeleri, sıra-sıra görevleri',
 
                 // Encoder-Decoder Prerequisites
-                'encoder-decoder.prerequisites.title': 'Prerequisites',
-                'encoder-decoder.prerequisites.intro': 'Before learning about encoder-decoder architectures, you should understand:',
-                'encoder-decoder.prerequisites.transformer': '<strong>Transformer Architecture:</strong> Encoder and decoder stacks, self-attention, feed-forward networks',
-                'encoder-decoder.prerequisites.attention': '<strong>Attention:</strong> Self-attention and cross-attention mechanisms',
-                'encoder-decoder.prerequisites.tasks': '<strong>NLP Tasks:</strong> Understanding of sequence-to-sequence tasks (translation, summarization)',
+                'encoder-decoder.prerequisites.title': 'Önkoşullar',
+                'encoder-decoder.prerequisites.intro': 'Kodlayıcı-kod çözücü mimarileri hakkında öğrenmeden önce şunları anlamalısınız:',
+                'encoder-decoder.prerequisites.transformer': '<strong>Transformer Mimarisi:</strong> Kodlayıcı ve kod çözücü yığınları, öz-dikkat, ileri beslemeli ağlar',
+                'encoder-decoder.prerequisites.attention': '<strong>Dikkat:</strong> Öz-dikkat ve çapraz dikkat mekanizmaları',
+                'encoder-decoder.prerequisites.tasks': '<strong>NLP Görevleri:</strong> Sıra-sıra görevlerinin anlayışı (çeviri, özetleme)',
 
                 // Note boxes
-                'pretraining.components.performance.note': '<strong>Note:</strong> Performance numbers are approximate estimates and vary significantly based on task complexity, dataset quality, model architecture, and training setup. These ranges are illustrative examples, not guarantees.',
+                'pretraining.components.performance.note': '<strong>Not:</strong> Performans sayıları yaklaşık tahminlerdir ve görev karmaşıklığına, veri seti kalitesine, model mimarisine ve eğitim kurulumuna göre önemli ölçüde değişir. Bu aralıklar açıklayıcı örneklerdir, garanti değildir.',
 // Common UI
     'ui.beginner-explanation': 'Başlangıç Açıklaması',
     'ui.technical-deep-dive': 'Teknik Derinlemesine İnceleme',
@@ -4722,6 +4976,260 @@ const translations = {
     'rag-recipes.technical.implementation.sequence.title':
       'RAG Sequence Uygulaması',
     'rag-recipes.technical.implementation.token.title': 'RAG Token Uygulaması',
+
+    // Learning Path
+    'learning-path.title': 'Öğrenme Yolu',
+    'learning-path.intro': 'Başlangıçtan ileri seviye kavramlara kadar bu yapılandırılmış yolu takip edin. Her seviye bir öncekinin üzerine inşa edilir.',
+    'learning-path.beginner.badge': 'BAŞLANGIÇ',
+    'learning-path.beginner.title': 'Başlangıç Seviyesi',
+    'learning-path.beginner.description': 'Buradan başlayın! Makine öğrenmesi ve sinir ağlarının temellerini öğrenin.',
+    'learning-path.beginner.item1': 'ML Temelleri',
+    'learning-path.beginner.item2': 'Sinir Ağları',
+    'learning-path.intermediate.badge': 'ORTA',
+    'learning-path.intermediate.title': 'Orta Seviye',
+    'learning-path.intermediate.description': 'Özel mimariler ve ileri kavramlarla temellerin üzerine inşa edin.',
+    'learning-path.intermediate.item1': 'CNN & RNN',
+    'learning-path.intermediate.item2': 'Üretici Yapay Zeka',
+    'learning-path.intermediate.item3': 'Dikkat',
+    'learning-path.intermediate.item4': 'Transformer',
+    'learning-path.intermediate.item5': 'Kodlayıcı/Kod Çözücü',
+    'learning-path.advanced.badge': 'İLERİ',
+    'learning-path.advanced.title': 'İleri Seviye',
+    'learning-path.advanced.description': 'Üretime hazır sistemler ve en son tekniklerde ustalaşın.',
+    'learning-path.advanced.item1': 'Ön Eğitim/İnce Ayar',
+    'learning-path.advanced.item2': 'Temel Modeller',
+    'learning-path.advanced.item3': 'RAG Giriş',
+    'learning-path.advanced.item4': 'RAG Mimarisi',
+    'learning-path.advanced.item5': 'Hugging Face',
+    'learning-path.advanced.more': 'Artı: Veri Alımı, Vektör Veritabanları, Gömme, Geri Getirme, Artırma, Üretim Türleri, Bellek Türleri, RAG Tarifleri ve daha fazlası.',
+    'learning-path.note': '<strong>Not:</strong> Bölümler arasında atlayabilirsiniz, ancak öğrenme yolunu takip etmek en iyi anlayışı sağlayacaktır. Her bölüm, önce neyi anlamanız gerektiğini bilmenize yardımcı olmak için önkoşullar içerir.',
+
+    // CNN & RNN Prerequisites
+    'cnn-rnn.prerequisites.title': 'Önkoşullar',
+    'cnn-rnn.prerequisites.intro': 'CNN ve RNN hakkında öğrenmeden önce şunları anlamalısınız:',
+    'cnn-rnn.prerequisites.nn': '<strong>Sinir Ağları:</strong> Katmanlar, nöronlar, ağırlıklar ve aktivasyon fonksiyonlarının temel anlayışı',
+    'cnn-rnn.prerequisites.layers': '<strong>Katmanlar:</strong> Bilginin bir sinir ağında birden fazla katman boyunca nasıl aktığı',
+    'cnn-rnn.prerequisites.images': '<strong>Görüntü/Sıra Verisi:</strong> Görüntülerin (2D diziler) ve sıraların (zaman serileri, metin) nasıl temsil edildiğinin temel anlayışı',
+
+    // Generative AI Prerequisites
+    'generative-ai.prerequisites.title': 'Önkoşullar',
+    'generative-ai.prerequisites.intro': 'Üretici yapay zeka hakkında öğrenmeden önce şunları anlamalısınız:',
+    'generative-ai.prerequisites.nn': '<strong>Sinir Ağları:</strong> Sinir ağlarının nasıl öğrendiği ve çıktı ürettiği',
+    'generative-ai.prerequisites.cnn-rnn': '<strong>CNN & RNN:</strong> Evrişimli ve tekrarlayan mimarilerin anlayışı',
+    'generative-ai.prerequisites.probability': '<strong>Olasılık:</strong> Olasılık dağılımları ve örneklemenin temel anlayışı',
+
+    // Ethics Prerequisites
+    'ethics.prerequisites.title': 'Önkoşullar',
+    'ethics.prerequisites.intro': 'Yapay zeka etiği hakkında öğrenmeden önce şunları anlamalısınız:',
+    'ethics.prerequisites.ml-basics': '<strong>ML Temelleri:</strong> Makine öğrenmesi modellerinin nasıl çalıştığı ve tahmin yaptığı',
+    'ethics.prerequisites.bias': '<strong>Önyargı Kavramları:</strong> Modellerin önyargı içerebilecek verilerden öğrendiğinin anlaşılması',
+    'ethics.prerequisites.systems': '<strong>Gerçek Dünya Sistemleri:</strong> Yapay zeka sistemlerinin insanları etkileyen üretim ortamlarında dağıtıldığının farkında olma',
+
+    // Pre-training Prerequisites
+    'pretraining.prerequisites.title': 'Önkoşullar',
+    'pretraining.prerequisites.intro': 'Ön eğitim ve ince ayar hakkında öğrenmeden önce şunları anlamalısınız:',
+    'pretraining.prerequisites.transformer': '<strong>Transformer Mimarisi:</strong> Transformer\'ların öz-dikkat kullanarak sıraları nasıl işlediği',
+    'pretraining.prerequisites.encoder-decoder': '<strong>Kodlayıcı-Kod Çözücü:</strong> Kodlayıcı ve kod çözücü bileşenlerinin anlayışı',
+    'pretraining.prerequisites.training': '<strong>Eğitim Temelleri:</strong> Sinir ağlarının kayıp fonksiyonları ve optimizasyon ile nasıl eğitildiği',
+
+    // Foundation Models Prerequisites
+    'foundation-models.prerequisites.title': 'Önkoşullar',
+    'foundation-models.prerequisites.intro': 'Temel modeller hakkında öğrenmeden önce şunları anlamalısınız:',
+    'foundation-models.prerequisites.transformer': '<strong>Transformer Mimarisi:</strong> Öz-dikkat, kodlayıcı-kod çözücü yığınları, ileri beslemeli ağlar',
+    'foundation-models.prerequisites.pretraining': '<strong>Ön Eğitim:</strong> Modellerin büyük veri setlerinde nasıl ön eğitildiği',
+    'foundation-models.prerequisites.scale': '<strong>Ölçek:</strong> Daha büyük modeller ve veri setlerinin daha iyi performansa yol açtığının anlaşılması',
+
+    // RAG Introduction Prerequisites
+    'rag-intro.prerequisites.title': 'Önkoşullar',
+    'rag-intro.prerequisites.intro': 'RAG hakkında öğrenmeden önce şunları anlamalısınız:',
+    'rag-intro.prerequisites.llm': '<strong>LLM\'ler:</strong> Büyük dil modellerinin metin üretme şekli ve sınırlamaları',
+    'rag-intro.prerequisites.embeddings': '<strong>Gömmeler:</strong> Metnin sayısal vektörlere nasıl dönüştürüldüğü',
+    'rag-intro.prerequisites.retrieval': '<strong>Geri Getirme:</strong> Arama ve ilgili bilgi bulmanın temel anlayışı',
+
+    // LLM Problems Prerequisites
+    'llm-problems.prerequisites.title': 'Önkoşullar',
+    'llm-problems.prerequisites.intro': 'LLM sorunları hakkında öğrenmeden önce şunları anlamalısınız:',
+    'llm-problems.prerequisites.foundation': '<strong>Temel Modeller:</strong> LLM\'lerin nasıl eğitildiği ve ne yapabildikleri',
+    'llm-problems.prerequisites.generation': '<strong>Metin Üretimi:</strong> LLM\'lerin metni token token nasıl ürettiği',
+    'llm-problems.prerequisites.limitations': '<strong>Model Sınırlamaları:</strong> Modellerin bilgi kesintileri olduğu ve hata yapabileceği farkındalığı',
+
+    // RAG Architecture Prerequisites
+    'rag-arch.prerequisites.title': 'Önkoşullar',
+    'rag-arch.prerequisites.intro': 'RAG mimarisi hakkında öğrenmeden önce şunları anlamalısınız:',
+    'rag-arch.prerequisites.rag-intro': '<strong>RAG Giriş:</strong> RAG\'in ne olduğu ve neden yararlı olduğunun temel anlayışı',
+    'rag-arch.prerequisites.embeddings': '<strong>Gömmeler:</strong> Belgelerin ve sorguların vektörlere nasıl dönüştürüldüğü',
+    'rag-arch.prerequisites.vector-db': '<strong>Vektör Veritabanları:</strong> Vektörlerin nasıl depolandığı ve verimli bir şekilde arandığı',
+
+    // Data Ingestion Prerequisites
+    'data-ingestion.prerequisites.title': 'Önkoşullar',
+    'data-ingestion.prerequisites.intro': 'Veri alımı hakkında öğrenmeden önce şunları anlamalısınız:',
+    'data-ingestion.prerequisites.rag': '<strong>RAG:</strong> RAG sistemi ve verinin neden hazırlanması gerektiğinin anlayışı',
+    'data-ingestion.prerequisites.text': '<strong>Metin İşleme:</strong> Metin belgelerinin nasıl yapılandırıldığının temel anlayışı',
+    'data-ingestion.prerequisites.processing': '<strong>Veri İşleme:</strong> Ham verinin temizlenmesi ve dönüştürülmesi gerektiği farkındalığı',
+
+    // Vector Databases Prerequisites
+    'vector-db.prerequisites.title': 'Önkoşullar',
+    'vector-db.prerequisites.intro': 'Vektör veritabanları hakkında öğrenmeden önce şunları anlamalısınız:',
+    'vector-db.prerequisites.embeddings': '<strong>Gömmeler:</strong> Metnin sayısal vektörlere nasıl dönüştürüldüğü',
+    'vector-db.prerequisites.similarity': '<strong>Benzerlik:</strong> Vektörler arasındaki benzerliğin nasıl ölçüldüğünün anlayışı',
+    'vector-db.prerequisites.storage': '<strong>Depolama:</strong> Veritabanları ve veri depolamanın temel anlayışı',
+
+    // Embeddings Prerequisites
+    'embeddings.prerequisites.title': 'Önkoşullar',
+    'embeddings.prerequisites.intro': 'Gömmeler hakkında öğrenmeden önce şunları anlamalısınız:',
+    'embeddings.prerequisites.nn': '<strong>Sinir Ağları:</strong> Sinir ağlarının veriyi nasıl işlediği ve dönüştürdüğü',
+    'embeddings.prerequisites.vectors': '<strong>Vektörler:</strong> Vektör matematiği ve işlemlerinin anlayışı',
+    'embeddings.prerequisites.transformer': '<strong>Transformer:</strong> Transformer mimarisinin temel anlayışı',
+
+    // Retrieval Prerequisites
+    'retrieval.prerequisites.title': 'Önkoşullar',
+    'retrieval.prerequisites.intro': 'Geri getirme hakkında öğrenmeden önce şunları anlamalısınız:',
+    'retrieval.prerequisites.embeddings': '<strong>Gömmeler:</strong> Belgelerin ve sorguların vektörlere nasıl dönüştürüldüğü',
+    'retrieval.prerequisites.vector-db': '<strong>Vektör Veritabanları:</strong> Vektörlerin nasıl depolandığı ve indekslendiği',
+    'retrieval.prerequisites.similarity': '<strong>Benzerlik:</strong> Kosinüs benzerliği ve mesafe metriklerinin anlayışı',
+
+    // Augmentation Prerequisites
+    'augmentation.prerequisites.title': 'Önkoşullar',
+    'augmentation.prerequisites.intro': 'Artırma hakkında öğrenmeden önce şunları anlamalısınız:',
+    'augmentation.prerequisites.rag': '<strong>RAG:</strong> RAG sistem mimarisinin anlayışı',
+    'augmentation.prerequisites.retrieval': '<strong>Geri Getirme:</strong> İlgili belgelerin nasıl geri getirildiği',
+    'augmentation.prerequisites.generation': '<strong>Üretim:</strong> LLM\'lerin bağlamla metin üretme şekli',
+
+    // Generation Types Prerequisites
+    'generation-types.prerequisites.title': 'Önkoşullar',
+    'generation-types.prerequisites.intro': 'Üretim türleri hakkında öğrenmeden önce şunları anlamalısınız:',
+    'generation-types.prerequisites.llm': '<strong>LLM\'ler:</strong> Dil modellerinin metin üretme şekli',
+    'generation-types.prerequisites.decoder': '<strong>Kod Çözücü:</strong> Kod çözücü tabanlı mimarilerin anlayışı',
+    'generation-types.prerequisites.rag': '<strong>RAG:</strong> RAG sistemlerinin geri getirme ve üretimi nasıl birleştirdiği',
+
+    // Memory Types Prerequisites
+    'memory-types.prerequisites.title': 'Önkoşullar',
+    'memory-types.prerequisites.intro': 'Bellek türleri hakkında öğrenmeden önce şunları anlamalısınız:',
+    'memory-types.prerequisites.rag': '<strong>RAG:</strong> RAG mimarisi ve bileşenlerinin anlayışı',
+    'memory-types.prerequisites.conversation': '<strong>Konuşma:</strong> Konuşma yapay zeka sistemlerinin bağlamı nasıl koruduğu',
+    'memory-types.prerequisites.context': '<strong>Bağlam:</strong> LLM\'lerde bağlam pencerelerinin nasıl çalıştığının anlayışı',
+
+    // RAG Recipes Prerequisites
+    'rag-recipes.prerequisites.title': 'Önkoşullar',
+    'rag-recipes.prerequisites.intro': 'RAG tarifleri hakkında öğrenmeden önce şunları anlamalısınız:',
+    'rag-recipes.prerequisites.rag-arch': '<strong>RAG Mimarisi:</strong> RAG sistem bileşenlerinin anlayışı',
+    'rag-recipes.prerequisites.components': '<strong>Bileşenler:</strong> Geri getirme, artırma ve üretimin nasıl birlikte çalıştığı',
+    'rag-recipes.prerequisites.implementation': '<strong>Uygulama:</strong> RAG sistemlerinin nasıl inşa edildiğinin temel anlayışı',
+
+    // Hugging Face Prerequisites
+    'hugging-face.prerequisites.title': 'Önkoşullar',
+    'hugging-face.prerequisites.intro': 'Hugging Face hakkında öğrenmeden önce şunları anlamalısınız:',
+    'hugging-face.prerequisites.transformer': '<strong>Transformer:</strong> Transformer mimarisinin anlayışı',
+    'hugging-face.prerequisites.python': '<strong>Python:</strong> Temel Python programlama becerileri',
+    'hugging-face.prerequisites.models': '<strong>Modeller:</strong> Önceden eğitilmiş modeller ve ince ayarın anlayışı',
+
+    // Checkpoints - Neural Networks
+    'nn.checkpoint.basics.title': '✓ Kendi Kendini Kontrol: Sinir Ağları Temelleri',
+    'nn.checkpoint.basics.q1': '<strong>Soru:</strong> Giriş katmanı, gizli katmanlar ve çıkış katmanı arasındaki fark nedir?',
+    'nn.checkpoint.basics.q2': '<strong>Soru:</strong> Ağırlıklar ve aktivasyon fonksiyonları bilgiyi işlemek için nasıl birlikte çalışır?',
+    'nn.checkpoint.basics.q3': '<strong>Soru:</strong> Bir sinir ağında neden birden fazla katmana ihtiyacımız var?',
+
+    // Checkpoints - CNN & RNN
+    'cnn-rnn.checkpoint.title': '✓ Kendi Kendini Kontrol: CNN & RNN',
+    'cnn-rnn.checkpoint.q1': '<strong>Soru:</strong> CNN\'ler ve RNN\'lerin işledikleri veri açısından temel farkı nedir?',
+    'cnn-rnn.checkpoint.q2': '<strong>Soru:</strong> CNN\'ler neden görüntü işleme için özellikle iyidir?',
+    'cnn-rnn.checkpoint.q3': '<strong>Soru:</strong> RNN\'ler önceki girişlerin belleğini nasıl korur?',
+
+    // Checkpoints - Generative AI
+    'generative-ai.checkpoint.title': '✓ Kendi Kendini Kontrol: Üretici Yapay Zeka',
+    'generative-ai.checkpoint.q1': '<strong>Soru:</strong> Ayrımcı ve üretici modeller arasındaki fark nedir?',
+    'generative-ai.checkpoint.q2': '<strong>Soru:</strong> Üretici yapay zekanın bazı yaygın uygulamaları nelerdir?',
+
+    // Checkpoints - Ethics
+    'ethics.checkpoint.title': '✓ Kendi Kendini Kontrol: Yapay Zeka Etiği',
+    'ethics.checkpoint.q1': '<strong>Soru:</strong> Önyargı neden yapay zeka sistemlerinde bir endişe kaynağıdır ve nasıl ortaya çıkabilir?',
+    'ethics.checkpoint.q2': '<strong>Soru:</strong> Yapay zeka sistemlerinin adil ve şeffaf olmasını sağlamak için bazı stratejiler nelerdir?',
+
+    // Checkpoints - Attention
+    'attention.checkpoint.title': '✓ Kendi Kendini Kontrol: Dikkat Mekanizması',
+    'attention.checkpoint.q1': '<strong>Soru:</strong> Sorgu, Anahtar ve Değer vektörleri nelerdir ve nasıl birlikte çalışırlar?',
+    'attention.checkpoint.q2': '<strong>Soru:</strong> Dikkat neden sıraları işlemek için yararlıdır?',
+    'attention.checkpoint.q3': '<strong>Soru:</strong> Dikkat modellerin ilgili bilgilere odaklanmasına nasıl yardımcı olur?',
+
+    // Checkpoints - Transformer
+    'transformer.checkpoint.title': '✓ Kendi Kendini Kontrol: Transformer',
+    'transformer.checkpoint.q1': '<strong>Soru:</strong> Transformer\'ları RNN\'lerden farklı kılan nedir?',
+    'transformer.checkpoint.q2': '<strong>Soru:</strong> Öz-dikkat paralel işlemeyi nasıl sağlar?',
+
+    // Checkpoints - Encoder-Decoder
+    'encoder-decoder.checkpoint.title': '✓ Kendi Kendini Kontrol: Kodlayıcı-Kod Çözücü',
+    'encoder-decoder.checkpoint.q1': '<strong>Soru:</strong> Kodlayıcının rolü kod çözücüye karşı nedir?',
+    'encoder-decoder.checkpoint.q2': '<strong>Soru:</strong> Hangi tür görevler kodlayıcı-kod çözücü mimarilerinden yararlanır?',
+
+    // Checkpoints - Pre-training/Fine-tuning
+    'pretraining.checkpoint.title': '✓ Kendi Kendini Kontrol: Ön Eğitim & İnce Ayar',
+    'pretraining.checkpoint.q1': '<strong>Soru:</strong> Ön eğitim ve ince ayar arasındaki fark nedir?',
+    'pretraining.checkpoint.q2': '<strong>Soru:</strong> Ön eğitim NLP görevleri için neden faydalıdır?',
+
+    // Checkpoints - Foundation Models
+    'foundation-models.checkpoint.title': '✓ Kendi Kendini Kontrol: Temel Modeller',
+    'foundation-models.checkpoint.q1': '<strong>Soru:</strong> Bir modeli "temel model" yapan nedir?',
+    'foundation-models.checkpoint.q2': '<strong>Soru:</strong> Temel modeller görev-spesifik modellerden nasıl farklıdır?',
+
+    // Checkpoints - RAG Introduction
+    'rag-intro.checkpoint.title': '✓ Kendi Kendini Kontrol: RAG Giriş',
+    'rag-intro.checkpoint.q1': '<strong>Soru:</strong> RAG LLM\'ler için hangi sorunu çözer?',
+    'rag-intro.checkpoint.q2': '<strong>Soru:</strong> RAG geri getirme ve üretimi nasıl birleştirir?',
+
+    // Checkpoints - LLM Problems
+    'llm-problems.checkpoint.title': '✓ Kendi Kendini Kontrol: LLM Sorunları',
+    'llm-problems.checkpoint.q1': '<strong>Soru:</strong> RAG\'in ele aldığı LLM\'lerin ana sınırlamaları nelerdir?',
+    'llm-problems.checkpoint.q2': '<strong>Soru:</strong> LLM\'ler neden halüsinasyon yapabilir veya yanlış bilgi üretebilir?',
+
+    // Checkpoints - RAG Architecture
+    'rag-arch.checkpoint.title': '✓ Kendi Kendini Kontrol: RAG Mimarisi',
+    'rag-arch.checkpoint.q1': '<strong>Soru:</strong> RAG mimarisinin iki ana aşaması nelerdir?',
+    'rag-arch.checkpoint.q2': '<strong>Soru:</strong> Veri alımı ve geri getirme RAG\'de nasıl birlikte çalışır?',
+
+    // Checkpoints - Data Ingestion
+    'data-ingestion.checkpoint.title': '✓ Kendi Kendini Kontrol: Veri Alımı',
+    'data-ingestion.checkpoint.q1': '<strong>Soru:</strong> Veri alımında parçalama neden önemlidir?',
+    'data-ingestion.checkpoint.q2': '<strong>Soru:</strong> Belgeler alım aşamasında ne olur?',
+
+    // Checkpoints - Vector Databases
+    'vector-db.checkpoint.title': '✓ Kendi Kendini Kontrol: Vektör Veritabanları',
+    'vector-db.checkpoint.q1': '<strong>Soru:</strong> Vektörler için neden özel veritabanlarına ihtiyacımız var?',
+    'vector-db.checkpoint.q2': '<strong>Soru:</strong> Vektör veritabanları hızlı benzerlik aramasını nasıl sağlar?',
+
+    // Checkpoints - Embeddings
+    'embeddings.checkpoint.title': '✓ Kendi Kendini Kontrol: Gömmeler',
+    'embeddings.checkpoint.q1': '<strong>Soru:</strong> Gömme nedir ve neden yararlıdır?',
+    'embeddings.checkpoint.q2': '<strong>Soru:</strong> Gömmeler anlamsal anlamı nasıl yakalar?',
+
+    // Checkpoints - Retrieval
+    'retrieval.checkpoint.title': '✓ Kendi Kendini Kontrol: Geri Getirme',
+    'retrieval.checkpoint.q1': '<strong>Soru:</strong> Anlamsal ve anahtar kelime tabanlı geri getirme arasındaki fark nedir?',
+    'retrieval.checkpoint.q2': '<strong>Soru:</strong> Geri getirme sıralaması nasıl çalışır?',
+
+    // Checkpoints - Augmentation
+    'augmentation.checkpoint.title': '✓ Kendi Kendini Kontrol: Artırma',
+    'augmentation.checkpoint.q1': '<strong>Soru:</strong> Artırma LLM yanıtlarını nasıl iyileştirir?',
+    'augmentation.checkpoint.q2': '<strong>Soru:</strong> Artırılmış bir istemde hangi bilgiler yer alır?',
+
+    // Checkpoints - Generation Types
+    'generation-types.checkpoint.title': '✓ Kendi Kendini Kontrol: Üretim Türleri',
+    'generation-types.checkpoint.q1': '<strong>Soru:</strong> Çıkarımsal ve özetleyici üretim arasındaki fark nedir?',
+    'generation-types.checkpoint.q2': '<strong>Soru:</strong> Her üretim türünü ne zaman kullanırsınız?',
+
+    // Checkpoints - Memory Types
+    'memory-types.checkpoint.title': '✓ Kendi Kendini Kontrol: Bellek Türleri',
+    'memory-types.checkpoint.q1': '<strong>Soru:</strong> Parametrik ve parametrik olmayan bellek arasındaki fark nedir?',
+    'memory-types.checkpoint.q2': '<strong>Soru:</strong> RAG her iki bellek türünü nasıl birleştirir?',
+
+    // Checkpoints - RAG Recipes
+    'rag-recipes.checkpoint.title': '✓ Kendi Kendini Kontrol: RAG Tarifleri',
+    'rag-recipes.checkpoint.q1': '<strong>Soru:</strong> RAG Sequence ve RAG Token arasındaki fark nedir?',
+    'rag-recipes.checkpoint.q2': '<strong>Soru:</strong> Bir tarifi diğerine göre ne zaman seçersiniz?',
+
+    // Checkpoints - Hugging Face
+    'hugging-face.checkpoint.title': '✓ Kendi Kendini Kontrol: Hugging Face',
+    'hugging-face.checkpoint.q1': '<strong>Soru:</strong> Hugging Face ekosisteminin ana bileşenleri nelerdir?',
+    'hugging-face.checkpoint.q2': '<strong>Soru:</strong> Hugging Face transformer\'larla çalışmayı nasıl kolaylaştırır?',
   },
 };
 

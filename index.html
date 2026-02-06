@@ -170,6 +170,66 @@
       </div>
     </section>
 
+    <!-- Learning Path Section -->
+    <section class="learning-path-section" style="background: var(--bg-secondary); padding: 3rem 0;">
+      <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);" data-translate="learning-path.title"></h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;" data-translate="learning-path.intro"></p>
+        
+        <div class="learning-path-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+          <!-- Beginner Level -->
+          <div class="learning-path-card" style="background: var(--bg-primary); border: 2px solid var(--primary-orange); border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+              <span style="background: var(--primary-orange); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;" data-translate="learning-path.beginner.badge"></span>
+            </div>
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;" data-translate="learning-path.beginner.title"></h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;" data-translate="learning-path.beginner.description"></p>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary); list-style-type: disc;">
+              <li><a href="#ml-basics" style="color: var(--primary-orange); text-decoration: none;" data-translate="learning-path.beginner.item1"></a></li>
+              <li><a href="#neural-networks" style="color: var(--primary-orange); text-decoration: none;" data-translate="learning-path.beginner.item2"></a></li>
+            </ul>
+          </div>
+
+          <!-- Intermediate Level -->
+          <div class="learning-path-card" style="background: var(--bg-primary); border: 2px solid #4A90E2; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+              <span style="background: #4A90E2; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;" data-translate="learning-path.intermediate.badge"></span>
+            </div>
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;" data-translate="learning-path.intermediate.title"></h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;" data-translate="learning-path.intermediate.description"></p>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary); list-style-type: disc;">
+              <li><a href="#cnn-rnn" style="color: #4A90E2; text-decoration: none;" data-translate="learning-path.intermediate.item1"></a></li>
+              <li><a href="#generative-ai" style="color: #4A90E2; text-decoration: none;" data-translate="learning-path.intermediate.item2"></a></li>
+              <li><a href="#attention" style="color: #4A90E2; text-decoration: none;" data-translate="learning-path.intermediate.item3"></a></li>
+              <li><a href="#transformer" style="color: #4A90E2; text-decoration: none;" data-translate="learning-path.intermediate.item4"></a></li>
+              <li><a href="#encoder-decoder" style="color: #4A90E2; text-decoration: none;" data-translate="learning-path.intermediate.item5"></a></li>
+            </ul>
+          </div>
+
+          <!-- Advanced Level -->
+          <div class="learning-path-card" style="background: var(--bg-primary); border: 2px solid #9B59B6; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+              <span style="background: #9B59B6; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;" data-translate="learning-path.advanced.badge"></span>
+            </div>
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;" data-translate="learning-path.advanced.title"></h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;" data-translate="learning-path.advanced.description"></p>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary); list-style-type: disc;">
+              <li><a href="#pretraining-finetuning" style="color: #9B59B6; text-decoration: none;" data-translate="learning-path.advanced.item1"></a></li>
+              <li><a href="#foundation-models" style="color: #9B59B6; text-decoration: none;" data-translate="learning-path.advanced.item2"></a></li>
+              <li><a href="#rag-introduction" style="color: #9B59B6; text-decoration: none;" data-translate="learning-path.advanced.item3"></a></li>
+              <li><a href="#rag-architecture" style="color: #9B59B6; text-decoration: none;" data-translate="learning-path.advanced.item4"></a></li>
+              <li><a href="#hugging-face" style="color: #9B59B6; text-decoration: none;" data-translate="learning-path.advanced.item5"></a></li>
+            </ul>
+            <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem; font-style: italic;" data-translate="learning-path.advanced.more"></p>
+          </div>
+        </div>
+
+        <div style="text-align: center; padding: 1.5rem; background: rgba(255, 107, 53, 0.1); border-left: 4px solid var(--primary-orange); border-radius: 4px; max-width: 800px; margin: 0 auto;">
+          <p style="color: var(--text-secondary); margin: 0;" data-translate="learning-path.note"></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Main Content -->
     <main>
         <!-- ML Basics Section -->
@@ -813,6 +873,21 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               <canvas id="activation-canvas"></canvas>
             </div>
           </div>
+
+          <!-- Checkpoint: Neural Networks -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="nn.checkpoint.basics.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="nn.checkpoint.basics.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="nn.checkpoint.basics.q2"></li>
+                <li style="margin-bottom: 1rem;" data-translate="nn.checkpoint.basics.q3"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -821,6 +896,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="cnn-rnn.title">CNN & RNN Architectures</h2>
           <p data-translate="cnn-rnn.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="cnn-rnn.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="cnn-rnn.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="cnn-rnn.prerequisites.nn"></li>
+                <li data-translate="cnn-rnn.prerequisites.layers"></li>
+                <li data-translate="cnn-rnn.prerequisites.images"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -1100,6 +1191,21 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: CNN & RNN -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="cnn-rnn.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="cnn-rnn.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="cnn-rnn.checkpoint.q2"></li>
+                <li style="margin-bottom: 1rem;" data-translate="cnn-rnn.checkpoint.q3"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1108,6 +1214,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="generative-ai.title"></h2>
           <p data-translate="generative-ai.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="generative-ai.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="generative-ai.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="generative-ai.prerequisites.nn"></li>
+                <li data-translate="generative-ai.prerequisites.cnn-rnn"></li>
+                <li data-translate="generative-ai.prerequisites.probability"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -1267,6 +1389,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               ></p>
             </div>
           </div>
+
+          <!-- Checkpoint: Generative AI -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="generative-ai.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="generative-ai.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="generative-ai.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1275,6 +1411,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="ethics.title"></h2>
           <p data-translate="ethics.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="ethics.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="ethics.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="ethics.prerequisites.ml-basics"></li>
+                <li data-translate="ethics.prerequisites.bias"></li>
+                <li data-translate="ethics.prerequisites.systems"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -1484,6 +1636,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
                 <li data-translate="ethics.practices.continuous"></li>
                 <li data-translate="ethics.practices.education"></li>
               </ul>
+            </div>
+          </div>
+
+          <!-- Checkpoint: Ethics -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="ethics.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="ethics.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="ethics.checkpoint.q2"></li>
+              </ol>
             </div>
           </div>
         </div>
@@ -1835,6 +2001,21 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
                   <li data-translate="attention.examples.translation.alignment"></li>
                 </ul>
               </div>
+            </div>
+          </div>
+
+          <!-- Checkpoint: Attention -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="attention.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="attention.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="attention.checkpoint.q2"></li>
+                <li style="margin-bottom: 1rem;" data-translate="attention.checkpoint.q3"></li>
+              </ol>
             </div>
           </div>
         </div>
@@ -2228,6 +2409,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
                   <li data-translate="transformer.examples.variants.t5"></li>
                 </ul>
               </div>
+            </div>
+          </div>
+
+          <!-- Checkpoint: Transformer -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="transformer.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="transformer.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="transformer.checkpoint.q2"></li>
+              </ol>
             </div>
           </div>
         </div>
@@ -2648,6 +2843,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </p>
             </div>
           </div>
+
+          <!-- Checkpoint: Encoder-Decoder -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="encoder-decoder.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="encoder-decoder.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="encoder-decoder.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2656,6 +2865,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="pretraining.title"></h2>
           <p data-translate="pretraining.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="pretraining.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="pretraining.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="pretraining.prerequisites.transformer"></li>
+                <li data-translate="pretraining.prerequisites.encoder-decoder"></li>
+                <li data-translate="pretraining.prerequisites.training"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -3261,6 +3486,34 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </p>
             </div>
           </div>
+
+          <!-- Checkpoint: Pre-training/Fine-tuning -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="pretraining.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="pretraining.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="pretraining.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Checkpoint: Encoder-Decoder -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="encoder-decoder.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="encoder-decoder.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="encoder-decoder.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -3271,6 +3524,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
             Foundation Models & LLM Architectures
           </h2>
           <p data-translate="foundation-models.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="foundation-models.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="foundation-models.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="foundation-models.prerequisites.transformer"></li>
+                <li data-translate="foundation-models.prerequisites.pretraining"></li>
+                <li data-translate="foundation-models.prerequisites.scale"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -3645,6 +3914,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: Foundation Models -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="foundation-models.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="foundation-models.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="foundation-models.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -3653,6 +3936,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="rag.intro.title"></h2>
           <p data-translate="rag.intro.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="rag-intro.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="rag-intro.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="rag-intro.prerequisites.llm"></li>
+                <li data-translate="rag-intro.prerequisites.embeddings"></li>
+                <li data-translate="rag-intro.prerequisites.retrieval"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -4022,6 +4321,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: RAG Introduction -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="rag-intro.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="rag-intro.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="rag-intro.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -4032,6 +4345,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
             LLM Problems & Limitations
           </h2>
           <p data-translate="llm-problems.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="llm-problems.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="llm-problems.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="llm-problems.prerequisites.foundation"></li>
+                <li data-translate="llm-problems.prerequisites.generation"></li>
+                <li data-translate="llm-problems.prerequisites.limitations"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -4247,6 +4576,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: LLM Problems -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="llm-problems.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="llm-problems.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="llm-problems.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -4255,6 +4598,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="rag-arch.title"></h2>
           <p data-translate="rag-arch.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="rag-arch.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="rag-arch.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="rag-arch.prerequisites.rag-intro"></li>
+                <li data-translate="rag-arch.prerequisites.embeddings"></li>
+                <li data-translate="rag-arch.prerequisites.vector-db"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -4513,6 +4872,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: RAG Architecture -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="rag-arch.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="rag-arch.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="rag-arch.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -4521,6 +4894,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="data-ingestion.title"></h2>
           <p data-translate="data-ingestion.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="data-ingestion.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="data-ingestion.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="data-ingestion.prerequisites.rag"></li>
+                <li data-translate="data-ingestion.prerequisites.text"></li>
+                <li data-translate="data-ingestion.prerequisites.processing"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -4715,6 +5104,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </ul>
             </div>
           </div>
+
+          <!-- Checkpoint: Data Ingestion -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="data-ingestion.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="data-ingestion.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="data-ingestion.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -4723,6 +5126,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="vector-db.title"></h2>
           <p data-translate="vector-db.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="vector-db.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="vector-db.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="vector-db.prerequisites.embeddings"></li>
+                <li data-translate="vector-db.prerequisites.similarity"></li>
+                <li data-translate="vector-db.prerequisites.storage"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -4926,6 +5345,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: Vector Databases -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="vector-db.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="vector-db.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="vector-db.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -4934,6 +5367,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="embeddings.title"></h2>
           <p data-translate="embeddings.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="embeddings.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="embeddings.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="embeddings.prerequisites.nn"></li>
+                <li data-translate="embeddings.prerequisites.vectors"></li>
+                <li data-translate="embeddings.prerequisites.transformer"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -5466,6 +5915,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: Embeddings -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="embeddings.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="embeddings.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="embeddings.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -5474,6 +5937,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="retrieval.title"></h2>
           <p data-translate="retrieval.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="retrieval.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="retrieval.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="retrieval.prerequisites.embeddings"></li>
+                <li data-translate="retrieval.prerequisites.vector-db"></li>
+                <li data-translate="retrieval.prerequisites.similarity"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -5801,6 +6280,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </ul>
             </div>
           </div>
+
+          <!-- Checkpoint: Retrieval -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="retrieval.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="retrieval.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="retrieval.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -5809,6 +6302,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="augmentation.title"></h2>
           <p data-translate="augmentation.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="augmentation.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="augmentation.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="augmentation.prerequisites.rag"></li>
+                <li data-translate="augmentation.prerequisites.retrieval"></li>
+                <li data-translate="augmentation.prerequisites.generation"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -5980,6 +6489,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </ul>
             </div>
           </div>
+
+          <!-- Checkpoint: Augmentation -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="augmentation.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="augmentation.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="augmentation.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -5988,6 +6511,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="generation-types.title"></h2>
           <p data-translate="generation-types.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="generation-types.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="generation-types.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="generation-types.prerequisites.llm"></li>
+                <li data-translate="generation-types.prerequisites.decoder"></li>
+                <li data-translate="generation-types.prerequisites.rag"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -6248,6 +6787,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
           <h2 data-translate="memory-types.title"></h2>
           <p data-translate="memory-types.intro"></p>
 
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="memory-types.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="memory-types.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="memory-types.prerequisites.rag"></li>
+                <li data-translate="memory-types.prerequisites.conversation"></li>
+                <li data-translate="memory-types.prerequisites.context"></li>
+              </ul>
+            </div>
+          </div>
+
           <!-- Beginner Explanation -->
           <div class="expandable-section">
             <div class="expandable-header">
@@ -6495,6 +7050,34 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               ></p>
             </div>
           </div>
+
+          <!-- Checkpoint: Generation Types -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="generation-types.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="generation-types.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="generation-types.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Checkpoint: Memory Types -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="memory-types.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="memory-types.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="memory-types.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -6503,6 +7086,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="rag-recipes.title"></h2>
           <p data-translate="rag-recipes.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="rag-recipes.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="rag-recipes.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="rag-recipes.prerequisites.rag-arch"></li>
+                <li data-translate="rag-recipes.prerequisites.components"></li>
+                <li data-translate="rag-recipes.prerequisites.implementation"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -6773,6 +7372,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
               </div>
             </div>
           </div>
+
+          <!-- Checkpoint: RAG Recipes -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="rag-recipes.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="rag-recipes.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="rag-recipes.checkpoint.q2"></li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -6781,6 +7394,22 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
         <div class="card">
           <h2 data-translate="hugging-face.title"></h2>
           <p data-translate="hugging-face.intro"></p>
+
+          <!-- Prerequisites -->
+          <div class="expandable-section prerequisites">
+            <div class="expandable-header">
+              <h3 data-translate="hugging-face.prerequisites.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <p data-translate="hugging-face.prerequisites.intro"></p>
+              <ul style="margin-left: 2rem; color: var(--text-secondary);">
+                <li data-translate="hugging-face.prerequisites.transformer"></li>
+                <li data-translate="hugging-face.prerequisites.python"></li>
+                <li data-translate="hugging-face.prerequisites.models"></li>
+              </ul>
+            </div>
+          </div>
 
           <!-- Beginner Explanation -->
           <div class="expandable-section">
@@ -7095,6 +7724,20 @@ Size (sq ft) | Location | Bedrooms | <span class="code-comment">Price (label)</s
                   <li data-translate="hugging-face.multimedia.video.generation"></li>
                 </ul>
               </div>
+            </div>
+          </div>
+
+          <!-- Checkpoint: Hugging Face -->
+          <div class="expandable-section checkpoint">
+            <div class="expandable-header">
+              <h3 data-translate="hugging-face.checkpoint.title"></h3>
+              <span class="expandable-icon">▼</span>
+            </div>
+            <div class="expandable-content">
+              <ol style="margin-left: 2rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 1rem;" data-translate="hugging-face.checkpoint.q1"></li>
+                <li style="margin-bottom: 1rem;" data-translate="hugging-face.checkpoint.q2"></li>
+              </ol>
             </div>
           </div>
         </div>
