@@ -650,7 +650,7 @@ class AttentionViz {
 }
 
 // ============================================
-// TRANSFORMER ARCHITECTURE VISUALIZATION
+// TRANSFORMER VISUALIZATION
 // ============================================
 class TransformerViz {
   constructor(containerId) {
@@ -659,14 +659,62 @@ class TransformerViz {
       showError(`Container element with id "${containerId}" not found. Transformer visualization may not work.`);
       return;
     }
+    this.currentStep = 0;
+    this.totalSteps = 6;
+    this.highlightMode = false;
+    this.setupControls();
+    this.draw();
+  }
+
+  setupControls() {
+    const stepBtn = document.getElementById('transformer-step');
+    const resetBtn = document.getElementById('transformer-reset');
+    const highlightBtn = document.getElementById('transformer-highlight');
+
+    if (!stepBtn || !resetBtn || !highlightBtn) {
+      showError('Transformer controls not found. Some features may not work.', this.container);
+      return;
+    }
+
+    stepBtn.addEventListener('click', () => {
+      console.log('Step forward clicked');
+      this.stepForward();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      console.log('Reset transformer clicked');
+      this.reset();
+    });
+
+    highlightBtn.addEventListener('click', () => {
+      console.log('Toggle highlight clicked');
+      this.toggleHighlight();
+    });
+  }
+
+  stepForward() {
+    this.currentStep = (this.currentStep + 1) % (this.totalSteps + 1);
+    this.draw();
+  }
+
+  reset() {
+    this.currentStep = 0;
+    this.highlightMode = false;
+    this.draw();
+  }
+
+  toggleHighlight() {
+    this.highlightMode = !this.highlightMode;
     this.draw();
   }
 
   draw() {
     const margin = { top: 40, right: 40, bottom: 40, left: 40 };
-    const containerWidth = this.container.offsetWidth || 1000;
-    const width = Math.min(1000, containerWidth - margin.left - margin.right);
-    const height = Math.min(800, window.innerHeight * 0.8);
+    const width = Math.min(
+      1000,
+      this.container.offsetWidth - margin.left - margin.right,
+    );
+    const height = Math.min(700, width * 0.7);
 
     d3.select(this.container).selectAll('*').remove();
 
@@ -674,300 +722,224 @@ class TransformerViz {
       .select(this.container)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .attr(
-        'viewBox',
-        `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`,
-      )
-      .attr('preserveAspectRatio', 'xMidYMid meet');
-
-    // Create defs section for arrow markers (only once)
-    const defs = svg.append('defs');
-
-    // Create glow filter for better line visibility
-    const filter = defs
-      .append('filter')
-      .attr('id', 'glow')
-      .attr('x', '-50%')
-      .attr('y', '-50%')
-      .attr('width', '200%')
-      .attr('height', '200%');
-
-    filter
-      .append('feGaussianBlur')
-      .attr('stdDeviation', '2')
-      .attr('result', 'coloredBlur');
-
-    const feMerge = filter.append('feMerge');
-    feMerge.append('feMergeNode').attr('in', 'coloredBlur');
-    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
-
-    // Create arrow markers for different colors
-    const colors = ['FF6B35', 'F7931E', 'FFD23F'];
-    colors.forEach((colorCode, idx) => {
-      const marker = defs
-        .append('marker')
-        .attr('id', `arrow-${colorCode}-${idx}`)
-        .attr('markerWidth', 12)
-        .attr('markerHeight', 12)
-        .attr('refX', 10)
-        .attr('refY', 3)
-        .attr('orient', 'auto')
-        .attr('markerUnits', 'userSpaceOnUse');
-
-      marker
-        .append('path')
-        .attr('d', 'M0,0 L0,6 L10,3 z')
-        .attr('fill', `#${colorCode}`)
-        .attr('stroke', `#${colorCode}`)
-        .attr('stroke-width', 0.5);
-    });
+      .attr('height', height + margin.top + margin.bottom);
 
     const g = svg
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const encoderY = 100;
-    const decoderY = 450;
-    const componentWidth = 150;
-    const componentHeight = 80;
-    const stackWidth = width * 0.4;
-    const stackX = width * 0.1;
+    // Configuration
+    const encoderX = width * 0.25;
+    const decoderX = width * 0.75;
+    const numLayers = 3;
+    const topSectionHeight = 140; // Space for input, positional encoding, and labels
+    const bottomSectionHeight = 80; // Space for output and step indicator
+    const layerHeight = (height - topSectionHeight - bottomSectionHeight) / numLayers;
+    const startY = topSectionHeight;
 
-    // Store marker IDs for use in drawArrow
-    this.markerIds = {
-      '#FF6B35': 'arrow-FF6B35-0',
-      '#F7931E': 'arrow-F7931E-1',
-      '#FFD23F': 'arrow-FFD23F-2',
-    };
+    // Colors
+    const primaryColor = '#FF6B35';
+    const secondaryColor = '#FFD23F';
+    const bgColor = '#1a1a1a';
+    const textColor = '#ffffff';
+    const mutedColor = '#666666';
 
-    // Encoder stack
-    g.append('text')
-      .attr('x', stackX + stackWidth / 2)
-      .attr('y', encoderY - 20)
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#FF6B35')
-      .attr('font-size', '20px')
-      .attr('font-weight', '600')
-      .text('Encoder Stack');
+    // Draw input embeddings
+    const inputBox = { x: encoderX - 60, y: 20, width: 120, height: 45 };
+    this.drawBox(g, inputBox, 'Input\nEmbeddings', 
+      this.isStepActive(1) ? primaryColor : mutedColor, textColor);
+
+    // Draw positional encoding (with more spacing)
+    const posBox = { x: encoderX - 60, y: 75, width: 120, height: 30 };
+    this.drawBox(g, posBox, 'Positional\nEncoding', 
+      this.isStepActive(2) ? primaryColor : mutedColor, textColor);
 
     // Draw encoder layers
-    for (let i = 0; i < 6; i++) {
-      const y = encoderY + i * (componentHeight + 10);
-      this.drawEncoderLayer(g, stackX, y, componentWidth, componentHeight, i);
+    for (let i = 0; i < numLayers; i++) {
+      const layerY = startY + i * layerHeight;
+      this.drawEncoderLayer(g, encoderX, layerY, layerHeight - 15, i, 
+        this.isStepActive(3) ? primaryColor : mutedColor, textColor);
     }
-
-    // Decoder stack
-    g.append('text')
-      .attr('x', stackX + stackWidth / 2)
-      .attr('y', decoderY - 20)
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#F7931E')
-      .attr('font-size', '20px')
-      .attr('font-weight', '600')
-      .text('Decoder Stack');
 
     // Draw decoder layers
-    for (let i = 0; i < 6; i++) {
-      const y = decoderY + i * (componentHeight + 10);
-      this.drawDecoderLayer(g, stackX, y, componentWidth, componentHeight, i);
+    for (let i = 0; i < numLayers; i++) {
+      const layerY = startY + i * layerHeight;
+      this.drawDecoderLayer(g, decoderX, layerY, layerHeight - 15, i, 
+        this.isStepActive(4) ? primaryColor : mutedColor, textColor);
     }
 
-    // Input/Output embeddings
-    const embedX = width * 0.6;
-    const embedWidth = 200;
+    // Draw connection from encoder to decoder
+    if (this.currentStep >= 4) {
+      const connectionY = startY + numLayers * layerHeight - 10;
+      g.append('path')
+        .attr('d', `M ${encoderX + 60} ${connectionY} L ${decoderX - 60} ${connectionY}`)
+        .attr('stroke', primaryColor)
+        .attr('stroke-width', 3)
+        .attr('fill', 'none')
+        .attr('marker-end', 'url(#arrowhead)')
+        .style('opacity', 0.8);
+    }
 
-    // Input embeddings
-    g.append('rect')
-      .attr('x', embedX)
-      .attr('y', encoderY + 50)
-      .attr('width', embedWidth)
-      .attr('height', componentHeight)
-      .attr('fill', '#2d2d2d')
-      .attr('stroke', '#FF6B35')
-      .attr('stroke-width', 2)
-      .attr('rx', 8)
-      .classed('transformer-component', true);
+    // Draw output
+    const outputBox = { x: decoderX - 60, y: height - 70, width: 120, height: 45 };
+    this.drawBox(g, outputBox, 'Output\nTokens', 
+      this.isStepActive(5) ? primaryColor : mutedColor, textColor);
+
+    // Add arrow markers
+    const defs = svg.append('defs');
+    const marker = defs.append('marker')
+      .attr('id', 'arrowhead')
+      .attr('markerWidth', 10)
+      .attr('markerHeight', 10)
+      .attr('refX', 9)
+      .attr('refY', 3)
+      .attr('orient', 'auto');
+    marker.append('polygon')
+      .attr('points', '0 0, 10 3, 0 6')
+      .attr('fill', primaryColor);
+
+    // Add step indicator
+    const stepText = g.append('text')
+      .attr('x', width / 2)
+      .attr('y', height - 20)
+      .attr('text-anchor', 'middle')
+      .attr('fill', textColor)
+      .attr('font-size', '14px')
+      .text(this.currentStep === 0 ? 'Initial State' : `Step ${this.currentStep} of ${this.totalSteps}`);
+
+    // Add title
+    svg
+      .append('text')
+      .attr('x', (width + margin.left + margin.right) / 2)
+      .attr('y', 25)
+      .attr('text-anchor', 'middle')
+      .attr('fill', primaryColor)
+      .attr('font-size', '18px')
+      .attr('font-weight', '600')
+      .text(
+        (translations &&
+          translations[currentLanguage] &&
+          translations[currentLanguage]['transformer.demo.architecture.title']) ||
+          'Transformer Architecture'
+      );
+  }
+
+  drawBox(g, box, text, fillColor, textColor) {
+    const rect = g.append('rect')
+      .attr('x', box.x)
+      .attr('y', box.y)
+      .attr('width', box.width)
+      .attr('height', box.height)
+      .attr('fill', fillColor)
+      .attr('stroke', fillColor === '#FF6B35' ? '#FFD23F' : '#404040')
+      .attr('stroke-width', fillColor === '#FF6B35' ? 2 : 1)
+      .attr('rx', 4);
+
+    if (this.highlightMode && fillColor === '#FF6B35') {
+      rect.attr('stroke', '#FFD23F').attr('stroke-width', 3);
+    }
+
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+      g.append('text')
+        .attr('x', box.x + box.width / 2)
+        .attr('y', box.y + box.height / 2 + (i - (lines.length - 1) / 2) * 14)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', textColor)
+        .attr('font-size', '12px')
+        .attr('font-weight', '500')
+        .text(line);
+    });
+  }
+
+  drawEncoderLayer(g, x, y, height, layerIndex, color, textColor) {
+    const boxWidth = 120;
+    const availableHeight = height - 20; // Reserve space for label
+    const boxHeight = Math.min(availableHeight * 0.45, 50); // Limit max height
+    const spacing = 12;
+
+    // Self-attention box
+    const attBox = { x: x - boxWidth / 2, y: y + 15, width: boxWidth, height: boxHeight };
+    this.drawBox(g, attBox, 'Multi-Head\nSelf-Attention', color, textColor);
+
+    // Feed-forward box
+    const ffnBox = { x: x - boxWidth / 2, y: y + 15 + boxHeight + spacing, width: boxWidth, height: boxHeight };
+    this.drawBox(g, ffnBox, 'Feed-Forward\nNetwork', color, textColor);
+
+    // Add + symbols for residual connections
+    g.append('text')
+      .attr('x', x + boxWidth / 2 + 15)
+      .attr('y', y + 15 + boxHeight / 2)
+      .attr('fill', textColor)
+      .attr('font-size', '16px')
+      .attr('font-weight', 'bold')
+      .text('+');
 
     g.append('text')
-      .attr('x', embedX + embedWidth / 2)
-      .attr('y', encoderY + 50 + componentHeight / 2)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('fill', '#ffffff')
-      .attr('font-size', '14px')
-      .text('Input Embeddings');
+      .attr('x', x + boxWidth / 2 + 15)
+      .attr('y', y + 15 + boxHeight + spacing + boxHeight / 2)
+      .attr('fill', textColor)
+      .attr('font-size', '16px')
+      .attr('font-weight', 'bold')
+      .text('+');
 
-    // Output embeddings
-    g.append('rect')
-      .attr('x', embedX)
-      .attr('y', decoderY + 50)
-      .attr('width', embedWidth)
-      .attr('height', componentHeight)
-      .attr('fill', '#2d2d2d')
-      .attr('stroke', '#F7931E')
-      .attr('stroke-width', 2)
-      .attr('rx', 8)
-      .classed('transformer-component', true);
-
+    // Layer label
     g.append('text')
-      .attr('x', embedX + embedWidth / 2)
-      .attr('y', decoderY + 50 + componentHeight / 2)
+      .attr('x', x)
+      .attr('y', y + 5)
       .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('fill', '#ffffff')
-      .attr('font-size', '14px')
-      .text('Output Embeddings');
-
-    // Arrows - Input to Encoder
-    this.drawArrow(
-      g,
-      embedX + embedWidth,
-      encoderY + 50 + componentHeight / 2,
-      stackX,
-      encoderY + 50 + componentHeight / 2,
-      '#FF6B35',
-    );
-
-    // Encoder to Decoder (cross-attention connection)
-    this.drawArrow(
-      g,
-      stackX + stackWidth,
-      encoderY + 50 + (componentHeight + 10) * 3,
-      embedX,
-      decoderY + 50 + componentHeight / 2,
-      '#FFD23F',
-    );
-
-    // Decoder to Output
-    this.drawArrow(
-      g,
-      embedX + embedWidth,
-      decoderY + 50 + componentHeight / 2,
-      width - 50,
-      decoderY + 50 + componentHeight / 2,
-      '#F7931E',
-    );
+      .attr('fill', textColor)
+      .attr('font-size', '11px')
+      .attr('font-weight', '500')
+      .text(`Encoder Layer ${layerIndex + 1}`);
   }
 
-  drawEncoderLayer(g, x, y, width, height, index) {
-    const layerGroup = g.append('g').attr('class', 'encoder-layer');
+  drawDecoderLayer(g, x, y, height, layerIndex, color, textColor) {
+    const boxWidth = 120;
+    const availableHeight = height - 20; // Reserve space for label
+    const boxHeight = Math.min(availableHeight * 0.28, 40); // Limit max height, smaller for 3 boxes
+    const spacing = 10;
 
-    // Main rectangle
-    layerGroup
-      .append('rect')
-      .attr('x', x)
-      .attr('y', y)
-      .attr('width', width)
-      .attr('height', height)
-      .attr('fill', '#2d2d2d')
-      .attr('stroke', '#FF6B35')
-      .attr('stroke-width', 2)
-      .attr('rx', 8)
-      .classed('transformer-component', true)
-      .on('click', () => {
-        alert(
-          `Encoder Layer ${index + 1}\n\nContains:\n- Multi-Head Self-Attention\n- Feed-Forward Network\n- Layer Normalization\n- Residual Connections`,
-        );
-      });
+    // Masked self-attention box
+    const maskedAttBox = { x: x - boxWidth / 2, y: y + 15, width: boxWidth, height: boxHeight };
+    this.drawBox(g, maskedAttBox, 'Masked\nSelf-Attention', color, textColor);
+
+    // Cross-attention box
+    const crossAttBox = { x: x - boxWidth / 2, y: y + 15 + boxHeight + spacing, width: boxWidth, height: boxHeight };
+    this.drawBox(g, crossAttBox, 'Cross\nAttention', color, textColor);
+
+    // Feed-forward box
+    const ffnBox = { x: x - boxWidth / 2, y: y + 15 + (boxHeight + spacing) * 2, width: boxWidth, height: boxHeight };
+    this.drawBox(g, ffnBox, 'Feed-Forward\nNetwork', color, textColor);
+
+    // Add + symbols for residual connections
+    [0, 1, 2].forEach(i => {
+      g.append('text')
+        .attr('x', x + boxWidth / 2 + 15)
+        .attr('y', y + 15 + boxHeight / 2 + i * (boxHeight + spacing))
+        .attr('fill', textColor)
+        .attr('font-size', '16px')
+        .attr('font-weight', 'bold')
+        .text('+');
+    });
 
     // Layer label
-    layerGroup
-      .append('text')
-      .attr('x', x + width / 2)
-      .attr('y', y + height / 2)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('fill', '#ffffff')
-      .attr('font-size', '12px')
-      .text(`Encoder ${index + 1}`);
-
-    // Arrow to next layer
-    if (index < 5) {
-      const nextY = y + height + 10;
-      const markerId =
-        this.markerIds && this.markerIds['#FF6B35']
-          ? this.markerIds['#FF6B35']
-          : 'arrow-FF6B35-0';
-      g.append('line')
-        .attr('x1', x + width / 2)
-        .attr('y1', y + height)
-        .attr('x2', x + width / 2)
-        .attr('y2', nextY)
-        .attr('stroke', '#FF6B35')
-        .attr('stroke-width', 2)
-        .attr('marker-end', `url(#${markerId})`);
-    }
-  }
-
-  drawDecoderLayer(g, x, y, width, height, index) {
-    const layerGroup = g.append('g').attr('class', 'decoder-layer');
-
-    // Main rectangle
-    layerGroup
-      .append('rect')
+    g.append('text')
       .attr('x', x)
-      .attr('y', y)
-      .attr('width', width)
-      .attr('height', height)
-      .attr('fill', '#2d2d2d')
-      .attr('stroke', '#F7931E')
-      .attr('stroke-width', 2)
-      .attr('rx', 8)
-      .classed('transformer-component', true)
-      .on('click', () => {
-        alert(
-          `Decoder Layer ${index + 1}\n\nContains:\n- Masked Multi-Head Self-Attention\n- Multi-Head Cross-Attention\n- Feed-Forward Network\n- Layer Normalization\n- Residual Connections`,
-        );
-      });
-
-    // Layer label
-    layerGroup
-      .append('text')
-      .attr('x', x + width / 2)
-      .attr('y', y + height / 2)
+      .attr('y', y + 5)
       .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('fill', '#ffffff')
-      .attr('font-size', '12px')
-      .text(`Decoder ${index + 1}`);
-
-    // Arrow to next layer
-    if (index < 5) {
-      const nextY = y + height + 10;
-      const markerId =
-        this.markerIds && this.markerIds['#F7931E']
-          ? this.markerIds['#F7931E']
-          : 'arrow-F7931E-1';
-      g.append('line')
-        .attr('x1', x + width / 2)
-        .attr('y1', y + height)
-        .attr('x2', x + width / 2)
-        .attr('y2', nextY)
-        .attr('stroke', '#F7931E')
-        .attr('stroke-width', 2)
-        .attr('marker-end', `url(#${markerId})`);
-    }
+      .attr('fill', textColor)
+      .attr('font-size', '11px')
+      .attr('font-weight', '500')
+      .text(`Decoder Layer ${layerIndex + 1}`);
   }
 
-  drawArrow(g, x1, y1, x2, y2, color) {
-    // Get the marker ID for this color
-    const markerId =
-      this.markerIds && this.markerIds[color]
-        ? this.markerIds[color]
-        : 'arrow-FF6B35-0';
-
-    // Create the arrow line with better visibility
-    const line = g
-      .append('line')
-      .attr('x1', x1)
-      .attr('y1', y1)
-      .attr('x2', x2)
-      .attr('y2', y2)
-      .attr('stroke', color)
-      .attr('stroke-width', 3)
-      .attr('marker-end', `url(#${markerId})`)
-      .style('opacity', 0.9);
+  isStepActive(step) {
+    if (this.highlightMode) {
+      return this.currentStep >= step;
+    }
+    return this.currentStep === step;
   }
 }
 
@@ -1404,7 +1376,6 @@ const translations = {
 
     // Transformer
     'transformer.title': 'Transformer Architecture',
-    'transformer.demo.title': 'Interactive Transformer Visualization',
     'transformer.intro':
       'Transformers revolutionized NLP by using self-attention mechanisms instead of recurrence. They consist of encoder and decoder stacks, each containing multiple layers of attention and feed-forward networks.',
     'transformer.beginner.1':
@@ -1458,6 +1429,13 @@ const translations = {
     'transformer.step.5.ffn': 'Feed-forward processing',
     'transformer.step.5.description2':
       'The final layer outputs probabilities over the vocabulary, and the token with highest probability is selected as the next output token.',
+    'transformer.demo.title': 'Interactive Transformer Visualization',
+    'transformer.demo.description':
+      'Explore the transformer architecture step by step. Click "Step Forward" to see how data flows through encoder and decoder layers.',
+    'transformer.demo.step': 'Step Forward',
+    'transformer.demo.reset': 'Reset',
+    'transformer.demo.highlight': 'Toggle Highlight',
+    'transformer.demo.architecture.title': 'Transformer Architecture',
     'transformer.technical.encoder.title': 'Encoder Layer Components',
     'transformer.technical.encoder.attention.title':
       '1. Multi-Head Self-Attention',
@@ -3210,7 +3188,6 @@ const translations = {
 
     // Transformer
     'transformer.title': 'Transformer Mimarisi',
-    'transformer.demo.title': 'İnteraktif Transformer Görselleştirmesi',
     'transformer.intro':
       "Transformer'lar, tekrarlama (recurrence) yerine öz-dikkat (self-attention) mekanizmalarını kullanarak NLP'yi devrim niteliğinde değiştirdi. Her biri birden fazla dikkat (attention) ve ileri besleme ağı (feed-forward network) katmanı içeren kodlayıcı (encoder) ve kod çözücü (decoder) yığınlarından oluşurlar.",
     'transformer.beginner.1':
@@ -3269,6 +3246,13 @@ const translations = {
     'transformer.step.5.ffn': 'İleri besleme işleme',
     'transformer.step.5.description2':
       "Son katman, kelime dağarcığı üzerinde olasılıklar çıktılar ve en yüksek olasılığa sahip token bir sonraki çıktı token'ı olarak seçilir.",
+    'transformer.demo.title': 'İnteraktif Transformer Görselleştirmesi',
+    'transformer.demo.description':
+      'Transformer mimarisini adım adım keşfedin. Kodlayıcı ve kod çözücü katmanlarından veri akışını görmek için "İleri Adım"a tıklayın.',
+    'transformer.demo.step': 'İleri Adım',
+    'transformer.demo.reset': 'Sıfırla',
+    'transformer.demo.highlight': 'Vurgulamayı Aç/Kapat',
+    'transformer.demo.architecture.title': 'Transformer Mimarisi',
     'transformer.technical.encoder.title': 'Kodlayıcı Katman Bileşenleri',
     'transformer.technical.encoder.attention.title':
       '1. Çok Başlı Öz-Dikkat (Multi-Head Self-Attention)',
@@ -5743,7 +5727,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   try {
-    const transViz = new TransformerViz('transformer-viz');
+    const transformerViz = new TransformerViz('transformer-viz');
     console.log('Transformer viz initialized');
   } catch (e) {
     showError(`Error initializing transformer visualization: ${e.message}`);

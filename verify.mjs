@@ -15,6 +15,9 @@ const requiredHtmlIds = [
   'attention-reset',
   'transformer',
   'transformer-viz',
+  'transformer-step',
+  'transformer-reset',
+  'transformer-highlight',
 ];
 
 const requiredScriptSnippets = [

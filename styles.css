@@ -492,20 +492,20 @@ select, input[type="range"] {
 }
 
 /* ============================================
-   TRANSFORMER DIAGRAM
+   TRANSFORMER VISUALIZATION
    ============================================ */
 #transformer-viz {
     width: 100%;
     min-height: 600px;
 }
 
-.transformer-component {
-    cursor: pointer;
-    transition: var(--transition);
+#transformer-viz svg {
+    display: block;
+    margin: 0 auto;
 }
 
-.transformer-component:hover {
-    opacity: 0.8;
+#transformer-viz text {
+    font-family: 'Inter', sans-serif;
 }
 
 /* ============================================
