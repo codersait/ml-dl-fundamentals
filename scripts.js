@@ -975,6 +975,10 @@ const translations = {
     'nav.memory-types': 'Memory Types',
     'nav.rag-recipes': 'RAG Recipes',
 
+    'search.placeholder': 'Search full doc…',
+    'search.noResults': 'No results',
+    'search.ariaLabel': 'Search full document',
+
     // Hero
     'hero.title': 'ML/DL Fundamentals',
     'hero.subtitle':
@@ -3055,6 +3059,10 @@ Decode:           " bir" (string)`,
     'nav.generation-types': 'Üretim Türleri (Generation Types)',
     'nav.memory-types': 'Bellek Türleri (Memory Types)',
     'nav.rag-recipes': 'RAG Tarifleri (RAG Recipes)',
+
+    'search.placeholder': 'Tüm dokümanda ara…',
+    'search.noResults': 'Sonuç yok',
+    'search.ariaLabel': 'Tüm dokümanda ara',
 
     // Hero
     'hero.title': 'ML/DL Temelleri',
@@ -6063,6 +6071,11 @@ function translatePage() {
   translateButtons();
 
   updateLanguageUI();
+
+  // Rebuild full-doc search index so results match current language
+  if (typeof window.rebuildDocSearchIndex === 'function') {
+    window.rebuildDocSearchIndex();
+  }
 }
 
 function translateSectionHeadings() {
@@ -6391,6 +6404,144 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', highlightNav);
   highlightNav();
+
+  // ============================================
+  // FULL-DOC SEARCH
+  // ============================================
+  const docSearchInput = document.getElementById('doc-search-input');
+  const docSearchResults = document.getElementById('doc-search-results');
+  const mainEl = document.querySelector('main');
+  const sidebarNav = document.querySelector('.sidebar-nav');
+
+  let searchIndex = [];
+  const SEARCH_DEBOUNCE_MS = 250;
+  const SEARCH_MAX_RESULTS = 20;
+  const SEARCH_SNIPPET_LEN = 100;
+  const MIN_CHUNK_LEN = 3;
+  let searchDebounceTimer = null;
+
+  function getSectionTitle(sectionId) {
+    if (!sidebarNav) return '';
+    const link = sidebarNav.querySelector(`a[href="#${sectionId}"]`);
+    return link ? link.textContent.trim() : '';
+  }
+
+  function buildSearchIndex() {
+    if (!mainEl) return;
+    searchIndex = [];
+    const sections = mainEl.querySelectorAll('section[id]');
+    const blockSelector = 'p, h2, h3, h4, li, td, th, .expandable-header';
+    sections.forEach((section) => {
+      const sectionTitle = getSectionTitle(section.id);
+      const blocks = section.querySelectorAll(blockSelector);
+      blocks.forEach((el) => {
+        const text = el.textContent.trim();
+        if (text.length >= MIN_CHUNK_LEN) {
+          searchIndex.push({
+            sectionId: section.id,
+            sectionTitle: sectionTitle || section.id,
+            text: text,
+            element: el,
+          });
+        }
+      });
+    });
+
+    const input = document.getElementById('doc-search-input');
+    if (input && translations && translations[currentLanguage]) {
+      const t = translations[currentLanguage];
+      input.placeholder = t['search.placeholder'] || 'Search full doc…';
+      input.setAttribute('aria-label', t['search.ariaLabel'] || 'Search full document');
+    }
+    if (docSearchInput && docSearchInput.value.trim()) runSearch();
+  }
+
+  function snippetWithMatch(text, query, maxLen) {
+    const lower = text.toLowerCase();
+    const q = query.toLowerCase();
+    const i = lower.indexOf(q);
+    if (i === -1) return text.slice(0, maxLen);
+    const start = Math.max(0, i - Math.floor(maxLen / 2));
+    const end = Math.min(text.length, start + maxLen);
+    let excerpt = text.slice(start, end);
+    if (start > 0) excerpt = '…' + excerpt;
+    if (end < text.length) excerpt = excerpt + '…';
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return excerpt.replace(regex, '<mark>$1</mark>');
+  }
+
+  function runSearch() {
+    if (!docSearchInput || !docSearchResults) return;
+    const query = docSearchInput.value.trim().toLowerCase();
+    docSearchResults.hidden = true;
+    docSearchResults.innerHTML = '';
+    if (!query) return;
+
+    const noResultsMsg = (translations && translations[currentLanguage] && translations[currentLanguage]['search.noResults']) || 'No results';
+    const matches = searchIndex.filter((chunk) => chunk.text.toLowerCase().includes(query));
+    const limited = matches.slice(0, SEARCH_MAX_RESULTS);
+
+    if (limited.length === 0) {
+      docSearchResults.hidden = false;
+      const div = document.createElement('div');
+      div.className = 'doc-search-no-results';
+      div.textContent = noResultsMsg;
+      docSearchResults.appendChild(div);
+      return;
+    }
+
+    limited.forEach((chunk, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'doc-search-result-item';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-chunk-index', searchIndex.indexOf(chunk));
+      const sectionSpan = document.createElement('span');
+      sectionSpan.className = 'doc-search-result-section';
+      sectionSpan.textContent = chunk.sectionTitle;
+      const snippetSpan = document.createElement('span');
+      snippetSpan.className = 'doc-search-result-snippet';
+      snippetSpan.innerHTML = snippetWithMatch(chunk.text, docSearchInput.value.trim(), SEARCH_SNIPPET_LEN);
+      btn.appendChild(sectionSpan);
+      btn.appendChild(snippetSpan);
+      btn.addEventListener('click', () => {
+        chunk.element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        docSearchInput.value = '';
+        docSearchResults.hidden = true;
+        docSearchResults.innerHTML = '';
+        if (window.innerWidth <= 768 && typeof closeSidebar === 'function') closeSidebar();
+      });
+      docSearchResults.appendChild(btn);
+    });
+    docSearchResults.hidden = false;
+  }
+
+  function scheduleSearch() {
+    if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(runSearch, SEARCH_DEBOUNCE_MS);
+  }
+
+  if (docSearchInput && docSearchResults) {
+    buildSearchIndex();
+    window.rebuildDocSearchIndex = buildSearchIndex;
+
+    docSearchInput.addEventListener('input', scheduleSearch);
+    docSearchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        docSearchInput.blur();
+        docSearchResults.hidden = true;
+        docSearchResults.innerHTML = '';
+      } else if (e.key === 'Enter') {
+        const first = docSearchResults.querySelector('.doc-search-result-item');
+        if (first) first.click();
+      }
+    });
+
+    docSearchResults.addEventListener('click', (e) => {
+      const item = e.target.closest('.doc-search-result-item');
+      if (item) e.preventDefault();
+    });
+  }
 
   // ============================================
   // INTERSECTION OBSERVER FOR ANIMATIONS
